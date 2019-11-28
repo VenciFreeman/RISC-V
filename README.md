@@ -1,2 +1,2 @@
 # RISC-V_CPU
- Written by Verilog.
+An simple CPU for RISC-V written by Verilog.
