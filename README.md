@@ -1,21 +1,21 @@
 # RISC-V_CPU
-A simple CPU for RISC-V written by Verilog.
+A simple CPU for **RISC-V** written by Verilog.
 
 ## Introduction
 
 - Design a processor based on the RISC-V instruction set by Verilog;
-- Implements some instructions in the RV32I instruction set;
+- Implements some instructions in the **RV32I** instruction set;
 - Run the test codes and get correct results.
 
 ## Content
 
-- Design a single-cycle processor;
-- Improve to a multi-cycle processor;
-  - Single issue, 5 stages;
-  - Data forwarding, pipeline blocking;
-  - *Branch Prediction.
-- Use Modelsim to view waveform;
-- Use *Vivado to optimize timing;
+- Design a **single-cycle** processor;
+- Improve to a **multi-cycle** processor;
+  - **Single issue**, **5 stages**;
+  - **Data forwarding**, **pipeline blocking**;
+  - Branch Prediction (not necessary).
+- Use **Modelsim** to view waveform;
+- Use Vivado to optimize timing (not necessary);
 - Run the test codes.
 
 ## Set
