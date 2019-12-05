@@ -32,6 +32,8 @@ A simple CPU for **RISC-V** written by Verilog.
 - Run the test codes.
 - 运行测试指令，得到正确的输出结果。
 
+<img src="C:\Users\Venci\Documents\GitHub\RISC-V_CPU\img\structure.jpg" style="zoom:50%;" />
+
 ## Set
 
 | Instruction | Opcode  | Funct3 | Funct6/7 |
@@ -54,6 +56,8 @@ A simple CPU for **RISC-V** written by Verilog.
 
 > Only if.v and register.v is sequential circuit.
 
+![](C:\Users\Venci\Documents\GitHub\RISC-V_CPU\img\SingleCycle.jpg)
+
 ### if.v (single cycle)
 
 - PC+4 per cycle;
@@ -62,6 +66,8 @@ A simple CPU for **RISC-V** written by Verilog.
 - PC值送入inst_mem作为指令的地址，将取得的指令直接送入译码模块；
 - If current instruction is beq, blt or jal, update PC immediately.
 - 如果当前的指令是条件分支指令(beq,blt)或直接跳转指令(jal)，当分支成立时，PC需要更新为跳转指令的目标地址。
+
+<img src="C:\Users\Venci\Documents\GitHub\RISC-V_CPU\img\inst_mem.jpg" alt=" " style="zoom:50%;" />
 
 | Signal | Bit width |                    Function                    |
 | :----: | :-------: | :--------------------------------------------: |
@@ -95,6 +101,8 @@ A simple CPU for **RISC-V** written by Verilog.
 - 根据id.v中译码所得的ALUop和两个源操作数，进行相应的操作；
 - If ALUop indicates that it's an addition operation, the two operands will be added; the sub operation can be implemented by complement.
 - 如果ALUop表明是加法操作，则将两个操作数相加；减法操作可以通过加补码实现。
+
+<img src="C:\Users\Venci\Documents\GitHub\RISC-V_CPU\img\ALUop.jpg" style="zoom:50%;" />
 
 | ALUop  | Operation |
 | :----: | :-------: |
@@ -132,6 +140,8 @@ A simple CPU for **RISC-V** written by Verilog.
 - If the read and write register signals are valid at the same time, and if the read address is the same as the write address, then the data which need to write can be directly output as read data to achieve data forwarding.
 - 如果读寄存器信号与写寄存器信号同时有效，并且读地址与写地址相同，此时则可以将要写入的数据直接输出为读数据,实现数据转发。
 
+![](C:\Users\Venci\Documents\GitHub\RISC-V_CPU\img\FiveStages.jpg)
+
 ### stall.v (5 stages)
 
 - Pause the pipeline When data adventures cannot be resolved through data forwarding;
@@ -162,6 +172,8 @@ A simple CPU for **RISC-V** written by Verilog.
 
 - Sequential logic: Pass the result data to be written to the register, the destination register address, the write register flag and other signals.
 - 时序逻辑: 传递要写入寄存器的结果数据，目标寄存器地址，写寄存器标志等信号。
+
+![](C:\Users\Venci\Documents\GitHub\RISC-V_CPU\img\AddModule.jpg)
 
 ## Submission
 
