@@ -1,12 +1,12 @@
 module data_mem(
 
-	input wire			    clk,
-	input wire				ce,
-	input wire				we,
-	input wire[31:0]        addr,
-	input wire[31:0]	    data_i,
-	output reg[31:0]		data_o,
-	output wire[31:0]		verify	
+	input wire			clk,
+	input wire			ce,
+	input wire			we,
+	input wire [31:0]	addr,
+	input wire [31:0]	data_i,
+	output reg [31:0]	data_o,
+	output wire[31:0]	verify
 	
 );
 
@@ -17,7 +17,7 @@ module data_mem(
 
 	always @ (posedge clk) begin
 		if (ce == 1'b0) begin
-			
+
 		end else if(we == 1'b1) begin
 		    data[addr]   <= data_i[7:0];
 			data[addr+1] <= data_i[15:8];
@@ -25,12 +25,12 @@ module data_mem(
 			data[addr+3] <= data_i[31:24];
 		end
 	end
-	
+
 	always @ * begin
 		if (ce == 1'b0) begin
 			data_o <= 32'b0;
 	  	end else if(we == 1'b0) begin
-		    data_o <= {					
+		    data_o <= {
 					   data[addr+3],
 		               data[addr+2],
 		               data[addr+1],
