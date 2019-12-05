@@ -7,11 +7,8 @@
  *   instruction to decode module;                                                  *
  * - If current instruction is beq, blt or jal, update PC immediately.              *                                                                                  *
  ************************************************************************************/
-`include "define.v" 
 
-module if(clk, addr);
-	input clk;
-	output [`InstAddrBus] addr;
+module if_id(input  		   clk,
+		  	 output wire[31:0] addr);
 
-	wire [`InstAddrBus] addr;
 endmodule
