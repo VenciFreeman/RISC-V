@@ -14,13 +14,14 @@
  * - 19/12/05: Create this file.													*
  * Notes:																			*
  * - Take care that the module name can't be "if". Maybe it's a keep word.			*
+ * - Should I use 32-bit adders? Maybe it's good for Vivado synthesizing.			*
  ************************************************************************************/
 
 module IF(
 
 	input wire clk,
 	input wire rst,		// High signal is reset.
-	input [31,0] pc_i,
+	input [31:0] pc_i,
 	output[31:0] pc_o		// a.k.a. addr in inst_mem.v, the instruction address.
 
 );
