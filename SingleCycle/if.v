@@ -32,14 +32,18 @@ module IF(
 
 	parameter IDLE = 32'b0;		// Zero word.
 
+	reg [31:0] pc_reg;
+
+	assign pc_o = pc_reg;
+
 	/*
-	* This always part controls the signal pc_o.
+	* This always part controls the signal pc_reg.
 	*/
 	always @ (posedge clk) begin	// New PC equals ((old PC) + 4) per cycle.
 		if (rst)
-			pc_o <= IDLE;
-		else
-			pc_o <= pc_i + 32'b100;
-	end
+			pc_reg <= IDLE;
+        else
+            pc_reg <= pc_i;
+    end
 
 endmodule
