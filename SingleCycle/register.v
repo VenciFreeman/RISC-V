@@ -23,3 +23,51 @@
  * Notes:
  *
  */
+
+ `timescale 1ns / 1ps
+
+ module Registers(
+
+    input   [25:21] readReg1,
+    input   [20:16] readReg2,
+    input   [15:11] writeReg,
+    input   [31:0]  writeData,
+    input           regWrite,
+    input           clk,
+    output  [31:0]  readData1,
+    output  [31:0]  readData2,
+    input           reset
+
+    );
+    
+    reg [31:0]  regFile [31:0];
+    reg [31:0]  ReadData1;
+    reg [31:0]  ReadData2;
+    reg [5:0]   n;
+    
+    assign readData1 = ReadData1;
+    assign readData2 = ReadData2;
+    
+    always @ (readReg1 or readReg2 or clk or reset)
+    begin
+        if(reset) begin
+            for(n = 0; n < 32; n = n + 1)
+                regFile[n] <= 0;
+        end
+        else begin
+            ReadData1 <= regFile[readReg1];
+            ReadData2 <= regFile[readReg2];
+        end
+    end
+    
+    always @ (negedge clk)
+    begin   
+        if(reset) begin
+            for(n = 0; n < 32; n = n + 1)
+                regFile[n] <= 0;
+        end
+        else if(regWrite)
+            regFile[writeReg] <= writeData;
+    end
+    
+endmodule
