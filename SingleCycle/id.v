@@ -26,22 +26,21 @@
 
  module ID(
 
-	input  		      clk,
-	input			  rst,		// High signal is reset.
-    input [31:0]      inst,     // The instruction from if.v.
-	output reg [31:0] pc		// a.k.a. addr in inst_mem.v, the instruction address.
+	input wire 		 	clk,
+	input wire		 	rst,		// High signal is reset.
+    input 	   [31:0]	inst,     // The instruction from if.v.
+	output reg [31:0]	pc		// a.k.a. addr in inst_mem.v, the instruction address.
 
  );
 
 	parameter IDLE = 32'b0;		// Zero word.
 
-/*
- * This always part controls the signal.
- */
-
-always @ (posedge clk) begin
-    
-end
+	/*
+	* This always part controls the signal.
+	*/
+	always @ (posedge clk) begin
+		
+	end
 
 
 endmodule

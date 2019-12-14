@@ -22,16 +22,16 @@
 
 module ex(
 	
-	input wire rst,
-	input wire	   ALUop,
-	input wire	   _srcop1_,
-	input wire	   _srcop2_,
-	output wire	   _output_
+	input wire		rst,
+	input wire		ALUop,
+	input wire		_srcop1_,
+	input wire		_srcop2_,
+	output wire		_output_
 
 );	
 
-always @ (*) begin
+	always @ (*) begin
 
-end	
+	end
 
 endmodule
