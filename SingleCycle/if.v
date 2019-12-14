@@ -1,21 +1,25 @@
-/************************************************************************************
- * Ask me anything: via repo/issue, or e-mail: vencifreeman16@sjtu.edu.cn.          *
- * Author: @VenciFreeman (GitHub), copyright 2019.									*
- * School: Shanghai Jiao Tong University.											*
- * Description:                                                                     *
- * This file controls signal PC, it need to send PC+4 and instruction to id.v 		*
- * through inst_mem.v. For 5 stage stall, it need to keep PC. 						*
- * Details:                                                                         *
- * - PC + 4 per cycle;                                                              *
- * - PC value send to inst_mem as the address of instruction, then send the         *
- *   instruction to decode module;                                                  *
- * - If current instruction is beq, blt or jal, update PC immediately.              *
- * History:																			*
- * - 19/12/05: Create this file.													*
- * Notes:																			*
- * - Take care that the module name can't be "if". Maybe it's a keep word.			*
- * - Should I use 32-bit adders? Maybe it's good for Vivado synthesizing.			*
- ************************************************************************************/
+/*
+ * Ask me anything: via repo/issue, or e-mail: vencifreeman16@sjtu.edu.cn.
+ * Author: @VenciFreeman (GitHub), copyright 2019.
+ * School: Shanghai Jiao Tong University.
+
+ * Description:
+ * This file controls signal PC, it need to send PC+4 and instruction to id.v
+ * through inst_mem.v. For 5 stage stall, it need to keep PC.
+
+ * Details:
+ * - PC + 4 per cycle;]
+ * - PC value send to inst_mem as the address of instruction, then send the
+ *   instruction to decode module;
+ * - If current instruction is beq, blt or jal, update PC immediately.
+
+ * History:
+ * - 19/12/05: Create this file.
+
+ * Notes:
+ * - Take care that the module name can't be "if". Maybe it's a keep word.
+ * - Should I use 32-bit adders? Maybe it's good for Vivado synthesizing.
+ */
 
 module IF(
 
@@ -28,9 +32,9 @@ module IF(
 
 	parameter IDLE = 32'b0;		// Zero word.
 
-/************************************************************************************
- * This always part controls the signal pc_o.										*
- ************************************************************************************/
+/*
+ * This always part controls the signal pc_o.
+ */
 always @ (posedge clk) begin	// New PC equals ((old PC) + 4) per cycle.
 	if (rst)
 		pc_o <= IDLE;
