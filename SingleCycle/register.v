@@ -24,8 +24,6 @@
  *
  */
 
- `timescale 1ns / 1ps
-
  module Registers(
 
     input   [25:21] readReg1,
