@@ -8,7 +8,7 @@
  *
  * Details:
  * - Use the ALUop and the two source operands decoded in id.v to perform the
- *   corresponding operation;
+ *   cordponding operation;
  * - If ALUop indicates that it's an addition operation, the two operands will be
  *	 added;
  * - The sub operation can be implemented by complement, etc.
@@ -23,37 +23,54 @@
 
 module ALU(
 
-        input   [31:0]  oprend1,
-        input   [31:0]  oprend2,
-        input   [3:0]   aluCtr,
-        input   [4:0]   shamt,
+        input   [31:0]  rs1,
+        input   [31:0]  rs2,
+        input   [5:0]   ALUop,
         output          zero,
         output  [31:0]  result
 
     );
     
     reg rZero;
-    reg [31:0] rRes;
+    reg [31:0] rd;
 
-	    assign zero = rZero;
-    assign result = rRes;
+	assign zero = rZero;
+    assign result = rd;
     
-always @ (oprend1 or oprend2 or aluCtr or shamt) begin
-	case (aluCtr)
-		4'b0000: rRes = oprend1 & oprend2;	// AND	
-		4'b0001: rRes = oprend1 | oprend2;	// OR
-		4'b0010: rRes = oprend1 + oprend2;	// ADD
-		4'b0011: rRes = oprend1 - oprend2;	// SUB
-		4'b1010: rRes = oprend1 < oprend2 ? 1 : 0;	// SLT
-		4'b1000: rRes = oprend2 << shamt;	// SHL
-		4'b1001: rRes = oprend2 >> shamt;	// SHR
-		4'b1100: rRes = oprend1;	// PUSH
+always @ (rs1 or rs2 or ALUop or shamt) begin
+	case (ALUop)
+		6'b000001: rd = rs1 + rs2;								// add
+		6'b000010: rd = rs1 - rs2;								// sub
+		6'b000011; rd = rs1 << rs2;								// sll
+		6'b000100; begin rd = pc + 4; pc += sext(offset); end	// jal
+		6'b000101; rd = rd + sext(imm);							// addi
+		6'b000110; rd = rs1 & rs2;								// and
+		6'b000111; rd = rs1 | rs2;								// or
+		6'b001000; rd = rs1 ^ rs2;								// xor
+		6'b001001; if (rs1 > rs2) pc += sext(offset);			// blt
+		6'b001010; if (rs1 + 8 == 0) pc += sext(offset);		// beq
+		6'b001011; rd = rs1 >> rs2;								// srl
+		6'b001100; rd]= sext(M[rs1 + sext(offset)]);			// lw
+		6'b001101; M[rs1] + sext(offset) = rs2;					// sw
+		default: break;
 	endcase
 end
     
 always @ (*)
-	rZero <= (rRes == 0) ? 1 : 0;
+	rZero <= (rd == 0) ? 1 : 0;
     
+module SEXT(
 
+        input   [15:0]  inst,
+        output  [31:0]  data
+
+    );
+    
+    reg [31:0] Data;
+    
+always @ (inst)
+	Data <= ((inst & 16'h8000) == 16'h8000 ? 32'hffff0000 : 32'h00000000) | inst;
+    
+    assign data = Data;
     
 endmodule
