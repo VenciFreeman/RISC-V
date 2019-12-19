@@ -33,9 +33,9 @@
     input   [31:0]  writeData,
     input           regWrite,
     input           clk,
-    input           rst;
-    output  [31:0]  rd1,
-    output  [31:0]  rd2
+    input           rst,
+    output  [31:0]  rd1_o,
+    output  [31:0]  rd2_o
 
     );
     
@@ -44,8 +44,8 @@
     reg [31:0]  rd2;
     reg [5:0]   n;
     
-    assign rd1 = rd1;
-    assign rd2 = rd2;
+    assign rd1_o = rd1;
+    assign rd2_o = rd2;
     
 always @ (rs1 or rs2 or clk or rst) begin
     if(rst) begin

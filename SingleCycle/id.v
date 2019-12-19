@@ -19,6 +19,7 @@
  *   values as one of the source operands.
  *
  * History:
+ * - 19/12/19: Edit the RISC-V instructions.
  *
  * Notes:
  *
@@ -29,14 +30,17 @@ module ID(
         input   [6:0] opcode,
         input   [2:0] funct3,
         input   [6:0] funct7,
-        output  [5:0] ALUop
+        output  [5:0] ALUop_o
 
     );
     
     reg [3:0] ALUop;
 
-    assign ALUop = ALUop;
-    
+    assign ALUop_o = ALUop;
+
+/*
+* This always part controls the signal ALUop.
+*/   
 always @ (*) begin
     casex ({opcode, funct3, funct7})
         17'b01100110000000000: ALUop <= 6'b000001;  // add
