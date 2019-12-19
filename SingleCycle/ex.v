@@ -14,24 +14,46 @@
  * - The sub operation can be implemented by complement, etc.
  *
  * History:
- * - 19/12/05: Create this file.
+ * - 19/12/05: Create this file;
+ * - 19/12/19：Edit the ALU module.
  *
  * Notes:
  *
  */
 
-module ex(
-	
-	input wire		rst,
-	input wire		ALUop,
-	input wire		_srcop1_,
-	input wire		_srcop2_,
-	output wire		_output_
+module ALU(
 
-);	
+        input   [31:0]  oprend1,
+        input   [31:0]  oprend2,
+        input   [3:0]   aluCtr,
+        input   [4:0]   shamt,
+        output          zero,
+        output  [31:0]  result
 
-	always @ (*) begin
+    );
+    
+    reg rZero;
+    reg [31:0] rRes;
 
-	end
+	    assign zero = rZero;
+    assign result = rRes;
+    
+always @ (oprend1 or oprend2 or aluCtr or shamt) begin
+	case (aluCtr)
+		4'b0000: rRes = oprend1 & oprend2;	// AND	
+		4'b0001: rRes = oprend1 | oprend2;	// OR
+		4'b0010: rRes = oprend1 + oprend2;	// ADD
+		4'b0011: rRes = oprend1 - oprend2;	// SUB
+		4'b1010: rRes = oprend1 < oprend2 ? 1 : 0;	// SLT
+		4'b1000: rRes = oprend2 << shamt;	// SHL
+		4'b1001: rRes = oprend2 >> shamt;	// SHR
+		4'b1100: rRes = oprend1;	// PUSH
+	endcase
+end
+    
+always @ (*)
+	rZero <= (rRes == 0) ? 1 : 0;
+    
 
+    
 endmodule
