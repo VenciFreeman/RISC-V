@@ -36,14 +36,14 @@ module IF(
 
 	assign pc_o = pc_reg;
 
-	/*
-	* This always part controls the signal pc_reg.
-	*/
-	always @ (posedge clk) begin	// New PC equals ((old PC) + 4) per cycle.
-		if (rst)
-			pc_reg <= IDLE;
-        else
-            pc_reg <= pc_i;
-    end
+/*
+* This always part controls the signal pc_reg.
+*/
+always @ (posedge clk) begin	// New PC equals ((old PC) + 4) per cycle.
+	if (rst)
+		pc_reg <= IDLE;
+	else
+		pc_reg <= pc_i;
+end
 
 endmodule

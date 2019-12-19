@@ -27,46 +27,44 @@
 
  module Registers(
 
-    input   [25:21] readReg1,
-    input   [20:16] readReg2,
+    input   [25:21] rs1,
+    input   [20:16] rs2,
     input   [15:11] writeReg,
     input   [31:0]  writeData,
     input           regWrite,
     input           clk,
-    output  [31:0]  readData1,
-    output  [31:0]  readData2,
-    input           reset
+    input           rst;
+    output  [31:0]  rd1,
+    output  [31:0]  rd2
 
     );
     
     reg [31:0]  regFile [31:0];
-    reg [31:0]  ReadData1;
-    reg [31:0]  ReadData2;
+    reg [31:0]  rd1;
+    reg [31:0]  rd2;
     reg [5:0]   n;
     
-    assign readData1 = ReadData1;
-    assign readData2 = ReadData2;
+    assign rd1 = rd1;
+    assign rd2 = rd2;
     
-    always @ (readReg1 or readReg2 or clk or reset)
-    begin
-        if(reset) begin
-            for(n = 0; n < 32; n = n + 1)
-                regFile[n] <= 0;
-        end
-        else begin
-            ReadData1 <= regFile[readReg1];
-            ReadData2 <= regFile[readReg2];
-        end
+always @ (rs1 or rs2 or clk or rst) begin
+    if(rst) begin
+        for(n = 0; n < 32; n = n + 1)
+            regFile[n] <= 0;
     end
+    else begin
+        rd1 <= regFile[rs1];
+        rd2 <= regFile[rs2];
+    end
+end
     
-    always @ (negedge clk)
-    begin   
-        if(reset) begin
-            for(n = 0; n < 32; n = n + 1)
-                regFile[n] <= 0;
-        end
-        else if(regWrite)
-            regFile[writeReg] <= writeData;
+always @ (negedge clk) begin   
+    if(rst) begin
+        for(n = 0; n < 32; n = n + 1)
+            regFile[n] <= 0;
     end
+    else if(regWrite)
+        regFile[writeReg] <= writeData;
+end
     
 endmodule
