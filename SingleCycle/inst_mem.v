@@ -10,12 +10,11 @@ module inst_mem(
 
 	initial $readmemb ( "./machinecode.txt", inst_memory );
 
-always @ * begin
-	if (ce == 1'b0) begin
+always @ (*) begin
+	if (ce == 1'b0)
 		inst <= 32'b0;
-	end else begin
+	else
 		inst <= inst_memory [addr[31:2]];
-	end
 end
 
 endmodule
