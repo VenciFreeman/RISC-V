@@ -28,7 +28,7 @@ module ALU(
         input   [31:0]  oprend2,
         input   [5:0]   ALUop,
 		input 			pc,  // If I need pc or not?
-        output          zero,
+        output          zero,  // zero flag
         output  [31:0]  result
 
     );

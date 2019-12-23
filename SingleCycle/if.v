@@ -26,32 +26,30 @@ module PC(
 
 	input  		 clk,
 	input 		 rst,		// High signal is reset.
-	input [31:0] pc_i,
-	output[31:0] pc_o		Up// a.k.a. addr in inst_mem.v, the instruction address.
+	input [31:0] nextPC,
+	output[31:0] PCval		// a.k.a. addr in inst_mem.v, the instruction address.
 
 );
 
-	parameter IDLE = 32'b0;		// Zero word.
+	reg [31:0] PCreg;
 
-	reg [31:0] pc_reg;
-
-	assign pc_o = pc_reg;
+	assign PCval = PCreg;
 
 /*
-* This always part controls the signal pc_reg.
+* This always part controls the signal PCreg.
 */
 always @ (posedge clk) begin	// New PC equals ((old PC) + 4) per cycle.
 	if (rst)
-		pc_reg <= IDLE;
+		PCreg <= 32'b0;
 	else
-		pc_reg <= pc_i;
+		PCreg <= nextPC;
 end
 
 endmodule
 
 module UpdatePC(
 
-	input [31:0] pc_o,
+	input [31:0] PCval,
 	input [31:0] pc_add_4,
 	input [19:0] imm20,  // for jal
 	input [11:0] imm12,  // for beq, blt
@@ -68,8 +66,8 @@ module UpdatePC(
 	assign NextPC = nextPC;
 
 /*
-* This always part controls the signal nextPC, a.k.a. nextPC.
-*/
+ * This always part controls the signal nextPC, a.k.a. nextPC.
+ */
 always @ (*) begin
 	if (jump == 2'b00) begin
 		if (Branch && Zero)
@@ -78,7 +76,7 @@ always @ (*) begin
 			nextPC <= pc_add_4;
 	end
 	else if (Jump == 2'b01)
-		nextPC <= (imm20 << 2) | (pc_o & 32'hF0000000);
+		nextPC <= (imm20 << 2) | (PCval & 32'hF0000000);
 	else
 		nextPC <= regRead1;
 end

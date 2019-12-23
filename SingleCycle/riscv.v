@@ -2,18 +2,19 @@
  * Ask me anything: via repo/issue, or e-mail: vencifreeman16@sjtu.edu.cn.
  * Author: @VenciFreeman (GitHub), copyright 2019.
  * School: Shanghai Jiao Tong University.
- *
+ 
  * Description:
  * This file controls the CPU.
- *
+ 
  * Details:
- *
+ 
  * History:
  * - 19/12/19: Create this file;
- * - 19/12/23: Add own module.
- *
+ * - 19/12/23: Add own modules;
+ * - 19/12/24: Add own modules.
+ 
  * Notes:
- *
+ 
  */
 
 `include "C:/Users/Venci/Documents/GitHub/RISC-V_CPU/SingleCycle/data_mem.v"
@@ -45,6 +46,23 @@ module riscv(
 
 // mainControl
 
+	Control control(
+		.Opcode(),
+		.Funct(),
+		.RegDst(),
+		.RegWrite(),
+		.MemRead(),
+		.MemWrite(),
+		.MemToReg(0),
+		.NeedZEXT(),
+		.ALUsrc(),
+		.ALUop(),
+		.Branch(),
+		.Jump(),
+		.Link(),
+		.StackOp()
+	);
+
 	Registers registers(
 		.readReg1(),
 		.readReg2(),
@@ -57,12 +75,18 @@ module riscv(
 		.rd2_o()
 	);
 
+	ID id(
+		.opcode(),
+		.funct3(),
+		.funct7(),
+		.ALUop_o()
+	);
 // Execution, ALU
 
 	ALU alu(
-		.rs1(),
-		.rs2(),
-		ALUop(),
+		.oprend1(),
+		.oprend2(),
+		.ALUop(),
 		.pc(),
 		.zero(),
 		.result()
@@ -76,11 +100,30 @@ module riscv(
 
 // PC update, lr, pc and update pc.
 
-	IF if(
+	IF if0(
 		.clk(clk),
 		.rst(rst),
 		.pc_i(),
 		.pc_o()
+	);
+
+	PC pc(
+		.clk(),
+		.rst(),
+		.pc_i(),
+		.pc_o()
+	);
+
+	UpdatePC updatePC(
+		.pc_o(),
+		.pc_add_4(),
+		.imm20(),
+		.imm12(),
+		.regRead1(),
+		.Branch(),
+		.Zero(),
+		.Jump(),
+		NextPC()
 	);
 
 
