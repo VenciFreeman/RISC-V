@@ -9,7 +9,8 @@
  * Details:
  *
  * History:
- * - 19/12/19: Create this file.
+ * - 19/12/19: Create this file;
+ * - 19/12/23: Add own module.
  *
  * Notes:
  *
@@ -42,8 +43,45 @@ module riscv(
 
 );
 
-//  instance your module  below
+// mainControl
 
+	Registers registers(
+		.rs1(),
+		.rs2(),
+		.writeReg(WriteReg),
+		.writedata(WriteData),
+		.regwrite(RegWrite),
+		.clk(clk),
+		.rst(rsy),
+		.rd1_o(),
+		.rd2_o()
+	);
+
+// Execution, ALU
+
+	ALU alu(
+		.rs1(),
+		.rs2(),
+		ALUop(),
+		.pc(),
+		.zero(),
+		.result()
+	);
+
+// stack_mem, perip_mem
+
+// ADbus
+
+	assign WriteData = MemToReg == 1 ? MemReadData : ALUresult;  // Write back
+
+// PC update, lr, pc and update pc.
+
+	IF if(
+		.clk(clk),
+		.rst(rst),
+		.pc_i(),
+		.pc_o()
+	);
 
 
 
