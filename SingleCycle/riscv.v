@@ -46,8 +46,8 @@ module riscv(
 // mainControl
 
 	Registers registers(
-		.rs1(),
-		.rs2(),
+		.readReg1(),
+		.readReg2(),
 		.writeReg(WriteReg),
 		.writedata(WriteData),
 		.regwrite(RegWrite),

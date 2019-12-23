@@ -6,8 +6,8 @@
  * Description:
  *
  * Details:
- * - When we need to read rs1, rs2, read data from register file according to the
- *   address in rs1, rs2;
+ * - When we need to read readReg1, readReg2, read data from register file according to the
+ *   address in readReg1, readReg2;
  * - When we need to write rd, write data into register file according to the
  *   address in rd;
  * - The operation of writing data to the register file uses sequential logic, and
@@ -19,7 +19,8 @@
  *   write can be directly output as read data to achieve data forwarding.
  *
  * History:
- * - 19/12/14: Create this file.
+ * - 19/12/14: Create this file;
+ * - 19/12/23: Modify the format.
  *
  * Notes:
  *
@@ -27,44 +28,52 @@
 
  module Registers(
 
-    input   [25:21] rs1,
-    input   [20:16] rs2,
+    input   [25:21] readReg1,
+    input   [20:16] readReg2,
     input   [15:11] writeReg,
     input   [31:0]  writeData,
     input           regWrite,
     input           clk,
     input           rst,
-    output  [31:0]  rd1_o,
-    output  [31:0]  rd2_o
+    output  [31:0]  ReadData1_o,
+    output  [31:0]  ReadData2_o
 
     );
     
     reg [31:0]  regFile [31:0];
-    reg [31:0]  rd1;
-    reg [31:0]  rd2;
+    reg [31:0]  ReadData1;
+    reg [31:0]  ReadData2;
     reg [5:0]   n;
     
-    assign rd1_o = rd1;
-    assign rd2_o = rd2;
-    
-always @ (rs1 or rs2 or clk or rst) begin
-    if(rst) begin
-        for(n = 0; n < 32; n = n + 1)
-            regFile[n] <= 0;
-    end
-    else begin
-        rd1 <= regFile[rs1];
-        rd2 <= regFile[rs2];
-    end
-end
-    
-always @ (negedge clk) begin   
+    assign ReadData1_o = ReadData1;
+    assign ReadData2_o = ReadData2;
+
+/*
+* This always part controls the signal reg_file.
+*/    
+always @ (readReg1 or readReg2 or clk or rst) begin
     if(rst) begin
         for(n = 0; n < 32; n = n + 1)
             regFile[n] <= 0;
     end
     else if(regWrite)
         regFile[writeReg] <= writeData;
+end
+
+/*
+* This always part controls the signal ReadData1.
+*/ 
+always @ (readReg1 or readReg2 or clk or rst) begin
+    if(!rst)
+        ReadData1 <= regFile[readReg1];
+end
+
+/*
+* This always part controls the signal ReadData2.
+*/ 
+always @ (readReg1 or readReg2 or clk or rst) begin
+    if(!rst)
+        ReadData2 <= regFile[readReg2];
 end
     
 endmodule
