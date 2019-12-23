@@ -14,19 +14,20 @@
  * - If current instruction is beq, blt or jal, update PC immediately.
 
  * History:
- * - 19/12/05: Create this file.
+ * - 19/12/05: Create this file, add PC module;
+ * - 19/12/23: Add UpdatePC module.
 
  * Notes:
  * - Take care that the module name can't be "if". Maybe it's a keep word.
  * - Should I use 32-bit adders? Maybe it's good for Vivado synthesizing.
  */
 
-module IF(
+module PC(
 
-	input  wire	 		clk,
-	input  wire	 		rst,		// High signal is reset.
-	input 		[31:0]	pc_i,
-	output		[31:0] 	pc_o		// a.k.a. addr in inst_mem.v, the instruction address.
+	input  		 clk,
+	input 		 rst,		// High signal is reset.
+	input [31:0] pc_i,
+	output[31:0] pc_o		Up// a.k.a. addr in inst_mem.v, the instruction address.
 
 );
 
@@ -44,6 +45,42 @@ always @ (posedge clk) begin	// New PC equals ((old PC) + 4) per cycle.
 		pc_reg <= IDLE;
 	else
 		pc_reg <= pc_i;
+end
+
+endmodule
+
+module UpdatePC(
+
+	input [31:0] pc_o,
+	input [31:0] pc_add_4,
+	input [19:0] imm20,  // for jal
+	input [11:0] imm12,  // for beq, blt
+	input [31:0] regRead1,
+	input 		 Branch,
+	input		 Zero,
+	input [1:0]  Jump,
+	input [31:0] NextPC
+
+);
+
+	reg [31:0] nextPC;
+
+	assign NextPC = nextPC;
+
+/*
+* This always part controls the signal nextPC, a.k.a. nextPC.
+*/
+always @ (*) begin
+	if (jump == 2'b00) begin
+		if (Branch && Zero)
+			nextPC <= pc_add_4 + (imm12 << 2);
+		else
+			nextPC <= pc_add_4;
+	end
+	else if (Jump == 2'b01)
+		nextPC <= (imm20 << 2) | (pc_o & 32'hF0000000);
+	else
+		nextPC <= regRead1;
 end
 
 endmodule
