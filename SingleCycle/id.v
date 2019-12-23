@@ -63,7 +63,7 @@ end
 
 endmodule
 
-module Control (
+module Control(
 
     input [5:0] Opcode,
     input [5:0] Funct,
@@ -101,197 +101,134 @@ module Control (
 
 always @ (Opcode or Funct) begin
     case (Opcode)
-    6'b000000:          // R type
-    begin
-        regDst      <= 1;    // use Rd
-        regWrite    <= 1;
-        memRead     <= 0;
-        memWrite    <= 0;
-        memToReg    <= 0;
-        needZEXT    <= 0;
-        aluSrc      <= 0;    // Use rt 
-        aluOp       <= Funct[3:0];
-        branch      <= 0;
-        jump        <= 2'b00;
-        link        <= 0;
-        stackOp     <= 2'b00;
-    end
+        6'b000000: regDst <= 1;  // R-type, use Rd
+        6'b001000: regDst <= 0;  // addi, use Rt   
+        6'b001100: regDst <= 0;  // andi, use Rt
+        6'b000100: regDst <= 0;  // beq  
+        6'b000011: regDst <= 0;  // jal
+        6'b100011: regDst <= 0;  // lw
+        6'b101011: regDst <= 0;  // sw
+    endcase
+end
 
-    6'b001000:          // addi
-    begin
-        regDst      <= 0;    // use Rt
-        regWrite    <= 1;
-        memRead     <= 0;
-        memWrite    <= 0;
-        memToReg    <= 0;
-        needZEXT    <= 0;
-        aluSrc      <= 1;    // Use imm16 
-        aluOp       <= 4'b0010; // add
-        branch      <= 0;
-        jump        <= 2'b00;
-        link        <= 0;
-        stackOp     <= 2'b00;
-    end
-    
-    6'b001100:          // andi
-    begin
-        regDst      <= 0;    // use Rt
-        regWrite    <= 1;
-        memRead     <= 0;
-        memWrite    <= 0;
-        memToReg    <= 0;
-        needZEXT    <= 1;    // Use ZEXT 
-        aluSrc      <= 1;    // Use imm16 
-        aluOp       <= 4'b0000; // and
-        branch      <= 0;
-        jump        <= 2'b00;
-        link        <= 0;
-        stackOp     <= 2'b00;
-    end
+always @ (Opcode or Funct) begin
+    case (Opcode)
+        6'b000000: regWrite <= 1;  // R-type, use Rd
+        6'b001000: regWrite <= 1;  // addi, use Rt   
+        6'b000100: regWrite <= 0;  // beq  
+        6'b000011: regWrite <= 0;  // jal
+        6'b100011: regWrite <= 1;  // lw
+        6'b101011: regWrite <= 0;  // sw
+    endcase
+end
 
-    6'b001101:          // ori
-    begin
-        regDst      <= 0;    // use Rt
-        regWrite    <= 1;
-        memRead     <= 0;
-        memWrite    <= 0;
-        memToReg    <= 0;
-        needZEXT    <= 1;    // Use ZEXT 
-        aluSrc      <= 1;    // Use imm16 
-        aluOp       <= 4'b0001; // or
-        branch      <= 0;
-        jump        <= 2'b00;
-        link        <= 0;
-        stackOp     <= 2'b00;
-    end
+always @ (Opcode or Funct) begin
+    case (Opcode)
+        6'b000000: memRead <= 0;  // R-type, use Rd
+        6'b001000: memRead <= 0;  // addi, use Rt   
+        6'b000100: memRead <= 0;  // beq  
+        6'b000011: memRead <= 0;  // jal
+        6'b100011: memRead <= 1;  // lw
+        6'b101011: memRead <= 0;  // sw
+    endcase
+end
 
-    6'b000100:          // beq
-    begin
-        regDst      <= 0;    
-        regWrite    <= 0;
-        memRead     <= 0;
-        memWrite    <= 0;
-        memToReg    <= 0;
-        needZEXT    <= 0;    // Use SEXT 
-        aluSrc      <= 0;    // Use Rt 
-        aluOp       <= 4'b0011; // sub
-        branch      <= 1;    // branch
-        jump        <= 2'b00;
-        link        <= 0;
-        stackOp     <= 2'b00;
-    end
-    
-    6'b000010:          // jmp
-    begin
-        regDst      <= 0;    
-        regWrite    <= 0;
-        memRead     <= 0;
-        memWrite    <= 0;
-        memToReg    <= 0;
-        needZEXT    <= 0;    // Use SEXT 
-        aluSrc      <= 1;    // Use imm16 
-        aluOp       <= 4'b0000; 
-        branch      <= 0;    
-        jump        <= 2'b01;// jump imm26
-        link        <= 0;
-        stackOp     <= 2'b00;
-    end
-    
-    6'b000011:          // jal
-    begin
-        regDst      <= 0;    
-        regWrite    <= 0;
-        memRead     <= 0;
-        memWrite    <= 0;
-        memToReg    <= 0;
-        needZEXT    <= 0;    // Use SEXT 
-        aluSrc      <= 1;    // Use imm16 
-        aluOp       <= 4'b0000; 
-        branch      <= 0;    
-        jump        <= 2'b01;// jump imm26
-        link        <= 1;    // link 
-        stackOp     <= 2'b00;
-    end
-    
-    6'b000101:          // jr
-    begin
-        regDst      <= 0;    
-        regWrite    <= 0;
-        memRead     <= 0;
-        memWrite    <= 0;
-        memToReg    <= 0;
-        needZEXT    <= 0;    // Use SEXT 
-        aluSrc      <= 1;    // Use imm16 
-        aluOp       <= 4'b0000; 
-        branch      <= 0;    
-        jump        <= 2'b10;// jump rs 
-        link        <= 0;    //  
-        stackOp     <= 2'b00;
-    end
-    
-    6'b100011:          // lw
-    begin
-        regDst      <= 0;    // Use Rt 
-        regWrite    <= 1;
-        memRead     <= 1;
-        memWrite    <= 0;
-        memToReg    <= 1;
-        needZEXT    <= 0;    // Use SEXT 
-        aluSrc      <= 1;    // Use imm16 
-        aluOp       <= 4'b0010; // add 
-        branch      <= 0;    
-        jump        <= 2'b00; 
-        link        <= 0;    //  
-        stackOp     <= 2'b00;
-    end
+always @ (Opcode or Funct) begin
+    case (Opcode)
+        6'b000000: memWrite <= 0;  // R-type, use Rd
+        6'b001000: memWrite <= 0;  // addi, use Rt   
+        6'b000100: memWrite <= 0;  // beq  
+        6'b000011: memWrite <= 0;  // jal
+        6'b100011: memWrite <= 0;  // lw
+        6'b101011: memWrite <= 1;  // sw
+    endcase
+end
 
-    6'b101011:          // sw
-    begin
-        regDst      <= 0;    // Use Rt 
-        regWrite    <= 0;
-        memRead     <= 0;
-        memWrite    <= 1;
-        memToReg    <= 0;
-        needZEXT    <= 0;    // Use SEXT 
-        aluSrc      <= 1;    // Use imm16 
-        aluOp       <= 4'b0010; // add 
-        branch      <= 0;    
-        jump        <= 2'b00;
-        link        <= 0;    //  
-        stackOp     <= 2'b00;
-    end
-    
-    6'b110000:          // push
-    begin
-        regDst      <= 0;    // Use Rt 
-        regWrite    <= 0;
-        memRead     <= 0;
-        memWrite    <= 0;
-        memToReg    <= 0;
-        needZEXT    <= 0;    // Use SEXT 
-        aluSrc      <= 1;    // Use imm16 
-        aluOp       <= 4'b1100; 
-        branch      <= 0;    
-        jump        <= 2'b00;
-        link        <= 0;    //  
-        stackOp     <= 2'b10;   // push
-    end
+always @ (Opcode or Funct) begin
+    case (Opcode)
+        6'b000000: memToReg <= 0;  // R-type, use Rd
+        6'b001000: memToReg <= 0;  // addi, use Rt   
+        6'b000100: memToReg <= 0;  // beq  
+        6'b000011: memToReg <= 0;  // jal
+        6'b100011: memToReg <= 1;  // lw
+        6'b101011: memToReg <= 0;  // sw
+    endcase
+end
 
-    6'b110001:          // pop
-    begin
-        regDst      <= 1;    // Use Rd
-        regWrite    <= 1;
-        memRead     <= 0;
-        memWrite    <= 0;
-        memToReg    <= 1;
-        needZEXT    <= 0;    // Use SEXT 
-        aluSrc      <= 1;    // Use imm16 
-        aluOp       <= 4'b0000; 
-        branch      <= 0;    
-        jump        <= 2'b00;
-        link        <= 0;    //  
-        stackOp     <= 2'b11;   // pop
-    end
+always @ (Opcode or Funct) begin
+    case (Opcode)
+        6'b000000: needZEXT <= 0;  // R-type, use Rd
+        6'b001000: needZEXT <= 0;  // addi, use Rt   
+        6'b000100: needZEXT <= 0;  // beq  
+        6'b000011: needZEXT <= 0;  // jal
+        6'b100011: needZEXT <= 0;  // lw
+        6'b101011: needZEXT <= 0;  // sw
+    endcase
+end
+
+always @ (Opcode or Funct) begin
+    case (Opcode)
+        6'b000000: aluSrc <= 0;  // R-type, use Rd
+        6'b001000: aluSrc <= 1;  // addi, use Rt   
+        6'b000100: aluSrc <= 0;  // beq  
+        6'b000011: aluSrc <= 1;  // jal
+        6'b100011: aluSrc <= 1;  // lw
+        6'b101011: aluSrc <= 1;  // sw
+    endcase
+end
+
+always @ (Opcode or Funct) begin
+    case (Opcode)
+        6'b000000: aluOp <= Funct[3:0];  // R-type, use Rd
+        6'b001000: aluOp <= 4'b0010;  // addi, use Rt   
+        6'b000100: aluOp <= 4'b0011;  // beq  
+        6'b000011: aluOp <= 4'b0000;  // jal
+        6'b100011: aluOp <= 4'b0010;  // lw
+        6'b101011: aluOp <= 4'b0010;  // sw
+    endcase
+end
+
+always @ (Opcode or Funct) begin
+    case (Opcode)
+        6'b000000: branch <= 0;  // R-type, use Rd
+        6'b001000: branch <= 0;  // addi, use Rt   
+        6'b000100: branch <= 1;  // beq  
+        6'b000011: branch <= 0;  // jal
+        6'b100011: branch <= 0;  // lw
+        6'b101011: branch <= 0;  // sw
+    endcase
+end
+
+always @ (Opcode or Funct) begin
+    case (Opcode)
+        6'b000000: jump <= 2'b00;  // R-type, use Rd
+        6'b001000: jump <= 2'b00;  // addi, use Rt   
+        6'b000100: jump <= 2'b00;  // beq  
+        6'b000011: jump <= 2'b01;  // jal
+        6'b100011: jump <= 2'b00;  // lw
+        6'b101011: jump <= 2'b00;  // sw
+    endcase
+end
+
+always @ (Opcode or Funct) begin
+    case (Opcode)
+        6'b000000: link <= 0;  // R-type, use Rd
+        6'b001000: link <= 0;  // addi, use Rt   
+        6'b000100: link <= 0;  // beq  
+        6'b000011: link <= 1;  // jal
+        6'b100011: link <= 0;  // lw
+        6'b101011: link <= 0;  // sw
+    endcase
+end
+
+always @ (Opcode or Funct) begin
+    case (Opcode)
+        6'b000000: stackOp <= 2'b00;  // R-type, use Rd
+        6'b001000: stackOp <= 2'b00;  // addi, use Rt   
+        6'b000100: stackOp <= 2'b00;  // beq  
+        6'b000011: stackOp <= 2'b00;  // jal
+        6'b100011: stackOp <= 2'b00;  // lw
+        6'b101011: stackOp <= 2'b00;  // sw
     endcase
 end
 
