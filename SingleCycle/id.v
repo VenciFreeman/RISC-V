@@ -38,22 +38,6 @@
  ***************************************************************************************
  *
  */
-    casex ({opcode, funct3, funct7})
-        17'b0110011 000 0000000: ALUop <= 6'b000001;  // add  R
-        17'b0110011 000 0100000: ALUop <= 6'b000010;  // sub  R
-        17'b0110011 001 0000000: ALUop <= 6'b000011;  // sll  R
-        17'b0110011 101 0000000: ALUop <= 6'b001011;  // srl  R
-        17'b0110011 111 0000000: ALUop <= 6'b000110;  // and  R
-        17'b0110011 110 0000000: ALUop <= 6'b000111;  // or   R
-        17'b0110011 100 0000000: ALUop <= 6'b001000;  // xor  R
-        17'b1101111 xxx xxxxxxx: ALUop <= 6'b000100;  // jal  J
-        17'b1100111 100 xxxxxxx: ALUop <= 6'b001001;  // blt  B
-        17'b1100111 000 xxxxxxx: ALUop <= 6'b001010;  // beq  B
-        17'b0010011 000 xxxxxxx: ALUop <= 6'b000101;  // addi I
-        17'b0000011 010 xxxxxxx: ALUop <= 6'b001100;  // lw   I
-        17'b0100011 010 xxxxxxx: ALUop <= 6'b001101;  // sw   S
-        default:                 ALUop <= 6'bzzzzzz;
-
 
 module Control(
 
