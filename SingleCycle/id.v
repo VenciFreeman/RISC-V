@@ -44,7 +44,6 @@ module Control(
     input [6:0] Opcode,
     input [2:0] funct3,
     input [6:0] funct7,
-    output      RegDst,
     output      RegWrite,
     output      MemRead,
     output      MemWrite,
@@ -63,7 +62,6 @@ module Control(
     reg [3:0] aluOp;
     reg [1:0] jump, stackOp;
 
-    assign RegDst = regDst;
     assign RegWrite = regWrite;
     assign MemRead = memRead;
     assign MemWrite = memWrite;
@@ -77,21 +75,11 @@ module Control(
     assign StackOp = stackOp;
 
 /*
- * This always part controls the signal regDst.
- */
-always @ (Opcode or Funct) begin
-    case (Opcode)
-        7'b0000011: regDst <= 0;  // I-type, lw.
-        7'b0010011: regDst <= 0;  // I-type, addi.
-        7'b0100011: regDst <= 0;  // S-type, sw.
-        7'b0110011: regDst <= 1;  // R-type, including add, sub, sll, srl, and, or & xor.
-        7'b1100011: regDst <= 0;  // B-type, including beq & blt.  
-        7'b1101111: regDst <= 0;  // J-type, including jal.
-    endcase
-end
-
-/*
  * This always part controls the signal regWrite.
+
+ * - When regWrite asserted, it means The register on the Write register input is
+ *   written with the value on the Write data input;
+ * - When regWrite deasserted, it means none.
  */
 always @ (Opcode or Funct) begin
     case (Opcode)
@@ -106,6 +94,10 @@ end
 
 /*
  * This always part controls the signal memRead.
+
+ * - When memRead asserted, it means data memory contents designated by the
+ *   address input are put on the Read data output;
+ * - When memRead deasserted, it means none.
  */
 always @ (Opcode or Funct) begin
     case (Opcode)
@@ -120,6 +112,10 @@ end
 
 /*
  * This always part controls the signal memWrite.
+
+ * - When memWrite asserted, it means data memory contents designated by the
+ *   address input are replaced by the value on the Write data input;
+ * - When memWrite deasserted, it means none.
  */
 always @ (Opcode or Funct) begin
     case (Opcode)
@@ -134,6 +130,11 @@ end
 
 /*
  * This always part controls the signal memToReg.
+
+ * - When memToRed asserted, it means The value fed to the register Write data
+ *   input comes from the data memory;
+ * - When memToReg deasserted, it means the value fed to the register Write
+ *   data input comes from the ALU.
  */
 always @ (Opcode or Funct) begin
     case (Opcode)
@@ -148,6 +149,11 @@ end
 
 /*
  * This always part controls the signal aluSrc.
+
+ * - When aluSrc asserted, the second ALU operand is the sign-extended, 12 bits of
+ *   the instruction;
+ * - When aluSrc deasserted, it means The second ALU operand comes from the second
+ *   register file output (Read data 2).
  */
 always @ (Opcode or Funct) begin
     case (Opcode)
@@ -215,6 +221,26 @@ always @ (Opcode or Funct) begin
         7'b0110011: link <= 0;  // R-type, including add, sub, sll, srl, and, or & xor.
         7'b1100011: link <= 0;  // B-type, including beq & blt.  
         7'b1101111: link <= 1;  // J-type, including jal.
+    endcase
+end
+
+/*
+ * This always part controls the signal pcSrc.
+
+ * - When pcSrc asserted, it mians the PC is replaced by the output of the adder
+ *   that computes the branch target;
+ * - When pcSrc deasserted, it means The PC is replaced by the output of the
+ *   adder that computes the value of PC + 4.
+ */
+ */
+always @ (Opcode or Funct) begin
+    case (Opcode)
+        7'b0000011: pcSrc <= 0;  // I-type, lw.
+        7'b0010011: pcSrc <= 0;  // I-type, addi.
+        7'b0100011: pcSrc <= 0;  // S-type, sw.
+        7'b0110011: pcSrc <= 0;  // R-type, including add, sub, sll, srl, and, or & xor.
+        7'b1100011: pcSrc <= 0;  // B-type, including beq & blt.  
+        7'b1101111: pcSrc <= 0;  // J-type, including jal.
     endcase
 end
 
