@@ -22,7 +22,7 @@
  * - 19/12/19: Edit the RISC-V instructions;
  * - 19/12/23: Add control module;
  * - 19/12/24: Change the structure;
- * - 19/12/26: Edit the logic.
+ * - 19/12/27: Edit the logic.
 
  * Notes:
  *
@@ -40,61 +40,319 @@
  *
  */
 
-module Control(
+module ID(
 
     input   wire        rst,
     input   wire[31:0]  pc_i,
     input   wire[31:0]  inst_i,
-    input   wire[31:0]  reg1_data_i,
-    input   wire[31:0]  reg2_data_i,
+    input   wire[31:0]  RegData1,
+    input   wire[31:0]  RegData2,
+    
+    output  reg [1:0]   RegRead1,
+    output  reg [1:0]   RegRead2,
+    output  reg [4:0]   RegAddr1,
+    output  reg [4:0]   RegAddr2,
 
-    output  reg [1:0]   reg1_read_o,
-    output  reg [1:0]   reg2_read_o,
-    output  reg [4:0]   reg1_addr_o,
-    output  reg [4:0]   reg2_addr_o,
+    output  reg [4:0]   ALUop,
+    output  reg [4:0]   ALUsel,
+    output  reg [31:0]  Reg1,
+    output  reg [31:0]  Reg2,
+    output  reg [4:0]   WriteData,
+    output  reg         WriteReg,
 
-    output  reg [4:0]   aluop_o,
-    output  reg [4:0]   alusel_o,
-    output  reg [31:0]  reg1_o,
-    output  reg [31:0]  reg2_o,
-    output  reg [4:0]   wd_o,
-    output  reg         wreg_o,
-
-    output  reg         branch_flag_o,
-    output  reg [31:0]  branch_target_address_o,
-    output  reg [31:0]  link_addr_o,
+    output  reg         Branch,
+    output  reg [31:0]  BranchAddr,
+    output  reg [31:0]  LinkAddr,
     output  wire[31:0]  inst_o
-
-
-    output      RegWrite,
-    output      MemRead,
-    output      MemWrite,
-    output      MemToReg,
-    output      ALUsrc,
-    output[6:0] ALUop,
-    output      Branch,
-    output[1:0] Jump,
-    output      Link,
-    output      ALUOp1,
-    output      ALUOp0
 
 );
 
-    reg regDst, regWrite, memRead, memWrite, memToReg, needZEXT, aluSrc, branch, link;
-    reg [3:0] aluOp;
-    reg [1:0] jump, stackOp;
+    assign inst_o = inst_i;
 
-    assign RegWrite = regWrite;
-    assign MemRead = memRead;
-    assign MemWrite = memWrite;
-    assign MemToReg = memToReg;
-    assign NeedZEXT = needZEXT;
-    assign ALUsrc = aluSrc;
-    assign ALUop = aluOp;
-    assign Branch = branch;
-    assign Jump = jump;
-    assign Link = link;
-    assign StackOp = stackOp;
+    wire[4:0] rs1_addr = inst_i[19:15];
+    wire[4:0] rs2_addr = inst_i[24:20];
+    wire[4:0] rd_addr = inst_i[11:7];
+    wire[31:0] pc_add_4;
+    wire[31:0] pc_add_imm_B;
+    wire[31:0] pc_add_imm_J;
+
+    wire[31:0] imm_I = {{21{inst_i[31:31]}}, inst_i[30:25], inst_i[24:21], inst_i[20:20]};
+    wire[31:0] imm_S = {{21{inst_i[31:31]}}, inst_i[30:25], inst_i[11: 8], inst_i[7:7]};
+    wire[31:0] imm_B = {{20{inst_i[31:31]}}, inst_i[ 7: 7], inst_i[30:25], inst_i[11:8], 1'b0};
+    wire[31:0] imm_U =     {inst_i[31:31],   inst_i[30:20], inst_i[19:12], {12{1'b0}}};
+    wire[31:0] imm_J = {{12{inst_i[31:31]}}, inst_i[19:12], inst_i[20:20], inst_i[30:25], inst_i[24:21], 1'b0};
+
+    reg [31:0] imm;
+    reg inst_valid;
+
+    assign pc_add_4 = pc_i + 4;
+    assign pc_add_imm_B = pc_i + imm_B;
+    assign pc_add_imm_J = pc_i + imm_J;
+
+
+always @ (*) begin
+    if (rst)
+        ALUop = 5'b0;
+    else begin
+        casex (inst_i)
+            32'bxxxxxxxxxxxxxxxxxxxx    xxxxx 1101111: ALUop = 5'b10000;  // jal
+            32'bxxxxxxx xxxxx xxxxx 000 xxxxx 1100011: ALUop = 5'b10001;  // beq
+            32'bxxxxxxx xxxxx xxxxx 100 xxxxx 1100011: ALUop = 5'b10010;  // blt
+            32'bxxxxxxxxxxxx  xxxxx 010 xxxxx 0000011: ALUop = 5'b10100;  // lw
+            32'bxxxxxxx xxxxx xxxxx 010 xxxxx 0100011: ALUop = 5'b10101;  // sw
+            32'bxxxxxxxxxxxx  xxxxx 000 xxxxx 0010011: ALUop = 5'b01100;  // addi
+            32'b0000000 xxxxx xxxxx 000 xxxxx 0110011: ALUop = 5'b01101;  // add
+            32'b0100000 xxxxx xxxxx 000 xxxxx 0110011: ALUop = 5'b01110;  // sub
+            32'b0000000 xxxxx xxxxx 001 xxxxx 0110011: ALUop = 5'b01000;  // sll
+            32'b0000000 xxxxx xxxxx 100 xxxxx 0110011: ALUop = 5'b00110;  // xor
+            32'b0000000 xxxxx xxxxx 101 xxxxx 0110011: ALUop = 5'b01001;  // srl
+            32'b0000000 xxxxx xxxxx 110 xxxxx 0110011: ALUop = 5'b00101;  // or
+            32'b0000000 xxxxx xxxxx 111 xxxxx 0110011: ALUop = 5'b00100;  // and
+            default: ALUop = 5'b0;
+        endcase
+    end
+end
+
+always @ (*) begin
+    if (rst)
+        ALUsel = 3'b000;
+    else begin
+        casex (inst_i)
+            32'bxxxxxxxxxxxxxxxxxxxx    xxxxx 1101111: ALUsel = 3'b100;  // jal
+            32'bxxxxxxx xxxxx xxxxx 000 xxxxx 1100011: ALUsel = 3'b100;  // beq
+            32'bxxxxxxx xxxxx xxxxx 100 xxxxx 1100011: ALUsel = 3'b100;  // blt
+            32'bxxxxxxxxxxxx  xxxxx 010 xxxxx 0000011: ALUsel = 3'b101;  // lw
+            32'bxxxxxxx xxxxx xxxxx 010 xxxxx 0100011: ALUsel = 3'b101;  // sw
+            32'bxxxxxxxxxxxx  xxxxx 000 xxxxx 0010011: ALUsel = 3'b011;  // addi
+            32'b0000000 xxxxx xxxxx 000 xxxxx 0110011: ALUsel = 3'b011;  // add
+            32'b0100000 xxxxx xxxxx 000 xxxxx 0110011: ALUsel = 3'b011;  // sub
+            32'b0000000 xxxxx xxxxx 001 xxxxx 0110011: ALUsel = 3'b010;  // sll
+            32'b0000000 xxxxx xxxxx 100 xxxxx 0110011: ALUsel = 3'b001;  // xor
+            32'b0000000 xxxxx xxxxx 101 xxxxx 0110011: ALUsel = 3'b010;  // srl
+            32'b0000000 xxxxx xxxxx 110 xxxxx 0110011: ALUsel = 3'b001;  // or
+            32'b0000000 xxxxx xxxxx 111 xxxxx 0110011: ALUsel = 3'b001;  // and
+            default: ALUsel = 3'b000;
+        endcase
+    end
+end
+
+always @ (*) begin
+    if (rst)
+        WriteReg = 1'b0;
+    else begin
+        casex (inst_i)
+            32'bxxxxxxxxxxxxxxxxxxxx    xxxxx 1101111: WriteReg = 1'b1;  // jal
+            32'bxxxxxxx xxxxx xxxxx 000 xxxxx 1100011: WriteReg = 1'b0;  // beq
+            32'bxxxxxxx xxxxx xxxxx 100 xxxxx 1100011: WriteReg = 1'b0;  // blt
+            32'bxxxxxxxxxxxx  xxxxx 010 xxxxx 0000011: WriteReg = 1'b1;  // lw
+            32'bxxxxxxx xxxxx xxxxx 010 xxxxx 0100011: WriteReg = 1'b0;  // sw
+            32'bxxxxxxxxxxxx  xxxxx 000 xxxxx 0010011: WriteReg = 1'b1;  // addi
+            32'b0000000 xxxxx xxxxx 000 xxxxx 0110011: WriteReg = 1'b1; // add
+            32'b0100000 xxxxx xxxxx 000 xxxxx 0110011: WriteReg = 1'b1; // sub
+            32'b0000000 xxxxx xxxxx 001 xxxxx 0110011: WriteReg = 1'b1;  // sll
+            32'b0000000 xxxxx xxxxx 100 xxxxx 0110011: WriteReg = 1'b1;  // xor
+            32'b0000000 xxxxx xxxxx 101 xxxxx 0110011: WriteReg = 1'b1;  // srl
+            32'b0000000 xxxxx xxxxx 110 xxxxx 0110011: WriteReg = 1'b1;  // or
+            32'b0000000 xxxxx xxxxx 111 xxxxx 0110011: WriteReg = 1'b1;  // and
+            default: WriteReg = 1'b0;
+        endcase
+    end
+end
+
+always @ (*) begin
+    if (rst)
+        inst_valid = 1'b0;
+    else begin
+        casex (inst_i)
+            32'bxxxxxxxxxxxxxxxxxxxx    xxxxx 1101111: inst_valid = 1'b0;  // jal
+            32'bxxxxxxx xxxxx xxxxx 000 xxxxx 1100011: inst_valid = 1'b0;  // beq
+            32'bxxxxxxx xxxxx xxxxx 100 xxxxx 1100011: inst_valid = 1'b0;  // blt
+            32'bxxxxxxxxxxxx  xxxxx 010 xxxxx 0000011: inst_valid = 1'b0;  // lw
+            32'bxxxxxxx xxxxx xxxxx 010 xxxxx 0100011: inst_valid = 1'b0;  // sw
+            32'bxxxxxxxxxxxx  xxxxx 000 xxxxx 0010011: inst_valid = 1'b0;  // addi
+            32'b0000000 xxxxx xxxxx 000 xxxxx 0110011: inst_valid = 1'b0; // add
+            32'b0100000 xxxxx xxxxx 000 xxxxx 0110011: inst_valid = 1'b0; // sub
+            32'b0000000 xxxxx xxxxx 001 xxxxx 0110011: inst_valid = 1'b0;  // sll
+            32'b0000000 xxxxx xxxxx 100 xxxxx 0110011: inst_valid = 1'b0;  // xor
+            32'b0000000 xxxxx xxxxx 101 xxxxx 0110011: inst_valid = 1'b0;  // srl
+            32'b0000000 xxxxx xxxxx 110 xxxxx 0110011: inst_valid = 1'b0;  // or
+            32'b0000000 xxxxx xxxxx 111 xxxxx 0110011: inst_valid = 1'b0;  // and
+            default: inst_valid = 1'b1;
+        endcase
+    end
+end
+
+always @ (*) begin
+    if (rst)
+        RegRead1 = 1'b0;
+    else begin
+        casex (inst_i)
+            32'bxxxxxxxxxxxxxxxxxxxx    xxxxx 1101111: RegRead1 = 1'b0;  // jal
+            32'bxxxxxxx xxxxx xxxxx 000 xxxxx 1100011: RegRead1 = 1'b1;  // beq
+            32'bxxxxxxx xxxxx xxxxx 100 xxxxx 1100011: RegRead1 = 1'b1;  // blt
+            32'bxxxxxxxxxxxx  xxxxx 010 xxxxx 0000011: RegRead1 = 1'b1;  // lw
+            32'bxxxxxxx xxxxx xxxxx 010 xxxxx 0100011: RegRead1 = 1'b1;  // sw
+            32'bxxxxxxxxxxxx  xxxxx 000 xxxxx 0010011: RegRead1 = 1'b1;  // addi
+            32'b0000000 xxxxx xxxxx 000 xxxxx 0110011: RegRead1 = 1'b1; // add
+            32'b0100000 xxxxx xxxxx 000 xxxxx 0110011: RegRead1 = 1'b1; // sub
+            32'b0000000 xxxxx xxxxx 001 xxxxx 0110011: RegRead1 = 1'b1;  // sll
+            32'b0000000 xxxxx xxxxx 100 xxxxx 0110011: RegRead1 = 1'b1;  // xor
+            32'b0000000 xxxxx xxxxx 101 xxxxx 0110011: RegRead1 = 1'b1;  // srl
+            32'b0000000 xxxxx xxxxx 110 xxxxx 0110011: RegRead1 = 1'b1;  // or
+            32'b0000000 xxxxx xxxxx 111 xxxxx 0110011: RegRead1 = 1'b1;  // and
+            default: RegRead1 = 1'b0;
+        endcase
+    end
+end
+
+always @ (*) begin
+    if (rst)
+        RegRead2 = 1'b0;
+    else begin
+        casex (inst_i)
+            32'bxxxxxxxxxxxxxxxxxxxx    xxxxx 1101111: RegRead2 = 1'b0;  // jal
+            32'bxxxxxxx xxxxx xxxxx 000 xxxxx 1100011: RegRead2 = 1'b1;  // beq
+            32'bxxxxxxx xxxxx xxxxx 100 xxxxx 1100011: RegRead2 = 1'b1;  // blt
+            32'bxxxxxxxxxxxx  xxxxx 010 xxxxx 0000011: RegRead2 = 1'b0;  // lw
+            32'bxxxxxxx xxxxx xxxxx 010 xxxxx 0100011: RegRead2 = 1'b1;  // sw
+            32'bxxxxxxxxxxxx  xxxxx 000 xxxxx 0010011: RegRead2 = 1'b0;  // addi
+            32'b0000000 xxxxx xxxxx 000 xxxxx 0110011: RegRead2 = 1'b1; // add
+            32'b0100000 xxxxx xxxxx 000 xxxxx 0110011: RegRead2 = 1'b1; // sub
+            32'b0000000 xxxxx xxxxx 001 xxxxx 0110011: RegRead2 = 1'b1;  // sll
+            32'b0000000 xxxxx xxxxx 100 xxxxx 0110011: RegRead2 = 1'b1;  // xor
+            32'b0000000 xxxxx xxxxx 101 xxxxx 0110011: RegRead2 = 1'b1;  // srl
+            32'b0000000 xxxxx xxxxx 110 xxxxx 0110011: RegRead2 = 1'b1;  // or
+            32'b0000000 xxxxx xxxxx 111 xxxxx 0110011: RegRead2 = 1'b1;  // and
+            default: RegRead2 = 1'b0;
+        endcase
+    end
+end
+
+always @ (*) begin
+    if (rst)
+        imm = 32'b0;
+    else if (inst_i[14:12] == 3'b000 && inst_i[6:0] == 7'b0010011)  // addi
+        imm = imm_I;
+    else
+        imm = 32'b0;
+    end
+end
+
+always @ (*) begin
+    if (rst)
+        LinkAddr = 32'b0;
+    else if (inst_i[6:0] == 7'b1101111)  // jal
+        LinkAddr = pc_add_4;
+    else
+        LinkAddr = 32'b0;
+    end
+end
+
+always @ (*) begin
+    if (rst)
+        BranchAddr = 32'b0;
+    else if (inst_i[6:0] == 7'b1101111 || )  // jal
+        BranchAddr = pc_add_imm_J;
+        else if (inst_i[6:0] == 7'b1100011 && inst_i[13:12] == 2'b00)  // beq, blt
+        BranchAddr = pc_add_imm_B;
+    else
+        BranchAddr = 32'b0;
+    end
+end
+
+always @ (*) begin
+    if (rst)
+        Branch = 1'b0;
+    else if (inst_i[6:0] == 7'b1101111 || (inst_i[6:0] == 7'b1100011 && inst_i[13:12] == 2'b00))  // jal, beq, blt
+        Branch = 1'b1;
+    else
+        Branch = 1'b0;
+    end
+end
+
+always @ (*) begin
+    if (rst)
+        WriteData = 5'b0;
+    else
+        WriteData = rd_addr;
+    end
+end
+
+always @ (*) begin
+    if (rst)
+        RegAddr1 = 5'b0;
+    else
+        RegAddr1 = rs1_addr;
+    end
+end
+
+always @ (*) begin
+    if (rst)
+        RegAddr2 = 5'b0;
+    else
+        RegAddr2 = rs2_addr;
+    end
+end
+
+always @ (*) begin
+    if (rst)
+        Reg1 = 32'b0;
+    else if (RegRead1)
+        Reg1 = RegData1;
+    else if (!RegRead1)
+        Reg1 = imm;
+    end else
+        Reg1 = 32'b0;
+end
+
+always @ (*) begin
+    if (rst)
+        Reg2 =  32'b0;
+    else if (RegRead2)
+        Reg2 = RegData2;
+    else if (!RegRead2)
+        Reg2 = imm;
+    else
+        Reg2 = 32'b0;
+end
+
+endmodule
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*
  * This always part controls the signal regWrite.
