@@ -21,7 +21,8 @@
  * History:
  * - 19/12/19: Edit the RISC-V instructions;
  * - 19/12/23: Add control module;
- * - 19/12/24: Change the structure.
+ * - 19/12/24: Change the structure;
+ * - 19/12/26: Edit the logic.
 
  * Notes:
  *
@@ -41,9 +42,30 @@
 
 module Control(
 
-    input [6:0] Opcode,
-    input [2:0] funct3,
-    input [6:0] funct7,
+    input   wire        rst,
+    input   wire[31:0]  pc_i,
+    input   wire[31:0]  inst_i,
+    input   wire[31:0]  reg1_data_i,
+    input   wire[31:0]  reg2_data_i,
+
+    output  reg [1:0]   reg1_read_o,
+    output  reg [1:0]   reg2_read_o,
+    output  reg [4:0]   reg1_addr_o,
+    output  reg [4:0]   reg2_addr_o,
+
+    output  reg [4:0]   aluop_o,
+    output  reg [4:0]   alusel_o,
+    output  reg [31:0]  reg1_o,
+    output  reg [31:0]  reg2_o,
+    output  reg [4:0]   wd_o,
+    output  reg         wreg_o,
+
+    output  reg         branch_flag_o,
+    output  reg [31:0]  branch_target_address_o,
+    output  reg [31:0]  link_addr_o,
+    output  wire[31:0]  inst_o
+
+
     output      RegWrite,
     output      MemRead,
     output      MemWrite,
