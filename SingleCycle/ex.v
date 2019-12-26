@@ -55,8 +55,8 @@ always @ (*) begin
 		6'b001001: if (oprend1 > oprend2) pc = pc + sext(offset);			// blt
 		6'b001010: if (oprend1 == oprend2) pc = pc + sext(offset);			// beq
 		6'b000101: rd = rd + sext(imm);										// addi		
-		6'b001100: rd = sext(M[oprend1 + sext(offset)]);					// lw
-		6'b001101: M[oprend1] + sext(offset) = oprend2;						// sw
+		6'b001100: rd = sext(mem[oprend1 + sext(offset)]);					// lw
+		6'b001101: mem[oprend1 + sext(offset)] = oprend2;					// sw
 		default: break;
 	endcase
 end

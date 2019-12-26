@@ -35,7 +35,8 @@ module PC(
 
 );
 
-	assign next_PC = nextPC;
+	reg [31:0] next_PC;
+	assign nextPC = next_PC;
 
 /*
 * This always part controls the signal next_PC.
@@ -47,9 +48,9 @@ always @ (posedge clk) begin	// New PC equals ((old PC) + 4) per cycle.
 		if (Branch && Zero)
 			next_PC <= currPC + 4'h4 + imm;
 		else if (Jump)
-			nextPC <= currPC + 4'h4 + (imm << 2) | (nextPC & 32'hF0000000);
+			next_PC <= currPC + 4'h4 + (imm << 2) | (next_PC & 32'hF0000000);
 		else
-			nextPC <= currPC + 4'h4;;
+			next_PC <= currPC + 4'h4;
 	end
 end
 

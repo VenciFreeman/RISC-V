@@ -72,9 +72,9 @@ module riscv(
 	assign Opcode = inst_i[6:0];
 	assign funct3 = inst_i[14:12];
 	assign funct7 = inst_i[31:25];
-	assign RegDst = inst_i[];
-	assign RegWrite = inst_i[];
-	assign RegRead = inst_i[];
+	//assign RegDst = inst_i[];
+	//assign RegWrite = inst_i[];
+	//assign RegRead = inst_i[];
 
 	assign rs1 = inst_i[19:15];
 	assign rs2 = inst_i[24:20];
@@ -107,7 +107,7 @@ module riscv(
 
 	assign readReg1 = rs1;
     assign readReg2 = rs2;
-    assign WriteReg = (regDst == 0)?rs2:rd;
+    assign WriteReg = (RegDst == 0)?rs2:rd;
 	assign writedata = data_i[31:0];
 
 	Registers registers(
@@ -155,7 +155,7 @@ module riscv(
 		.Zero(ZERO),
 		.Jump(Jump),
 		.imm(imm),
-		.currPC(currPC)
+		.currPC(currPC),
 		.nextPC(nextPC)
 	);
 

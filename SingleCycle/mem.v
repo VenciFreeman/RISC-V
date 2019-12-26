@@ -46,7 +46,7 @@ end
  * This always part controls the reg mem.
  */ 
 always @ (negedge clk) begin
-	if (address >= 32'h00002000 && address < 32'h00003000 && memWrite
+	if (address >= 32'h00002000 && address < 32'h00003000 && memWrite)
 			mem[((address & 32'h0000FFFF) - 32'h00002000) >> 2] <= writeData;
 end
 

@@ -59,7 +59,7 @@ module Control(
 
 );
 
-    reg regDst, regWrite, memRead, memWrite, memToReg, needZEXT, aluSrc, branch, link, ALUOp1, ALUOp0;
+    reg regDst, regWrite, memRead, memWrite, memToReg, needZEXT, aluSrc, branch, link;
     reg [3:0] aluOp;
     reg [1:0] jump, stackOp;
 
@@ -214,7 +214,7 @@ always @ (Opcode or Funct) begin
         7'b0100011: link <= 0;  // S-type, sw.
         7'b0110011: link <= 0;  // R-type, including add, sub, sll, srl, and, or & xor.
         7'b1100011: link <= 0;  // B-type, including beq & blt.  
-        7'b1101111: lunk <= 1;  // J-type, including jal.
+        7'b1101111: link <= 1;  // J-type, including jal.
     endcase
 end
 
