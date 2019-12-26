@@ -20,7 +20,7 @@
  *
  */
 
-module mem (
+module MEM (
 
     input   wire        rst,
     input   wire        WriteReg_i,

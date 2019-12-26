@@ -12,7 +12,8 @@
  * - 19/12/19: Create this file;
  * - 19/12/23: Add own modules;
  * - 19/12/24: Add own modules;
- * - 19/12/26: Update modules.
+ * - 19/12/26: Update modules;
+ * - 10/12/27: Update modules.
  
  * Notes:
  
@@ -45,118 +46,129 @@ module riscv(
 
 );
 
-// mainControl
+	wire [4:0] 	id_aluop;
+	wire [2:0] 	id_alusel;
+	wire [31:0] id_reg1;
+	wire [31:0] id_reg2;
+	wire        id_wreg;
+	wire [4:0] 	id_wd;
+	wire [31:0] link_address;	
+	wire [31:0] id_inst;
 
-	wire [6:0] Opcode;
-    wire [2:0] funct3;
-    wire [6:0] funct7;
-    wire       RegDst;
-    wire       RegWrite;
-    wire       MemRead;
-    wire       MemWrite;
-    wire       MemToReg;
-    wire       ALUsrc;
-    wire [6:0] ALUop;
-    wire       Branch;
-    wire [1:0] Jump;
-    wire       Link;
-    wire       ALUOp1;
-    wire       ALUOp0;
+	wire 		reg1_read;
+	wire 		reg2_read;
+	wire [31:0] reg1_data;
+	wire [31:0] reg2_data;
+	wire [4:0] 	reg1_addr;
+	wire [4:0] 	reg2_addr;
 
-	wire [5:0] rs1;
-	wire [5:0] rs2;
-	wire [5:0] rd;
-	wire [11:0] imm12;
-	wire [19:0] imm20;
+	wire 		ex_wreg;
+	wire [4:0]  ex_wd;
+	wire [31:0] ex_wdata;
+	wire [4:0]  ex_aluop_o;
+	wire [31:0] ex_addr_o;
+	wire [31:0] ex_reg2_o;
 
-	assign Opcode = inst_i[6:0];
-	assign funct3 = inst_i[14:12];
-	assign funct7 = inst_i[31:25];
-	//assign RegDst = inst_i[];
-	//assign RegWrite = inst_i[];
-	//assign RegRead = inst_i[];
+	wire 		mem_wreg_o;
+	wire [4:0]  mem_wd_o;
+	wire [31:0] mem_wdata_o;
 
-	assign rs1 = inst_i[19:15];
-	assign rs2 = inst_i[24:20];
-	assign rd  = inst_i[11:7];
+	wire [4:0]  wb_wd;
+	wire 		wb_wreg;
+	wire [31:0] wb_wdata;
 
-	Control control(
-		.Opcode(Opcode),
-		.funct3(funct3),
-		.funct7(funct7),
-		.RegDst(RegDst),
-		.RegWrite(RegWrite),
-		.MemRead(MemRead),
-		.MemWrite(MemWrite),
-		.MemToReg(MemToReg),
-		.ALUsrc(ALUsrc),
-		.ALUop(ALUop),
-		.Branch(Branch),
-		.Jump(Jump),
-		.Link(Link),
-    	.ALUOp1(ALUOp1),
-    	.ALUOp0(ALUOp0)
-	);
-
-	wire [5:0] ReadReg1;
-    wire [5:0] ReadReg2;
-    wire [5:0] WriteReg;
-	wire [31:0] writedata;
-	wire [31:0] RegData1;
-    wire [31:0] RegData2;
-
-	assign readReg1 = rs1;
-    assign readReg2 = rs2;
-    assign WriteReg = (RegDst == 0)?rs2:rd;
-	assign writedata = data_i[31:0];
-
-	Registers registers(
-		.readReg1(readReg1),
-		.readReg2(readReg2),
-		.writeReg(WriteReg),
-		.writedata(writedata),
-		.regwrite(RegWrite),
-		.clk(clk),
-		.rst(rst),
-		.rd1_o(RegData1),
-		.rd2_o(RegData2)
-	);
-
-// Execution, ALU
-
-    wire [31:0] ALUinputA;
-    wire [31:0] ALUinputB;
-    wire [31:0] ALUresult;
-    wire ZERO;
-
-    assign ALUinputA = RegData1;
-    assign ALUinputB = (ALUsrc == 0) ? RegData2 : (needZEXT == 1 ? Imm16ZEXT : Imm16SEXT);
-	ALU alu(
-		.oprend1(ALUinputA),
-		.oprend2(ALUinputB),
-		.ALUop(ALUop),
-		.pc(),
-		.zero(ZERO),
-		.result(ALUresult)
-	);
-
-// stack_mem, perip_mem
-
-// ADbus
-
-	// assign WriteData = MemToReg == 1 ? MemReadData : ALUresult;  // Write back
-
-// PC update, lr, pc and update pc.
+	wire 		id_branch_flag_o;
+	wire [31:0] branch_target_address;
 
 	PC pc(
 		.clk(clk),
 		.rst(rst),
-		.Branch(),
-		.Zero(ZERO),
-		.Jump(Jump),
-		.imm(imm),
-		.currPC(currPC),
-		.nextPC(nextPC)
+		.Branch(id_branch_flag_o),
+		.Addr(branch_target_address),
+		.ce(rom_ce_o),
+		.PC(rom_addr_o)
 	);
+
+	ID id(
+		.rst(rst),
+		.pc_i(rom_addr_o),
+		.inst_i(rom_data_i),
+		.RegData1(reg1_data),
+		.RegData2(reg2_data),
+		.RegRead1(reg1_read),
+		.RegRead2(reg2_read),
+		.RegAddr1(reg1_addr),
+		.RegAddr2(reg2_addr),
+		.ALUop(id_aluop),
+		.ALUsel(id_alusel),
+		.Reg1(id_reg1),
+		.Reg2(id_reg2),
+		.WriteData(id_wd),
+		.WriteReg(id_wreg),
+		.Branch(id_branch_flag_o),
+		.BranchAddr(branch_target_address),
+		.LinkAddr(link_address),
+		.inst_o(id_inst)
+	);
+
+	Registers registers(
+		.clk(clk),
+		.rst(rst),
+		.we(wb_wreg),
+		.WriteAddr(wb_wd),
+		.WriteData(wb_wdata),
+		.ReadReg1(reg1_read),
+		.ReadReg2(reg2_read),
+		.ReadAddr1(reg1_addr),
+		.ReadAddr2(reg2_addr),
+		.ReadData1(reg1_data),
+		.ReadData2(reg2_datas)
+	);
+
+	EX ex(
+		.rst(rst),
+		.ALU_op_i(id_aluop),
+		.ALUsel_i(id_alusel),
+		.Oprend1(id_reg1),
+		.Oprend2(id_reg2),
+		.WriteDataNum_i(id_wd),
+		.WriteReg_i(id_wreg),
+		.LinkAddr(link_address),
+		.inst_i(id_inst),
+		.WriteReg_o(ex_wreg),
+		.ALUop_o(ex_aluop_o),
+		.WriteDataNum_o(ex_wd),
+		.WriteData_o(ex_wdata),
+		.MemAddr_o(ex_addr_o),
+		.Result(ex_reg2_o)
+	);
+
+	MEM mem(
+		.rst(rst),
+		.WriteReg_i(ex_wreg),
+		.WriteData_i(ex_wd),
+		.ALUop_i(ex_aluop_o),
+		.WriteDataAddr_i(ex_wdata),
+		.MemAddr_i(ex_addr_o),
+		.Reg_i(ex_reg2_o),
+		.MemData_i(rom_data_i),
+		.MemWE_o(rom_we_o),
+		.WriteReg_o(mem_wreg_o),
+		.MemCE_o(rom_ce_o),
+		.WriteData_o(mem_wd_o),
+		.WriteDataAddr_o(mem_wdata_o),
+		.MemAddr_o(rom_addr_o),
+		.MemData_o(rom_ce_o)
+	);
+
+	WB wb(
+		.rst(rst),
+		.mem_wd(mem_wd_o),
+		.mem_wreg(mem_wreg_o),
+		.mem_wdata(mem_wdata_o),
+		.wb_wd(wb_wd),
+		.wb_wreg(wb_wreg),
+		.wb_wdata(wb_wdata)
+);
 
 endmodule
