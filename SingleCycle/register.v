@@ -20,7 +20,8 @@
  *
  * History:
  * - 19/12/14: Create this file;
- * - 19/12/23: Modify the format.
+ * - 19/12/23: Modify the format;
+ * - 19/12/26: Edit module. (I think it's finished.)
  *
  * Notes:
  *
@@ -28,52 +29,60 @@
 
  module Registers(
 
-    input   [25:21] readReg1,
-    input   [20:16] readReg2,
-    input   [15:11] writeReg,
-    input   [31:0]  writeData,
-    input           regWrite,
-    input           clk,
-    input           rst,
-    output  [31:0]  ReadData1_o,
-    output  [31:0]  ReadData2_o
+    input   wire        clk,
+    input   wire        rst,
+    input   wire        we,
+    input   wire[4:0]   WriteAddr,
+    input   wire[31:0]  WriteData,
+    input   wire[1:0]   ReadReg1,
+    input   wire[1:0]   ReadReg2,
+    input   wire[4:0]   ReadAddr1,
+    input   wire[4:0]   ReadAddr2,
+    output  reg [31:0]  ReadData1,
+    output  reg [31:0]  ReadData2,
 
     );
-    
-    reg [31:0]  regFile [31:0];
-    reg [31:0]  ReadData1;
-    reg [31:0]  ReadData2;
-    reg [5:0]   n;
-    
-    assign ReadData1_o = ReadData1;
-    assign ReadData2_o = ReadData2;
 
+    reg [5:0]  n;
+    reg [31:0] regFile [31:0];
+    
 /*
-* This always part controls the signal reg_file.
+* This always part controls the signal reg_file, control write.
 */    
-always @ (readReg1 or readReg2 or clk or rst) begin
-    if(rst) begin
+always @ (*) begin
+    if(rst)
         for(n = 0; n < 32; n = n + 1)
             regFile[n] <= 0;
-    end
-    else if(regWrite)
-        regFile[writeReg] <= writeData;
+    else if(we && WriteAddr != 5'b0)
+        regFile[WriteAddr] <= WriteData;
 end
 
 /*
-* This always part controls the signal ReadData1.
+* This always part controls the signal ReadData1, control read1.
 */ 
-always @ (readReg1 or readReg2 or clk or rst) begin
-    if(!rst)
-        ReadData1 <= regFile[readReg1];
+always @ (*) begin
+    if(rst || ReadAddr1 == 5'b0)
+        ReadData1 <= 32'b0;
+    else if (ReadReg1)
+        ReadData1 <= regFile[ReadReg1];
+    else if (we && ReadReg1 && ReadAddr1 == WriteAddr)
+        ReadData1 <= WriteData;
+    else
+        ReadData1 <= 32'b0;
 end
 
 /*
-* This always part controls the signal ReadData2.
+* This always part controls the signal ReadData2, control read2.
 */ 
-always @ (readReg1 or readReg2 or clk or rst) begin
-    if(!rst)
-        ReadData2 <= regFile[readReg2];
+always @ (*) begin
+    if(rst || ReadAddr1 == 5'b0)
+        ReadData2 <= 32'b0;
+    else if (ReadReg2)
+        ReadData2 <= regFile[ReadReg2];
+    else if (we && ReadReg2 && ReadAddr2 == WriteAddr)
+        ReadData2 <= WriteData;
+    else
+        ReadData2 <= 32'b0;
 end
     
 endmodule
