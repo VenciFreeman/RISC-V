@@ -15,7 +15,8 @@
 
  * History:
  * - 19/12/05: Create this file, add PC module;
- * - 19/12/23: Add UpdatePC module.
+ * - 19/12/23: Add UpdatePC module;
+ * - 19/12/26: Edit module and change input/output.(I think it's finished.)
 
  * Notes:
  * - Take care that the module name can't be "if". Maybe it's a keep word.
@@ -24,34 +25,35 @@
 
 module PC(
 
-	input  		 clk,
-	input 		 rst,		// High signal is reset.
-	input		 Branch,
-	input		 Zero,
-	input [1:0]	 Jump,
-	input [31:0] imm,
-	input [31:0] currPC,
-	output[31:0] nextPC		// a.k.a. addr in inst_mem.v, the instruction address.
+	input	wire 		clk,
+	input	wire		rst,
+	input 	wire		Branch,
+	input 	wire[31:0] 	Addr,
+	output 	reg 	 	ce,
+	output	reg [31:0] 	PC
 
 );
 
-	reg [31:0] next_PC;
-	assign nextPC = next_PC;
+/*
+ * This always part controls the signal ce.
+ */
+always @ (posedge clk) begin
+	if (rst)
+		ce <= 1'b0;
+	else
+		ce <= 1'b1;
+end
 
 /*
-* This always part controls the signal next_PC.
-*/
-always @ (posedge clk) begin	// New PC equals ((old PC) + 4) per cycle.
-	if (rst)
-		next_PC <= 32'b0;
-	else begin
-		if (Branch && Zero)
-			next_PC <= currPC + 4'h4 + imm;
-		else if (Jump)
-			next_PC <= currPC + 4'h4 + (imm << 2) | (next_PC & 32'hF0000000);
-		else
-			next_PC <= currPC + 4'h4;
-	end
+ * This always part controls the signal PC.
+ */
+always @ (posedge clk) begin
+	if (!ce)
+		PC <= 32'b0;
+	else if (Branch)
+			PC <= Addr;
+	else
+			PC <= PC + 4'h4;  // New PC equals ((old PC) + 4) per cycle.
 end
 
 endmodule
