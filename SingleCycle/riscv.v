@@ -26,6 +26,7 @@
 `include "C:/Users/Venci/Documents/GitHub/RISC-V_CPU/SingleCycle/inst_mem.v"
 `include "C:/Users/Venci/Documents/GitHub/RISC-V_CPU/SingleCycle/mem.v"
 `include "C:/Users/Venci/Documents/GitHub/RISC-V_CPU/SingleCycle/register.v"
+`include "C:/Users/Venci/Documents/GitHub/RISC-V_CPU/SingleCycle/wb.v"
 
 module riscv(
 
@@ -85,14 +86,14 @@ module riscv(
 		.rst(rst),
 		.Branch(id_branch_flag_o),
 		.Addr(branch_target_address),
-		.ce(rom_ce_o),
-		.PC(rom_addr_o)
+		.ce(inst_ce_o),
+		.PC(inst_addr_o)
 	);
 
 	ID id(
 		.rst(rst),
-		.pc_i(rom_addr_o),
-		.inst_i(rom_data_i),
+		.pc_i(inst_addr_o),
+		.inst_i(inst_i),
 		.RegData1(reg1_data),
 		.RegData2(reg2_data),
 		.RegRead1(reg1_read),
@@ -151,14 +152,14 @@ module riscv(
 		.WriteDataAddr_i(ex_wdata),
 		.MemAddr_i(ex_addr_o),
 		.Reg_i(ex_reg2_o),
-		.MemData_i(rom_data_i),
-		.MemWE_o(rom_we_o),
+		.MemData_i(data_o),
+		.MemWE_o(data_we_o),
 		.WriteReg_o(mem_wreg_o),
-		.MemCE_o(rom_ce_o),
+		.MemCE_o(data_ce_o),
 		.WriteData_o(mem_wd_o),
 		.WriteDataAddr_o(mem_wdata_o),
-		.MemAddr_o(rom_addr_o),
-		.MemData_o(rom_ce_o)
+		.MemAddr_o(data_addr_o),
+		.MemData_o(data_i)
 	);
 
 	WB wb(
