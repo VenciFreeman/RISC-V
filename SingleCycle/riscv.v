@@ -56,8 +56,8 @@ module riscv(
 	wire [31:0] link_address;	
 	wire [31:0] id_inst;
 
-	wire 		reg1_read;
-	wire 		reg2_read;
+	wire [1:0]	reg1_read;
+	wire [1:0] reg2_read;
 	wire [31:0] reg1_data;
 	wire [31:0] reg2_data;
 	wire [4:0] 	reg1_addr;
@@ -123,12 +123,12 @@ module riscv(
 		.ReadAddr1(reg1_addr),
 		.ReadAddr2(reg2_addr),
 		.ReadData1(reg1_data),
-		.ReadData2(reg2_datas)
+		.ReadData2(reg2_data)
 	);
 
 	EX ex(
 		.rst(rst),
-		.ALU_op_i(id_aluop),
+		.ALUop_i(id_aluop),
 		.ALUsel_i(id_alusel),
 		.Oprend1(id_reg1),
 		.Oprend2(id_reg2),

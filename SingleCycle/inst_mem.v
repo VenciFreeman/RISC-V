@@ -8,7 +8,7 @@ module inst_mem(
 
 	reg[31:0]  inst_memory[0:1000];
 
-	initial $readmemb ( "./machinecode.txt", inst_memory );
+	initial $readmemb ( "C:/Users/Venci/Documents/GitHub/RISC-V_CPU/SingleCycle/machinecode.txt", inst_memory );
 
 always @ (*) begin
 	if (ce == 1'b0)

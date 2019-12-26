@@ -11,7 +11,7 @@ module data_mem(
 );
 
 	reg[7:0]  data[0:32'h400];
-	initial $readmemh ( "data_mem.txt", data );
+	initial $readmemh ( "C:/Users/Venci/Documents/GitHub/RISC-V_CPU/SingleCycle/data_mem.txt", data );
 
 	assign verify={data[15],data[14],data[13],data[12]};
 

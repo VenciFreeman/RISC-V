@@ -17,7 +17,8 @@
  * - 19/12/05: Create this file;
  * - 19/12/19：Edit the ALU module and the RISC-V instructions;
  * - 19/12/23: Modify the format and logic;
- * - 19/12/26: Edit the module.(I think it's finished.)
+ * - 19/12/26: Edit the module;
+ * - 19/12/27: Fix some errors.
 
  * Notes:
  *
@@ -35,19 +36,17 @@ module EX(
 	input	wire[31:0]  LinkAddr,
 	input   wire[31:0]  inst_i,
 	output	reg 		WriteReg_o,
-	output	reg	[4:0]	ALUop_o,
+	output	wire[4:0]	ALUop_o,
 	output	reg [4:0]	WriteDataNum_o,
-	output	reg	[31:0]	WriteData_o,
-    output  reg [31:0]  MemAddr_o,
-    output  reg [31:0]  Result
+	output	reg [31:0]	WriteData_o,
+    output  wire[31:0]  MemAddr_o,
+    output  wire[31:0]  Result
 
     );
     
     assign ALUop_o = ALUop_i;
 	assign MemAddr_o = Oprend1 + ( (inst_i[6:0] == 7'b0000011) ? {{20{inst_i[31:31]}}, inst_i[31:20]} : {{20{inst_i[31:31]}}, inst_i[31:25], inst_i[11:7]});
     assign Result = Oprend2;
-	assign WriteData_o = WriteDataNum_i;
-	assign WriteReg_o = WriteReg_i;
 
     reg[31:0] Logic;
     reg[31:0] Shift;
@@ -58,6 +57,14 @@ module EX(
 
     assign Oprend2_mux = (ALUop_i == 5'b01110) ? (~(Oprend2) + 1) : Oprend2;
     assign Result_sum = Oprend1 + Oprend2_mux;
+
+always @ (*) begin
+    WriteData_o = WriteDataNum_i;
+end
+
+always @ (*) begin
+    WriteReg_o = WriteReg_i;
+end
 
 /*
  * This always part controls the signal Logic.

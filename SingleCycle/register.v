@@ -39,7 +39,7 @@
     input   wire[4:0]   ReadAddr1,
     input   wire[4:0]   ReadAddr2,
     output  reg [31:0]  ReadData1,
-    output  reg [31:0]  ReadData2,
+    output  reg [31:0]  ReadData2
 
     );
 
