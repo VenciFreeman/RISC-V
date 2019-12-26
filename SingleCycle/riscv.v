@@ -98,27 +98,46 @@ module riscv(
     	.ALUOp0(ALUOp0)
 	);
 
+	wire [5:0] ReadReg1;
+    wire [5:0] ReadReg2;
+    wire [5:0] WriteReg;
+	wire [31:0] writedata;
+	wire [31:0] RegData1;
+    wire [31:0] RegData2;
+
+	assign readReg1 = rs1;
+    assign readReg2 = rs2;
+    assign WriteReg = (regDst == 0)?rs2:rd;
+	assign writedata = data_i[31:0];
+
 	Registers registers(
-		.readReg1(),
-		.readReg2(),
+		.readReg1(readReg1),
+		.readReg2(readReg2),
 		.writeReg(WriteReg),
-		.writedata(WriteData),
+		.writedata(writedata),
 		.regwrite(RegWrite),
 		.clk(clk),
 		.rst(rst),
-		.rd1_o(),
-		.rd2_o()
+		.rd1_o(RegData1),
+		.rd2_o(RegData2)
 	);
 
 // Execution, ALU
 
+    wire [31:0] ALUinputA;
+    wire [31:0] ALUinputB;
+    wire [31:0] ALUresult;
+    wire ZERO;
+
+    assign ALUinputA = RegData1;
+    assign ALUinputB = (ALUsrc == 0) ? RegData2 : (needZEXT == 1 ? Imm16ZEXT : Imm16SEXT);
 	ALU alu(
-		.oprend1(),
-		.oprend2(),
-		.ALUop(),
+		.oprend1(ALUinputA),
+		.oprend2(ALUinputB),
+		.ALUop(ALUop),
 		.pc(),
-		.zero(),
-		.result()
+		.zero(ZERO),
+		.result(ALUresult)
 	);
 
 // stack_mem, perip_mem
@@ -133,11 +152,11 @@ module riscv(
 		.clk(clk),
 		.rst(rst),
 		.Branch(),
-		.Zero(),
-		.Jump(),
-		.imm(),
-		.currPC()
-		.nextPC()
+		.Zero(ZERO),
+		.Jump(Jump),
+		.imm(imm),
+		.currPC(currPC)
+		.nextPC(nextPC)
 	);
 
 endmodule
