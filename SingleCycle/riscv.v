@@ -11,7 +11,8 @@
  * History:
  * - 19/12/19: Create this file;
  * - 19/12/23: Add own modules;
- * - 19/12/24: Add own modules.
+ * - 19/12/24: Add own modules;
+ * - 19/12/26: Update modules.
  
  * Notes:
  
@@ -46,21 +47,55 @@ module riscv(
 
 // mainControl
 
+	wire [6:0] Opcode;
+    wire [2:0] funct3;
+    wire [6:0] funct7;
+    wire       RegDst;
+    wire       RegWrite;
+    wire       MemRead;
+    wire       MemWrite;
+    wire       MemToReg;
+    wire       ALUsrc;
+    wire [6:0] ALUop;
+    wire       Branch;
+    wire [1:0] Jump;
+    wire       Link;
+    wire       ALUOp1;
+    wire       ALUOp0;
+
+	wire [5:0] rs1;
+	wire [5:0] rs2;
+	wire [5:0] rd;
+	wire [11:0] imm12;
+	wire [19:0] imm20;
+
+	assign Opcode = inst_i[6:0];
+	assign funct3 = inst_i[14:12];
+	assign funct7 = inst_i[31:25];
+	assign RegDst = inst_i[];
+	assign RegWrite = inst_i[];
+	assign RegRead = inst_i[];
+
+	assign rs1 = inst_i[19:15];
+	assign rs2 = inst_i[24:20];
+	assign rd  = inst_i[11:7];
+
 	Control control(
-		.Opcode(),
-		.Funct(),
-		.RegDst(),
-		.RegWrite(),
-		.MemRead(),
-		.MemWrite(),
-		.MemToReg(0),
-		.NeedZEXT(),
-		.ALUsrc(),
-		.ALUop(),
-		.Branch(),
-		.Jump(),
-		.Link(),
-		.StackOp()
+		.Opcode(Opcode),
+		.funct3(funct3),
+		.funct7(funct7),
+		.RegDst(RegDst),
+		.RegWrite(RegWrite),
+		.MemRead(MemRead),
+		.MemWrite(MemWrite),
+		.MemToReg(MemToReg),
+		.ALUsrc(ALUsrc),
+		.ALUop(ALUop),
+		.Branch(Branch),
+		.Jump(Jump),
+		.Link(Link),
+    	.ALUOp1(ALUOp1),
+    	.ALUOp0(ALUOp0)
 	);
 
 	Registers registers(
@@ -70,17 +105,11 @@ module riscv(
 		.writedata(WriteData),
 		.regwrite(RegWrite),
 		.clk(clk),
-		.rst(rsy),
+		.rst(rst),
 		.rd1_o(),
 		.rd2_o()
 	);
 
-	ID id(
-		.opcode(),
-		.funct3(),
-		.funct7(),
-		.ALUop_o()
-	);
 // Execution, ALU
 
 	ALU alu(
@@ -96,37 +125,19 @@ module riscv(
 
 // ADbus
 
-	assign WriteData = MemToReg == 1 ? MemReadData : ALUresult;  // Write back
+	// assign WriteData = MemToReg == 1 ? MemReadData : ALUresult;  // Write back
 
 // PC update, lr, pc and update pc.
 
-	IF if0(
+	PC pc(
 		.clk(clk),
 		.rst(rst),
-		.pc_i(),
-		.pc_o()
-	);
-
-	PC pc(
-		.clk(),
-		.rst(),
-		.pc_i(),
-		.pc_o()
-	);
-
-	UpdatePC updatePC(
-		.pc_o(),
-		.pc_add_4(),
-		.imm20(),
-		.imm12(),
-		.regRead1(),
 		.Branch(),
 		.Zero(),
 		.Jump(),
-		NextPC()
+		.imm(),
+		.currPC()
+		.nextPC()
 	);
-
-
-
 
 endmodule
