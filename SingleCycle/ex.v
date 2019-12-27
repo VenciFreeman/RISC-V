@@ -59,7 +59,7 @@ module EX(
     assign Result_sum = Oprend1 + Oprend2_mux;
 
 always @ (*) begin
-    WriteData_o = WriteDataNum_i;
+    WriteDataNum_o = WriteDataNum_i;
 end
 
 always @ (*) begin

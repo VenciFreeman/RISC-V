@@ -43,9 +43,12 @@ module MEM (
     reg mem_we;
     assign MemWE_o = mem_we;
 
+
 always @ (*) begin
-    $display("mem : data = %h addr = %d", WriteData_i, WriteDataAddr_i);
+    if (ALUop_i != 5'b1010x)
+        $display("mem : data = %h addr = %d", WriteData_i, WriteDataAddr_i);
 end
+
 
 /*
  * This always part controls the signal WriteDataAddr_o.
