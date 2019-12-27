@@ -93,10 +93,9 @@ module ID(
     wire[31:0] pc_add_imm_B;
     wire[31:0] pc_add_imm_J;
 
-    wire[31:0] imm_I = {{21{inst_i[31:31]}}, inst_i[30:25], inst_i[24:21], inst_i[20:20]};
-    wire[31:0] imm_S = {{21{inst_i[31:31]}}, inst_i[30:25], inst_i[11: 8], inst_i[7:7]};
+    wire[31:0] imm_I = {{21{inst_i[31:31]}}, inst_i[30:20]};
+    wire[31:0] imm_S = {{21{inst_i[31:31]}}, inst_i[30:25], inst_i[11:7]};
     wire[31:0] imm_B = {{20{inst_i[31:31]}}, inst_i[ 7: 7], inst_i[30:25], inst_i[11:8], 1'b0};
-    wire[31:0] imm_U =     {inst_i[31:31],   inst_i[30:20], inst_i[19:12], {12{1'b0}}};
     wire[31:0] imm_J = {{12{inst_i[31:31]}}, inst_i[19:12], inst_i[20:20], inst_i[30:25], inst_i[24:21], 1'b0};
 
     reg [31:0] imm;

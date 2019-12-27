@@ -19,11 +19,9 @@
  
  */
 
-`include "C:/Users/Venci/Documents/GitHub/RISC-V_CPU/SingleCycle/data_mem.v"
 `include "C:/Users/Venci/Documents/GitHub/RISC-V_CPU/SingleCycle/ex.v"
 `include "C:/Users/Venci/Documents/GitHub/RISC-V_CPU/SingleCycle/id.v"
 `include "C:/Users/Venci/Documents/GitHub/RISC-V_CPU/SingleCycle/if.v"
-`include "C:/Users/Venci/Documents/GitHub/RISC-V_CPU/SingleCycle/inst_mem.v"
 `include "C:/Users/Venci/Documents/GitHub/RISC-V_CPU/SingleCycle/mem.v"
 `include "C:/Users/Venci/Documents/GitHub/RISC-V_CPU/SingleCycle/register.v"
 `include "C:/Users/Venci/Documents/GitHub/RISC-V_CPU/SingleCycle/wb.v"
