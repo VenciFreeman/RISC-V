@@ -44,6 +44,16 @@ module ID(
     input   wire[31:0]  inst_i,
     input   wire[31:0]  RegData1,
     input   wire[31:0]  RegData2,
+
+    input   wire[4:0]	ex_aluop_i,
+	input   wire		ex_wreg_i,
+	input   wire[31:0]	ex_wdata_i,
+	input   wire[4:0]   ex_wd_i,
+	input   wire		mem_wreg_i,
+	input   wire[31:0]	mem_wdata_i,
+	input   wire[4:0]   mem_wd_i,
+    input   wire 		pre_take_or_not,
+    input   wire		pre_sel,
     
     output  reg [1:0]   RegRead1,
     output  reg [1:0]   RegRead2,
@@ -60,11 +70,21 @@ module ID(
     output  reg         Branch,
     output  reg [31:0]  BranchAddr,
     output  reg [31:0]  LinkAddr,
-    output  wire[31:0]  inst_o
+    output  wire[31:0]  inst_o,
+
+    output  reg			is_branch_o,
+	output  reg			take_or_not_o,
+	output  reg			pre_true_o,
+	output  wire		sel_o,
+	output  wire[31:0] 	pc_o,
+    output  reg         stallreq_branch,	
+	output  wire        stallreq_load
 
 );
 
     assign inst_o = inst_i;
+    assign sel_o = pre_sel;
+	assign pc_o = pc_i;
 
     wire[4:0] rs1_addr = inst_i[19:15];
     wire[4:0] rs2_addr = inst_i[24:20];
@@ -85,6 +105,18 @@ module ID(
     assign pc_add_4 = pc_i + 4;
     assign pc_add_imm_B = pc_i + imm_B;
     assign pc_add_imm_J = pc_i + imm_J;
+
+    reg stallreq_for_reg1_loadrelate;
+	reg stallreq_for_reg2_loadrelate;
+	wire pre_inst_is_load;
+
+    assign pc_plus_4 = pc_i + 4;
+	assign stallreq_load = stallreq_for_reg1_loadrelate | stallreq_for_reg2_loadrelate;
+	assign pre_inst_is_load = ( (ex_aluop_i == `EXE_LB_OP) || 
+  								(ex_aluop_i == `EXE_LBU_OP)||
+  								(ex_aluop_i == `EXE_LH_OP) ||
+  								(ex_aluop_i == `EXE_LHU_OP)||
+  								(ex_aluop_i == `EXE_LW_OP) ) ? 1'b1 : 1'b0;
 
 
 always @ (*) begin
@@ -247,9 +279,13 @@ always @ (*) begin
     if (rst)
         BranchAddr = 32'b0;
     else if (inst_i[6:0] == 7'b1101111)  // jal
-        BranchAddr = pc_add_imm_J;
-    else if (inst_i[6:0] == 7'b1100011 && inst_i[13:12] == 2'b00)  // beq, blt
-        BranchAddr = pc_add_imm_B;
+            BranchAddr = pc_add_imm_J;
+    else if ((inst_i[6:0] == 7'b1100011 && inst_i[14:12] == 3'b000))  // beq
+        if (Reg1 != Reg2)
+            BranchAddr = pc_add_imm_B;
+    else if ((inst_i[6:0] == 7'b1100011 && inst_i[14:12] == 3'b100))  // blt
+        if ($signed(Reg1) >= $signed(Reg2))
+            BranchAddr = pc_add_imm_B;
     else
         BranchAddr = 32'b0;
 end
@@ -257,10 +293,65 @@ end
 always @ (*) begin
     if (rst)
         Branch = 1'b0;
-    else if (inst_i[6:0] == 7'b1101111 || (inst_i[6:0] == 7'b1100011 && inst_i[13:12] == 2'b00))  // jal, beq, blt
+
+    else if (inst_i[6:0] == 7'b1101111)  // jal
         Branch = 1'b1;
+    else if ((inst_i[6:0] == 7'b1100011 && inst_i[14:12] == 3'b000))  // beq
+        if (Reg1 != Reg2)
+            Branch = 1'b1;
+    else if ((inst_i[6:0] == 7'b1100011 && inst_i[14:12] == 3'b100))  // blt
+        if ($signed(Reg1) >= $signed(Reg2))
+            Branch = 1'b1;
     else
         Branch = 1'b0;
+end
+
+always @ (*) begin
+    if (rst)
+        is_branch_o = 1'b0;
+    else if (inst_i[6:0] == 7'b1101111 || (inst_i[6:0] == 7'b1100011 && inst_i[13:12] == 2'b00))  // jal, beq, blt
+        is_branch_o = 1'b1;
+    else
+        is_branch_o = 1'b0;
+end
+
+always @ (*) begin
+    if (rst)
+        take_or_not_o = 1'b0;
+    else if ((inst_i[6:0] == 7'b1100011 && inst_i[14:12] == 2'b000))  // beq
+        if (Reg1 == Reg2)
+            take_or_not_o = 1'b1;
+    else if ((inst_i[6:0] == 7'b1100011 && inst_i[14:12] == 3'b100))  // blt
+        if ($signed(Reg1) < $signed(Reg2))
+            take_or_not_o = 1'b1;
+    else
+        take_or_not_o = 1'b0;
+end
+
+always @ (*) begin
+    if (rst)
+        pre_true_o = 1'b0;
+    else if (inst_i[6:0] == 7'b1101111)  // jal
+        pre_true_o = 1'b1;
+    else if ((inst_i[6:0] == 7'b1100011 && inst_i[13:12] == 2'b00))  // beq, blt
+        pre_true_o = pre_take_or_not ? 1'b1 : 1'b0;
+    else
+        pre_true_o = 1'b0;
+end
+
+always @ (*) begin
+    if (rst)
+        stallreq_branch = 1'b0;
+    else if (inst_i[6:0] == 7'b1101111)  // jal
+         stallreq_branch = 1'b1;
+    else if ((inst_i[6:0] == 7'b1100011 && inst_i[14:12] == 3'b000))  // beq
+        if (Reg1 != Reg2)
+        stallreq_branch = 1'b1;
+    else if ((inst_i[6:0] == 7'b1100011 && inst_i[14:12] == 3'b100))  // blt
+        if ($signed(Reg1) >= $signed(Reg2))
+        stallreq_branch = 1'b1;
+    else
+        stallreq_branch = 1'b0;
 end
 
 always @ (*) begin
@@ -287,7 +378,11 @@ end
 always @ (*) begin
     if (rst)
         Reg1 = 32'b0;
-    else if (RegRead1)
+    else if (RegRead1 && ex_wreg_i && (ex_wd_i == RegAddr1))
+        Reg1 = ex_wdata_i;
+    else if (RegRead1 && mem_wreg_i && (mem_wd_i == RegAddr1))    
+        Reg1 = mem_wdata_i;
+    else if  (RegRead1)
         Reg1 = RegData1;
     else if (!RegRead1)
         Reg1 = imm;
@@ -297,13 +392,32 @@ end
 
 always @ (*) begin
     if (rst)
-        Reg2 =  32'b0;
-    else if (RegRead2)
-        Reg2 = RegData2;
+        Reg2 = 32'b0;
+    else if (RegRead1 && ex_wreg_i && (ex_wd_i == RegAddr2))
+        Reg2 = ex_wdata_i;
+    else if (RegRead1 && mem_wreg_i && (mem_wd_i == RegAddr2))    
+        Reg2 = mem_wdata_i;
+    else if  (RegRead2)
+        Reg2 = RegData1;
     else if (!RegRead2)
         Reg2 = imm;
     else
         Reg2 = 32'b0;
 end
+
+always @ (*) begin
+    if(pre_inst_is_load && RegRead1 && ex_wd_i == RegAddr1)
+	    stallreq_for_reg1_loadrelate <= 1'b1;
+    else
+        stallreq_for_reg1_loadrelate <= 1'b0;
+end
+
+always @ (*) begin
+    if(pre_inst_is_load && RegRead2 && ex_wd_i == RegAddr2)
+	    stallreq_for_reg2_loadrelate <= 1'b1;
+    else
+        stallreq_for_reg2_loadrelate <= 1'b0;
+end	
+
 
 endmodule
