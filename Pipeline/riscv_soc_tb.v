@@ -30,7 +30,7 @@ module riscv_soc_tb();
   wire[31:0] verify; 
  
 
- riscv riscv0(
+ 	riscv riscv0(
 		.clk(clk),
 		.rst(rst),
 	
