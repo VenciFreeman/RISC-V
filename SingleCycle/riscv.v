@@ -147,17 +147,17 @@ module riscv(
 	MEM mem(
 		.rst(rst),
 		.WriteReg_i(ex_wreg),
-		.WriteData_i(ex_wd),
+		.WriteDataAddr_i(ex_wd),
 		.ALUop_i(ex_aluop_o),
-		.WriteDataAddr_i(ex_wdata),
+		.WriteData_i(ex_wdata),
 		.MemAddr_i(ex_addr_o),
 		.Reg_i(ex_reg2_o),
 		.MemData_i(data_o),
 		.MemWE_o(data_we_o),
 		.WriteReg_o(mem_wreg_o),
 		.MemCE_o(data_ce_o),
-		.WriteData_o(mem_wd_o),
-		.WriteDataAddr_o(mem_wdata_o),
+		.WriteDataAddr_o(mem_wd_o),
+		.WriteData_o(mem_wdata_o),
 		.MemAddr_o(data_addr_o),
 		.MemData_o(data_i)
 	);

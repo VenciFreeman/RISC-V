@@ -24,17 +24,17 @@ module MEM (
 
     input   wire        rst,
     input   wire        WriteReg_i,
-    input   wire[4:0]   WriteData_i,
+    input   wire[4:0]   WriteDataAddr_i,
     input   wire[4:0]   ALUop_i,
-    input   wire[31:0]  WriteDataAddr_i,
+    input   wire[31:0]  WriteData_i,
     input   wire[31:0]  MemAddr_i,
     input   wire[31:0]  Reg_i,
     input   wire[31:0]  MemData_i,
     output  wire        MemWE_o,
     output  reg         WriteReg_o,
     output  reg         MemCE_o,
-    output  reg [4:0]   WriteData_o,
-    output  reg [31:0]  WriteDataAddr_o,
+    output  reg [4:0]   WriteDataAddr_o,
+    output  reg [31:0]  WriteData_o,
     output  reg [31:0]  MemAddr_o,
     output  reg [31:0]  MemData_o
 
@@ -43,14 +43,18 @@ module MEM (
     reg mem_we;
     assign MemWE_o = mem_we;
 
+always @ (*) begin
+    $display("mem : data = %h addr = %d", WriteData_i, WriteDataAddr_i);
+end
+
 /*
- * This always part controls the signal WriteData_o.
+ * This always part controls the signal WriteDataAddr_o.
  */ 
 always @ (*) begin
     if (rst)
-        WriteData_o = 5'b0;
+        WriteDataAddr_o = 5'b0;
     else
-        WriteData_o = WriteData_i;
+        WriteDataAddr_o = WriteDataAddr_i;
 end
 
 /*
@@ -74,15 +78,15 @@ always @ (*) begin
 end
 
 /*
- * This always part controls the signal WriteDataAddr_o.
+ * This always part controls the signal WriteData_o.
  */ 
 always @ (*) begin
     if (rst)
-        WriteDataAddr_o = 32'b0;
+        WriteData_o = 32'b0;
     else begin
-        WriteDataAddr_o = WriteDataAddr_i;
+        WriteData_o = WriteData_i;
         if (ALUop_i == 5'b10100)  // lw
-            WriteDataAddr_o = MemData_i;
+            WriteData_o = MemData_i;
     end
 end
 

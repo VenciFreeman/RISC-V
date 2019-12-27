@@ -53,8 +53,10 @@ always @ (*) begin
     if(rst)
         for(n = 0; n < 32; n = n + 1)
             regFile[n] <= 0;
-    else if(we && WriteAddr != 5'b0)
+    else if(we && WriteAddr != 5'b0) begin
         regFile[WriteAddr] <= WriteData;
+        $display("register: regs[%d] <= %h", WriteAddr, WriteData);
+    end
 end
 
 /*
@@ -63,11 +65,12 @@ end
 always @ (*) begin
     if(rst || ReadAddr1 == 5'b0)
         ReadData1 <= 32'b0;
-    else if (ReadReg1)
-        ReadData1 <= regFile[ReadReg1];
     else if (we && ReadReg1 && ReadAddr1 == WriteAddr)
         ReadData1 <= WriteData;
-    else
+    else if (ReadReg1) begin
+        ReadData1 <= regFile[ReadReg1];
+        $display("register: regs[%d] <= %h", ReadAddr1, ReadData1);
+    end else
         ReadData1 <= 32'b0;
 end
 
@@ -75,13 +78,14 @@ end
 * This always part controls the signal ReadData2, control read2.
 */ 
 always @ (*) begin
-    if(rst || ReadAddr1 == 5'b0)
+    if(rst || ReadAddr2 == 5'b0)
         ReadData2 <= 32'b0;
-    else if (ReadReg2)
-        ReadData2 <= regFile[ReadReg2];
     else if (we && ReadReg2 && ReadAddr2 == WriteAddr)
         ReadData2 <= WriteData;
-    else
+    else if (ReadReg2) begin
+        ReadData2 <= regFile[ReadReg2];
+        $display("register: regs[%d] <= %h", ReadAddr2, ReadData2);
+    end else
         ReadData2 <= 32'b0;
 end
     
