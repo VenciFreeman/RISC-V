@@ -176,8 +176,8 @@ always @ (*) begin
             32'bxxxxxxxxxxxxxxxxx010xxxxx0000011: WriteReg = 1'b1;  // lw
             32'bxxxxxxxxxxxxxxxxx010xxxxx0100011: WriteReg = 1'b0;  // sw
             32'bxxxxxxxxxxxxxxxxx000xxxxx0010011: WriteReg = 1'b1;  // addi
-            32'b0000000xxxxxxxxxx000xxxxx0110011: WriteReg = 1'b1; // add
-            32'b0100000xxxxxxxxxx000xxxxx0110011: WriteReg = 1'b1; // sub
+            32'b0000000xxxxxxxxxx000xxxxx0110011: WriteReg = 1'b1;  // add
+            32'b0100000xxxxxxxxxx000xxxxx0110011: WriteReg = 1'b1;  // sub
             32'b0000000xxxxxxxxxx001xxxxx0110011: WriteReg = 1'b1;  // sll
             32'b0000000xxxxxxxxxx100xxxxx0110011: WriteReg = 1'b1;  // xor
             32'b0000000xxxxxxxxxx101xxxxx0110011: WriteReg = 1'b1;  // srl
@@ -199,8 +199,8 @@ always @ (*) begin
             32'bxxxxxxxxxxxxxxxxx010xxxxx0000011: inst_valid = 1'b0;  // lw
             32'bxxxxxxxxxxxxxxxxx010xxxxx0100011: inst_valid = 1'b0;  // sw
             32'bxxxxxxxxxxxxxxxxx000xxxxx0010011: inst_valid = 1'b0;  // addi
-            32'b0000000xxxxxxxxxx000xxxxx0110011: inst_valid = 1'b0; // add
-            32'b0100000xxxxxxxxxx000xxxxx0110011: inst_valid = 1'b0; // sub
+            32'b0000000xxxxxxxxxx000xxxxx0110011: inst_valid = 1'b0;  // add
+            32'b0100000xxxxxxxxxx000xxxxx0110011: inst_valid = 1'b0;  // sub
             32'b0000000xxxxxxxxxx001xxxxx0110011: inst_valid = 1'b0;  // sll
             32'b0000000xxxxxxxxxx100xxxxx0110011: inst_valid = 1'b0;  // xor
             32'b0000000xxxxxxxxxx101xxxxx0110011: inst_valid = 1'b0;  // srl
@@ -222,8 +222,8 @@ always @ (*) begin
             32'bxxxxxxxxxxxxxxxxx010xxxxx0000011: RegRead1 = 1'b1;  // lw
             32'bxxxxxxxxxxxxxxxxx010xxxxx0100011: RegRead1 = 1'b1;  // sw
             32'bxxxxxxxxxxxxxxxxx000xxxxx0010011: RegRead1 = 1'b1;  // addi
-            32'b0000000xxxxxxxxxx000xxxxx0110011: RegRead1 = 1'b1; // add
-            32'b0100000xxxxxxxxxx000xxxxx0110011: RegRead1 = 1'b1; // sub
+            32'b0000000xxxxxxxxxx000xxxxx0110011: RegRead1 = 1'b1;  // add
+            32'b0100000xxxxxxxxxx000xxxxx0110011: RegRead1 = 1'b1;  // sub
             32'b0000000xxxxxxxxxx001xxxxx0110011: RegRead1 = 1'b1;  // sll
             32'b0000000xxxxxxxxxx100xxxxx0110011: RegRead1 = 1'b1;  // xor
             32'b0000000xxxxxxxxxx101xxxxx0110011: RegRead1 = 1'b1;  // srl
@@ -245,8 +245,8 @@ always @ (*) begin
             32'bxxxxxxxxxxxxxxxxx010xxxxx0000011: RegRead2 = 1'b0;  // lw
             32'bxxxxxxxxxxxxxxxxx010xxxxx0100011: RegRead2 = 1'b1;  // sw
             32'bxxxxxxxxxxxxxxxxx000xxxxx0010011: RegRead2 = 1'b0;  // addi
-            32'b0000000xxxxxxxxxx000xxxxx0110011: RegRead2 = 1'b1; // add
-            32'b0100000xxxxxxxxxx000xxxxx0110011: RegRead2 = 1'b1; // sub
+            32'b0000000xxxxxxxxxx000xxxxx0110011: RegRead2 = 1'b1;  // add
+            32'b0100000xxxxxxxxxx000xxxxx0110011: RegRead2 = 1'b1;  // sub
             32'b0000000xxxxxxxxxx001xxxxx0110011: RegRead2 = 1'b1;  // sll
             32'b0000000xxxxxxxxxx100xxxxx0110011: RegRead2 = 1'b1;  // xor
             32'b0000000xxxxxxxxxx101xxxxx0110011: RegRead2 = 1'b1;  // srl
