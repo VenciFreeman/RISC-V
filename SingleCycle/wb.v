@@ -31,23 +31,23 @@ module WB (
 
 always @ (*) begin
     if (rst)
-        wb_wd = 5'b0;
+        wb_wd <= 5'b0;
     else
-        wb_wd = mem_wd;
+        wb_wd <= mem_wd;
 end
 
 always @ (*) begin
     if (rst)
-        wb_wreg = 1'b0;
+        wb_wreg <= 1'b0;
     else
-        wb_wreg = mem_wreg;
+        wb_wreg <= mem_wreg;
 end
 
 always @ (*) begin
     if (rst)
-        wb_wdata = 32'b0;
+        wb_wdata <= 32'b0;
     else
-        wb_wdata = mem_wdata;
+        wb_wdata <= mem_wdata;
 end
 
 endmodule

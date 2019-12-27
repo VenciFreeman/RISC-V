@@ -55,15 +55,15 @@ module EX(
     wire[31:0] Oprend2_mux;
     wire[31:0] Result_sum;
 
-    assign Oprend2_mux = (ALUop_i == 5'b01110) ? (~(Oprend2) + 1) : Oprend2;
+    assign Oprend2_mux = (ALUop_i == 5'b01110) ? (~(Oprend2) + 1) : Oprend2;  // For sub, calculate 2's complement.
     assign Result_sum = Oprend1 + Oprend2_mux;
 
 always @ (*) begin
-    WriteDataNum_o = WriteDataNum_i;
+    WriteDataNum_o <= WriteDataNum_i;
 end
 
 always @ (*) begin
-    WriteReg_o = WriteReg_i;
+    WriteReg_o <= WriteReg_i;
 end
 
 /*
@@ -74,10 +74,10 @@ always @ (*) begin
 		Logic <= 32'b0;
 	else begin
 		case (ALUop_i)
-			5'b00100: Logic = Oprend1 & Oprend2;  // AND
-			5'b00101: Logic = Oprend1 | Oprend2;  // OR
-			5'b00110: Logic = Oprend1 ^ Oprend2;  // XOR
-			default:  Logic = 32'b0;
+			5'b00100: Logic <= Oprend1 & Oprend2;  // AND
+			5'b00101: Logic <= Oprend1 | Oprend2;  // OR
+			5'b00110: Logic <= Oprend1 ^ Oprend2;  // XOR
+			default:  Logic <= 32'b0;
 		endcase
 	end
 end
@@ -90,8 +90,8 @@ always @ (*) begin
 		Shift <= 32'b0;
 	else begin
 		case (ALUop_i)
-			5'b01000: Shift = Oprend1 << Oprend2[4:0];  // sll
-			5'b01001: Shift = Oprend1 >> Oprend2[4:0];  // srl
+			5'b01000: Shift <= Oprend1 << Oprend2[4:0];  // sll
+			5'b01001: Shift <= Oprend1 >> Oprend2[4:0];  // srl
 		endcase
 	end
 end
@@ -101,12 +101,12 @@ end
  */    
 always @ (*) begin
 	if (rst)
-		Arithme = 32'b0;
+		Arithme <= 32'b0;
 	else begin
 		casex (ALUop_i)
-			5'b0x100: Arithme = Result_sum;
-			5'b01110: Arithme = Result_sum;
-			default:  Arithme = 32'b0;
+			5'b0110x: Arithme <= Result_sum;	 // add, addi
+			5'b01110: Arithme <= Result_sum;  // sub
+			default:  Arithme <= 32'b0;
 		endcase
 	end
 end
@@ -116,11 +116,11 @@ end
  */    
 always @ (*) begin
 	case (ALUsel_i)
-		3'b001: WriteData_o = Logic;
-		3'b010: WriteData_o = Shift;
-		3'b011: WriteData_o = Arithme;
-		3'b100: WriteData_o = LinkAddr;
-		default:WriteData_o = 32'b0;
+		3'b001: WriteData_o <= Logic;
+		3'b010: WriteData_o <= Shift;
+		3'b011: WriteData_o <= Arithme;
+		3'b100: WriteData_o <= LinkAddr;
+		default:WriteData_o <= 32'b0;
 	endcase
 end
  

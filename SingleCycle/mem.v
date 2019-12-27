@@ -55,9 +55,9 @@ end
  */ 
 always @ (*) begin
     if (rst)
-        WriteDataAddr_o = 5'b0;
+        WriteDataAddr_o <= 5'b0;
     else
-        WriteDataAddr_o = WriteDataAddr_i;
+        WriteDataAddr_o <= WriteDataAddr_i;
 end
 
 /*
@@ -65,9 +65,9 @@ end
  */ 
 always @ (*) begin
     if (rst)
-        WriteReg_o = 1'b0;
+        WriteReg_o <= 1'b0;
     else
-        WriteReg_o = WriteReg_i;
+        WriteReg_o <= WriteReg_i;
 end
 
 /*
@@ -75,9 +75,9 @@ end
  */ 
 always @ (*) begin
     if (rst)
-        MemData_o = 32'b0;
+        MemData_o <= 32'b0;
     else if (ALUop_i == 5'b10101)  // sw
-        MemData_o = Reg_i;
+        MemData_o <= Reg_i;
 end
 
 /*
@@ -85,11 +85,11 @@ end
  */ 
 always @ (*) begin
     if (rst)
-        WriteData_o = 32'b0;
+        WriteData_o <= 32'b0;
     else begin
-        WriteData_o = WriteData_i;
+        WriteData_o <= WriteData_i;
         if (ALUop_i == 5'b10100)  // lw
-            WriteData_o = MemData_i;
+            WriteData_o <= MemData_i;
     end
 end
 
@@ -98,12 +98,12 @@ end
  */ 
 always @ (*) begin
     if (rst)
-        MemAddr_o = 32'b0;
+        MemAddr_o <= 32'b0;
     else begin
         if (ALUop_i == 5'b1010x)  // lw or sw
-            MemAddr_o = MemAddr_i;
+            MemAddr_o <= MemAddr_i;
         else
-            MemAddr_o = 32'b0;
+            MemAddr_o <= 32'b0;
     end
 end
 
@@ -112,12 +112,12 @@ end
  */ 
 always @ (*) begin
     if (rst)
-        MemCE_o = 1'b0;
+        MemCE_o <= 1'b0;
     else begin
         if (ALUop_i == 5'b1010x)  // lw or sw
-            MemCE_o = 1'b1;
+            MemCE_o <= 1'b1;
         else
-            MemCE_o = 1'b0;
+            MemCE_o <= 1'b0;
     end
 end
 
@@ -126,14 +126,14 @@ end
  */ 
 always @ (*) begin
     if (rst)
-        mem_we = 1'b0;
+        mem_we <= 1'b0;
     else begin
         if (ALUop_i == 5'b10100)  // lw
-            mem_we = 1'b0;
+            mem_we <= 1'b0;
         else if (ALUop_i == 5'b10101)  // sw
-            mem_we = 1'b1;
+            mem_we <= 1'b1;
         else
-            mem_we = 1'b0;
+            mem_we <= 1'b0;
     end
 end
 
