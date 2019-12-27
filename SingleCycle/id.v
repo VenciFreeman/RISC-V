@@ -114,7 +114,7 @@ end
 
 always @ (*) begin
     if (rst)
-        ALUsel <= 3'b000;
+        ALUsel <= 3'b0;
     else begin
         casex (inst_i)
             32'bxxxxxxxxxxxxxxxxxxxxxxxxx1101111: ALUsel <= 3'b100;  // jal
@@ -130,7 +130,7 @@ always @ (*) begin
             32'b0000000xxxxxxxxxx101xxxxx0110011: ALUsel <= 3'b010;  // srl
             32'b0000000xxxxxxxxxx110xxxxx0110011: ALUsel <= 3'b001;  // or
             32'b0000000xxxxxxxxxx111xxxxx0110011: ALUsel <= 3'b001;  // and
-            default: ALUsel <= 3'b000;
+            default: ALUsel <= 3'b0;
         endcase
     end
 end

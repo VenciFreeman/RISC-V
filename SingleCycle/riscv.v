@@ -55,7 +55,7 @@ module riscv(
 	wire [31:0] id_inst;
 
 	wire [1:0]	reg1_read;
-	wire [1:0] reg2_read;
+	wire [1:0]  reg2_read;
 	wire [31:0] reg1_data;
 	wire [31:0] reg2_data;
 	wire [4:0] 	reg1_addr;

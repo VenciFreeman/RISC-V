@@ -44,10 +44,10 @@ module MEM (
     assign MemWE_o = mem_we;
 
 
-always @ (*) begin
-    if (ALUop_i != 5'b1010x)
-        $display("mem : data = %h addr = %d", WriteData_i, WriteDataAddr_i);
-end
+//always @ (*) begin
+//    if (!rst && ALUop_i != 5'b1010x)
+//        $display("mem[%d] = %h", WriteDataAddr_i, WriteData_i);
+//end
 
 
 /*

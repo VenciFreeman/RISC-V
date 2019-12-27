@@ -52,12 +52,6 @@ module EX(
     reg[31:0] Shift;
     reg[31:0] Arithme;
 
-    wire[31:0] Oprend2_mux;
-    wire[31:0] Result_sum;
-
-    assign Oprend2_mux = (ALUop_i == 5'b01110) ? (~(Oprend2) + 1) : Oprend2;  // For sub, calculate 2's complement.
-    assign Result_sum = Oprend1 + Oprend2_mux;
-
 always @ (*) begin
     WriteDataNum_o <= WriteDataNum_i;
 end
@@ -104,8 +98,8 @@ always @ (*) begin
 		Arithme <= 32'b0;
 	else begin
 		casex (ALUop_i)
-			5'b0110x: Arithme <= Result_sum;	 // add, addi
-			5'b01110: Arithme <= Result_sum;  // sub
+			5'b0110x: Arithme <= Oprend1 + Oprend2;	 // add, addi
+			5'b01110: Arithme <= Oprend1 + (~(Oprend2) + 1);  // sub
 			default:  Arithme <= 32'b0;
 		endcase
 	end

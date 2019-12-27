@@ -29,6 +29,10 @@ module WB (
 
 );
 
+//always @ (*) begin
+//    $display("wb: mem[%d] = %h", mem_wd, mem_wdata);
+//end
+
 always @ (*) begin
     if (rst)
         wb_wd <= 5'b0;
