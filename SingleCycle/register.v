@@ -55,7 +55,7 @@ always @ (*) begin
             regFile[n] <= 0;
     else if(we && WriteAddr != 5'b0) begin
         regFile[WriteAddr] <= WriteData;
-//        $display("register: regs[%d] <= %h", WriteAddr, WriteData);
+        $display("register: regs[%d] <= %h", WriteAddr, WriteData);
     end
 end
 
@@ -69,7 +69,7 @@ always @ (*) begin
         ReadData1 <= WriteData;
     else if (ReadReg1) begin
         ReadData1 <= regFile[ReadReg1];
-//        $display("register: regs[%d] <= %h", ReadAddr1, ReadData1);
+        $display("register: regs[%d] <= %h", ReadAddr1, ReadData1);
     end else
         ReadData1 <= 32'b0;
 end
@@ -84,7 +84,7 @@ always @ (*) begin
         ReadData2 <= WriteData;
     else if (ReadReg2) begin
         ReadData2 <= regFile[ReadReg2];
-//        $display("register: regs[%d] <= %h", ReadAddr2, ReadData2);
+        $display("register: regs[%d] <= %h", ReadAddr2, ReadData2);
     end else
         ReadData2 <= 32'b0;
 end

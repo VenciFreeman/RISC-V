@@ -1,4 +1,8 @@
 `timescale 1ps/1ps
+`include "C:/Users/Venci/Documents/GitHub/RISC-V_CPU/SingleCycle/riscv.v"
+`include "C:/Users/Venci/Documents/GitHub/RISC-V_CPU/SingleCycle/inst_mem.v"
+`include "C:/Users/Venci/Documents/GitHub/RISC-V_CPU/SingleCycle/data_mem.v"
+
 
 module riscv_soc_tb();
 
