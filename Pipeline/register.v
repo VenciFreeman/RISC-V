@@ -19,7 +19,7 @@
  *   write can be directly output as read data to achieve data forwarding.
  *
  * History:
- * - 19/12/27: Create this pipeline files.
+ * - 19/12/27: Create this pipeline file.
  *
  * Notes:
  *

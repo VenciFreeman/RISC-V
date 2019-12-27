@@ -19,7 +19,7 @@
  *   values as one of the source operands.
 
  * History:
- * - 19/12/27: Create this pipeline files.
+ * - 19/12/27: Create this pipeline file.
 
  * Notes:
  *
