@@ -22,10 +22,10 @@
  * - 19/12/19: Edit the RISC-V instructions;
  * - 19/12/23: Add control module;
  * - 19/12/24: Change the structure;
- * - 19/12/27: Edit the logic.
+ * - 19/12/27: Edit the logic;
+ * - 19/12/28: Finished!
 
  * Notes:
- *
  ***************************************************************************************
  * Inst * ALUSrc * MemToReg * RegWrite * MemRead * MemWrite * Branch * ALUOp1 * ALUOp0 *
  ***************************************************************************************
@@ -37,7 +37,6 @@
  ***************************************************************************************
  * beq  *    0   *     x    *     0    *    0    *     0    *    1   *    0   *    1   *
  ***************************************************************************************
- *
  */
 
 module ID(
@@ -48,8 +47,8 @@ module ID(
     input   wire[31:0]  RegData1,
     input   wire[31:0]  RegData2,
     
-    output  reg [1:0]   RegRead1,
-    output  reg [1:0]   RegRead2,
+    output  reg         RegRead1,     // if read register or not
+    output  reg         RegRead2,     // if read register or not
     output  reg [4:0]   RegAddr1,
     output  reg [4:0]   RegAddr2,
 
@@ -57,37 +56,39 @@ module ID(
     output  reg [31:0]  Reg1,
     output  reg [31:0]  Reg2,
     output  reg [4:0]   WriteData,
-    output  reg         WriteReg,
+    output  reg         WriteReg,     // if write register or not
 
-    output  reg         Branch,
-    output  reg [31:0]  BranchAddr,
-    output  reg [31:0]  LinkAddr,
+    output  reg         Branch,       // if branch or not
+    output  reg [31:0]  BranchAddr,   // branch address
+    output  reg [31:0]  LinkAddr,     // link address for jal
     output  wire[31:0]  inst_o
 
 );
 
-    assign inst_o = inst_i;
+    reg inst_valid;
+    reg [31:0] imm;
 
-    wire[4:0] rs1_addr = inst_i[19:15];
-    wire[4:0] rs2_addr = inst_i[24:20];
-    wire[4:0] rd_addr = inst_i[11:7];
     wire[31:0] pc_add_4;
     wire[31:0] pc_add_imm_B;
     wire[31:0] pc_add_imm_J;
+    wire[4:0] rs1_addr = inst_i[19:15];
+    wire[4:0] rs2_addr = inst_i[24:20];
+    wire[4:0] rd_addr = inst_i[11:7];
+
 
     wire[31:0] imm_I = {{21{inst_i[31:31]}}, inst_i[30:20]};
     wire[31:0] imm_S = {{21{inst_i[31:31]}}, inst_i[30:25], inst_i[11:7]};
     wire[31:0] imm_B = {{20{inst_i[31:31]}}, inst_i[ 7: 7], inst_i[30:25], inst_i[11:8], 1'b0};
     wire[31:0] imm_J = {{12{inst_i[31:31]}}, inst_i[19:12], inst_i[20:20], inst_i[30:25], inst_i[24:21], 1'b0};
 
-    reg [31:0] imm;
-    reg inst_valid;
-
+    assign inst_o = inst_i;
     assign pc_add_4 = pc_i + 4;
     assign pc_add_imm_B = pc_i + imm_B;
     assign pc_add_imm_J = pc_i + imm_J;
 
-
+/*
+ * This always part controls ALUop, it helps EX module excute the different instructions.
+ */
 always @ (*) begin
     if (rst)
         ALUop <= 5'b0;
@@ -110,30 +111,10 @@ always @ (*) begin
         endcase
     end
 end
+
 /*
-always @ (*) begin
-    if (rst)
-        ALUsel <= 3'b0;
-    else begin
-        casex (inst_i)
-            32'bxxxxxxxxxxxxxxxxxxxxxxxxx1101111: ALUsel <= 3'b100;  // jal
-            32'bxxxxxxxxxxxxxxxxx000xxxxx1100011: ALUsel <= 3'b100;  // beq
-            32'bxxxxxxxxxxxxxxxxx100xxxxx1100011: ALUsel <= 3'b100;  // blt
-            32'bxxxxxxxxxxxxxxxxx010xxxxx0000011: ALUsel <= 3'b101;  // lw
-            32'bxxxxxxxxxxxxxxxxx010xxxxx0100011: ALUsel <= 3'b101;  // sw
-            32'bxxxxxxxxxxxxxxxxx000xxxxx0010011: ALUsel <= 3'b011;  // addi
-            32'b0000000xxxxxxxxxx000xxxxx0110011: ALUsel <= 3'b011;  // add
-            32'b0100000xxxxxxxxxx000xxxxx0110011: ALUsel <= 3'b011;  // sub
-            32'b0000000xxxxxxxxxx001xxxxx0110011: ALUsel <= 3'b010;  // sll
-            32'b0000000xxxxxxxxxx100xxxxx0110011: ALUsel <= 3'b001;  // xor
-            32'b0000000xxxxxxxxxx101xxxxx0110011: ALUsel <= 3'b010;  // srl
-            32'b0000000xxxxxxxxxx110xxxxx0110011: ALUsel <= 3'b001;  // or
-            32'b0000000xxxxxxxxxx111xxxxx0110011: ALUsel <= 3'b001;  // and
-            default: ALUsel <= 3'b0;
-        endcase
-    end
-end
-*/
+ * This always part controls the signal WriteReg.
+ */
 always @ (*) begin
     if (rst)
         WriteReg <= 1'b0;
@@ -145,8 +126,8 @@ always @ (*) begin
             32'bxxxxxxxxxxxxxxxxx010xxxxx0000011: WriteReg <= 1'b1;  // lw
             32'bxxxxxxxxxxxxxxxxx010xxxxx0100011: WriteReg <= 1'b0;  // sw
             32'bxxxxxxxxxxxxxxxxx000xxxxx0010011: WriteReg <= 1'b1;  // addi
-            32'b0000000xxxxxxxxxx000xxxxx0110011: WriteReg <= 1'b1; // add
-            32'b0100000xxxxxxxxxx000xxxxx0110011: WriteReg <= 1'b1; // sub
+            32'b0000000xxxxxxxxxx000xxxxx0110011: WriteReg <= 1'b1;  // add
+            32'b0100000xxxxxxxxxx000xxxxx0110011: WriteReg <= 1'b1;  // sub
             32'b0000000xxxxxxxxxx001xxxxx0110011: WriteReg <= 1'b1;  // sll
             32'b0000000xxxxxxxxxx100xxxxx0110011: WriteReg <= 1'b1;  // xor
             32'b0000000xxxxxxxxxx101xxxxx0110011: WriteReg <= 1'b1;  // srl
@@ -157,6 +138,9 @@ always @ (*) begin
     end
 end
 
+/*
+ * This always part controls the signal inst_valid, it checks the instructions legal or not.
+ */
 always @ (*) begin
     if (rst)
         inst_valid <= 1'b0;
@@ -168,8 +152,8 @@ always @ (*) begin
             32'bxxxxxxxxxxxxxxxxx010xxxxx0000011: inst_valid <= 1'b0;  // lw
             32'bxxxxxxxxxxxxxxxxx010xxxxx0100011: inst_valid <= 1'b0;  // sw
             32'bxxxxxxxxxxxxxxxxx000xxxxx0010011: inst_valid <= 1'b0;  // addi
-            32'b0000000xxxxxxxxxx000xxxxx0110011: inst_valid <= 1'b0; // add
-            32'b0100000xxxxxxxxxx000xxxxx0110011: inst_valid <= 1'b0; // sub
+            32'b0000000xxxxxxxxxx000xxxxx0110011: inst_valid <= 1'b0;  // add
+            32'b0100000xxxxxxxxxx000xxxxx0110011: inst_valid <= 1'b0;  // sub
             32'b0000000xxxxxxxxxx001xxxxx0110011: inst_valid <= 1'b0;  // sll
             32'b0000000xxxxxxxxxx100xxxxx0110011: inst_valid <= 1'b0;  // xor
             32'b0000000xxxxxxxxxx101xxxxx0110011: inst_valid <= 1'b0;  // srl
@@ -180,6 +164,9 @@ always @ (*) begin
     end
 end
 
+/*
+ * This always part controls the signal RegRead1, it decides if this instruction needs rs1 or not.
+ */
 always @ (*) begin
     if (rst)
         RegRead1 <= 1'b0;
@@ -191,8 +178,8 @@ always @ (*) begin
             32'bxxxxxxxxxxxxxxxxx010xxxxx0000011: RegRead1 <= 1'b1;  // lw
             32'bxxxxxxxxxxxxxxxxx010xxxxx0100011: RegRead1 <= 1'b1;  // sw
             32'bxxxxxxxxxxxxxxxxx000xxxxx0010011: RegRead1 <= 1'b1;  // addi
-            32'b0000000xxxxxxxxxx000xxxxx0110011: RegRead1 <= 1'b1; // add
-            32'b0100000xxxxxxxxxx000xxxxx0110011: RegRead1 <= 1'b1; // sub
+            32'b0000000xxxxxxxxxx000xxxxx0110011: RegRead1 <= 1'b1;  // add
+            32'b0100000xxxxxxxxxx000xxxxx0110011: RegRead1 <= 1'b1;  // sub
             32'b0000000xxxxxxxxxx001xxxxx0110011: RegRead1 <= 1'b1;  // sll
             32'b0000000xxxxxxxxxx100xxxxx0110011: RegRead1 <= 1'b1;  // xor
             32'b0000000xxxxxxxxxx101xxxxx0110011: RegRead1 <= 1'b1;  // srl
@@ -203,6 +190,9 @@ always @ (*) begin
     end
 end
 
+/*
+ * This always part controls the signal RegRead2, it decides if this instruction needs rs2 or not.
+ */
 always @ (*) begin
     if (rst)
         RegRead2 <= 1'b0;
@@ -214,8 +204,8 @@ always @ (*) begin
             32'bxxxxxxxxxxxxxxxxx010xxxxx0000011: RegRead2 <= 1'b0;  // lw
             32'bxxxxxxxxxxxxxxxxx010xxxxx0100011: RegRead2 <= 1'b1;  // sw
             32'bxxxxxxxxxxxxxxxxx000xxxxx0010011: RegRead2 <= 1'b0;  // addi
-            32'b0000000xxxxxxxxxx000xxxxx0110011: RegRead2 <= 1'b1; // add
-            32'b0100000xxxxxxxxxx000xxxxx0110011: RegRead2 <= 1'b1; // sub
+            32'b0000000xxxxxxxxxx000xxxxx0110011: RegRead2 <= 1'b1;  // add
+            32'b0100000xxxxxxxxxx000xxxxx0110011: RegRead2 <= 1'b1;  // sub
             32'b0000000xxxxxxxxxx001xxxxx0110011: RegRead2 <= 1'b1;  // sll
             32'b0000000xxxxxxxxxx100xxxxx0110011: RegRead2 <= 1'b1;  // xor
             32'b0000000xxxxxxxxxx101xxxxx0110011: RegRead2 <= 1'b1;  // srl
@@ -226,6 +216,9 @@ always @ (*) begin
     end
 end
 
+/*
+ * This always part controls the signal imm, it gets the right format immediate number for I-type instuctions.
+ */
 always @ (*) begin
     if (rst)
         imm <= 32'b0;
@@ -235,6 +228,9 @@ always @ (*) begin
         imm <= 32'b0;
 end
 
+/*
+ * This always part controls the signal LinkAddr, it gets the right address.
+ */
 always @ (*) begin
     if (rst)
         LinkAddr <= 32'b0;
@@ -244,26 +240,35 @@ always @ (*) begin
         LinkAddr <= 32'b0;
 end
 
+/*
+ * This always part controls the signal BranchAddr, it gets the right address.
+ */
 always @ (*) begin
     if (rst)
         BranchAddr <= 32'b0;
     else if (inst_i[6:0] == 7'b1101111)  // jal
         BranchAddr <= pc_add_imm_J;
-    else if (inst_i[6:0] == 7'b1100011 && inst_i[13:12] == 2'b00)  // beq, blt
+    else if (inst_i[6:0] == 7'b1100011 && inst_i[13:12] == 2'b0)  // beq, blt
         BranchAddr <= pc_add_imm_B;
     else
         BranchAddr <= 32'b0;
 end
 
+/*
+ * This always part controls the signal Branch, it decides if this instruction needs branch of not.
+ */
 always @ (*) begin
     if (rst)
         Branch <= 1'b0;
-    else if (inst_i[6:0] == 7'b1101111 || (inst_i[6:0] == 7'b1100011 && inst_i[13:12] == 2'b00))  // jal, beq, blt
+    else if (inst_i[6:0] == 7'b1101111 || (inst_i[6:0] == 7'b1100011 && inst_i[13:12] == 2'b0))  // jal, beq, blt
         Branch <= 1'b1;
     else
         Branch <= 1'b0;
 end
 
+/*
+ * This always part controls the signal WriteData, it decides if this instruction needs to write data of not.
+ */
 always @ (*) begin
     if (rst)
         WriteData <= 5'b0;
@@ -271,6 +276,9 @@ always @ (*) begin
         WriteData <= rd_addr;
 end
 
+/*
+ * This always part controls the signal ReadAddr1, it gets the right rs1 number.
+ */
 always @ (*) begin
     if (rst)
         RegAddr1 <= 5'b0;
@@ -278,6 +286,9 @@ always @ (*) begin
         RegAddr1 <= rs1_addr;
 end
 
+/*
+ * This always part controls the signal ReadAddr2, it gets the right rs2 number.
+ */
 always @ (*) begin
     if (rst)
         RegAddr2 <= 5'b0;
@@ -285,6 +296,10 @@ always @ (*) begin
         RegAddr2 <= rs2_addr;
 end
 
+
+/*
+ * This always part controls the signal Reg1, it gets the right rs1 data.
+ */
 always @ (*) begin
     if (rst)
         Reg1 <= 32'b0;
@@ -296,6 +311,9 @@ always @ (*) begin
         Reg1 <= 32'b0;
 end
 
+/*
+ * This always part controls the signal Reg2, it gets the right rs2 data.
+ */
 always @ (*) begin
     if (rst)
         Reg2 <=  32'b0;
