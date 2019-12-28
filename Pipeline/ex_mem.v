@@ -4,6 +4,7 @@
  * School: Shanghai Jiao Tong University.
 
  * Description:
+ * Sequential circult between EX and MEM.
 
  * Details:
  * - Sequential logic: Pass the calculated result data in ex.v, target register
@@ -12,7 +13,9 @@
  *   (Bubble).
 
  * History:
- * - 19/12/27: Create this file.
+ * - 19/12/27: Create this file;
+ * - 19/12/28: Fix some errors;
+ * - 19/12/29: Finished!
 
  * Notes:
  */
@@ -23,7 +26,7 @@
 	input   wire        rst,
 	input   wire[5:0]	stall,	
 	input   wire[4:0]   exWriteNum,  
-	input   wire        exwreg,
+	input   wire        exWriteReg,
 	input   wire[31:0]	exWriteData, 
 	input   wire[4:0]   exALUop,
 	input   wire[31:0]  exAddr,
@@ -37,6 +40,9 @@
 
 );
 
+/*
+ * This always part controls the signal memWriteNum.
+ */
 always @ (posedge clk) begin
     if (rst)
         memWriteNum <= 5'b0;
@@ -46,15 +52,21 @@ always @ (posedge clk) begin
         memWriteNum <= exWriteNum;
 end
 
+/*
+ * This always part controls the signal memWriteReg.
+ */
 always @ (posedge clk) begin
     if (rst)
         memWriteReg <= 1'b0;
     else if (stall[4:3] == 2'b01)
         memWriteReg <= 1'b0;
     else if (!stall[3])
-        memWriteReg <= exwreg;
+        memWriteReg <= exWriteReg;
 end
 
+/*
+ * This always part controls the signal memWriteData.
+ */
 always @ (posedge clk) begin
     if (rst)
         memWriteData <= 32'b0;
@@ -64,6 +76,9 @@ always @ (posedge clk) begin
         memWriteData <= exWriteData;
 end
 
+/*
+ * This always part controls the signal memALUop.
+ */
 always @ (posedge clk) begin
     if (rst)
         memALUop <= 5'b0;
@@ -73,6 +88,9 @@ always @ (posedge clk) begin
         memALUop <= exALUop;
 end
 
+/*
+ * This always part controls the signal memAddr.
+ */
 always @ (posedge clk) begin
     if (rst)
         memAddr <= 32'b0;
@@ -82,6 +100,9 @@ always @ (posedge clk) begin
         memAddr <= exAddr;
 end
 
+/*
+ * This always part controls the signal memReg.
+ */
 always @ (posedge clk) begin
     if (rst)
         memReg <= 32'b0;
