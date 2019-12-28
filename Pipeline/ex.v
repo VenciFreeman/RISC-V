@@ -35,28 +35,14 @@ module EX(
 	output	reg [4:0]	WriteDataNum_o,
 	output	reg [31:0]	WriteData_o,
     output  wire[31:0]  MemAddr_o,
-    output  wire[31:0]  Result,
+    output  wire[31:0]  Result
 
-	output 	wire        branch_flag_o,
-    output 	reg [31:0]  NewPC,
-    output 	wire        StallReq
     );
-    
-    wire  jump;
-    wire  branch;
-    reg   cmp_flag;
-	
+ 
     assign ALUop_o   = ALUop_i;
     assign Result    = Oprend2;
-	assign MemAddr_o = Oprend1 + ((inst_i[6:0] == 7'b0000011)
-					 ? {{20{inst_i[31:31]}}, inst_i[31:20]}
-					 : {{20{inst_i[31:31]}}, inst_i[31:25], inst_i[11:7]});
+	assign MemAddr_o = Oprend1 + ((inst_i[6:0] == 7'b0000011) ? {{20{inst_i[31:31]}}, inst_i[31:20]} : {{20{inst_i[31:31]}}, inst_i[31:25], inst_i[11:7]});
 
-	assign branch = ((ALUop_i == 5'b10001) || (ALUop_i == 5'b10010)) ? 1'b1 : 1'b0;
- 	assign jump = (((branch == 1'b1) && (cmp_flag == 1'b1)) || ALUop_i == 5'b10000) ? 1'b1 : 1'b0;
-	assign branch_flag_o = ((jump == 1'b1) && (NewPC != pc_i + 4)) ? 1'b1 : 1'b0;
-	assign StallReq = 1'b0;
-	
 /*
  * This always part controls the WriteDatamNum_o.
  */    
@@ -69,31 +55,6 @@ end
  */    
 always @ (*) begin
     WriteReg_o <= WriteReg_i;
-end
-
-always @ (*) begin
-	if (rst)
-		cmp_flag <= 1'b0;
-	else begin
-		case (ALUop_i)
-        	5'b10001: cmp_flag <= (Oprend1 == Oprend2) ? 1'b1 : 1'b0; // beq
-        	5'b10010: cmp_flag <= (Oprend1 < Oprend2)  ? 1'b1 : 1'b0; // blt
-			default:  cmp_flag <= 32'b0;
-		endcase
-	end
-end
-
-always @ (*) begin
-	if (rst)
-		NewPC <= 32'b0;
-	else begin
-		case (ALUop_i)
-		    5'b10000: NewPC <= LinkAddr; // jal
-        	5'b10001: NewPC <= LinkAddr; // beq
-        	5'b10010: NewPC <= LinkAddr; // blt
-			default:  NewPC <= 32'b0;
-		endcase
-	end
 end
 
 /*
@@ -121,5 +82,5 @@ always @ (*) begin
 		endcase
 	end
 end
- 
+
 endmodule
