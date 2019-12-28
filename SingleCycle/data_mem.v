@@ -1,12 +1,21 @@
+/*
+ * Ask me anything: via repo/issue, or e-mail: vencifreeman16@sjtu.edu.cn.
+ * Author: @VenciFreeman (GitHub), copyright 2019.
+ * School: Shanghai Jiao Tong University.
+
+ ****************** Original test module. Do not Modify! ******************
+
+ */
+
 module data_mem(
 
-	input wire			clk,
-	input wire			ce,
-	input wire			we,
-	input wire [31:0]	addr,
-	input wire [31:0]	data_i,
-	output reg [31:0]	data_o,
-	output wire[31:0]	verify
+	input	wire		clk,
+	input	wire		ce,		// Chip select signal, when it's high, enable data_mem.
+	input	wire		we,		// When it's high, write data_mem. Otherwise read data_mem.
+	input	wire[31:0]	addr,
+	input	wire[31:0]	data_i,	// Data waiting for writing into data_mem
+	output	reg [31:0]	data_o,	// Data reading from data_mem
+	output 	wire[31:0]	verify	// test example.
 	
 );
 

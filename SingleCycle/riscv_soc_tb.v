@@ -1,8 +1,16 @@
-`timescale 1ps/1ps
-`include "C:/Users/Venci/Documents/GitHub/RISC-V_CPU/SingleCycle/riscv.v"
-`include "C:/Users/Venci/Documents/GitHub/RISC-V_CPU/SingleCycle/inst_mem.v"
-`include "C:/Users/Venci/Documents/GitHub/RISC-V_CPU/SingleCycle/data_mem.v"
+/*
+ * Ask me anything: via repo/issue, or e-mail: vencifreeman16@sjtu.edu.cn.
+ * Author: @VenciFreeman (GitHub), copyright 2019.
+ * School: Shanghai Jiao Tong University.
 
+ ****************** Original test module. Do not Modify! ******************
+
+ */
+
+`timescale 1ps/1ps
+`include "riscv.v"
+`include "inst_mem.v"
+`include "data_mem.v"
 
 module riscv_soc_tb();
 
@@ -11,8 +19,8 @@ module riscv_soc_tb();
   
        
   initial begin
-    clk = 1'b0;
-    forever #50 clk = ~clk;
+	clk = 1'b0;
+	forever #50 clk = ~clk;
   end
       
   initial begin
