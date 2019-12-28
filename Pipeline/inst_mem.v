@@ -20,7 +20,7 @@ module inst_mem(
 	initial $readmemb ("./TestCode/machinecode.txt", inst_memory);	// read test assembly code file
 
 always @ (*) begin
-	if (!ce)
+	if (!ce) 
 		inst <= 32'b0;
 	else
 		inst <= inst_memory[addr[31:2]];

@@ -37,7 +37,7 @@ always @ (*) begin
 	if (!ce)
 		data_o <= 32'b0;
 	else if(we == 1'b0) begin
-		data_o <= {
+		data_o <= { 
 					data[addr + 3],
 					data[addr + 2],
 					data[addr + 1],
