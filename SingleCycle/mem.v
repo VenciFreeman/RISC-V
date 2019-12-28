@@ -14,7 +14,8 @@
  * History:
  * - 19/12/05: Create this file;
  * - 19/12/23: Add module;
- * - 19/12/26: Update module. (I think it's finished).
+ * - 19/12/26: Update module;
+ * - 19/12/28: Finished!
 
  * Notes:
  *
@@ -42,13 +43,6 @@ module MEM (
 
     reg mem_we;
     assign MemWE_o = mem_we;
-
-
-//always @ (*) begin
-//    if (!rst && ALUop_i != 5'b1010x)
-//        $display("mem[%d] = %h", WriteDataAddr_i, WriteData_i);
-//end
-
 
 /*
  * This always part controls the signal WriteDataAddr_o.
