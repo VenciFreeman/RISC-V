@@ -17,15 +17,17 @@
  
  */
 
-`include "ex.v"
-`include "ex_mem.v"
+`include "if.v"
+`include "if_id.v"
 `include "id.v"
 `include "id_ex.v"
-`include "if.v"
+`include "ex.v"
+`include "ex_mem.v"
 `include "mem.v"
 `include "mem_wb.v"
-`include "register.v"
 `include "wb.v"
+`include "register.v"
+`include "bp.v"
 `include "stall.v"
 
 module riscv(
