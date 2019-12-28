@@ -8,7 +8,7 @@
  * through inst_mem.v. For 5 stage stall, it need to keep PC.
 
  * Details:
- * - PC + 4 per cycle;]
+ * - PC + 4 per cycle;
  * - PC value send to inst_mem as the address of instruction, then send the
  *   instruction to decode module;
  * - If current instruction is beq, blt or jal, update PC immediately.
@@ -16,19 +16,19 @@
  * History:
  * - 19/12/05: Create this file, add PC module;
  * - 19/12/23: Add UpdatePC module;
- * - 19/12/26: Edit module and change input/output.(I think it's finished.)
+ * - 19/12/26: Edit module and change input/output;
+ * - 19/12/18: Finished!
 
  * Notes:
  * - Take care that the module name can't be "if". Maybe it's a keep word.
- * - Should I use 32-bit adders? Maybe it's good for Vivado synthesizing.
  */
 
 module PC(
 
 	input	wire 		clk,
 	input	wire		rst,
-	input 	wire		Branch,
-	input 	wire[31:0] 	Addr,
+	input 	wire		Branch,  // if branch or not
+	input 	wire[31:0] 	Addr,	 // target address
 	output 	reg 	 	ce,
 	output	reg [31:0] 	PC
 
