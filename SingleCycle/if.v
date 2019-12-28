@@ -4,7 +4,7 @@
  * School: Shanghai Jiao Tong University.
 
  * Description:
- * This file controls signal PC, it need to send PC+4 and instruction to id.v
+ * This file controls signal PC, it needs to send PC+4 and instruction to id.v
  * through inst_mem.v. For 5 stage stall, it need to keep PC.
 
  * Details:
