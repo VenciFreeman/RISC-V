@@ -4,54 +4,60 @@
  * School: Shanghai Jiao Tong University.
 
  * Description:
- * This file controls write back.
+ * This file controls the data writing of the mem module back to registers.
 
  * Details:
+ * No Details.
 
  * History:
  * - 19/12/27: Create this file, add PC module;
+ * - 19/12/28: Finished!
 
  * Notes:
-
  */
 
 module WB (
 
     input   wire        rst,
 
-    input   wire[4:0]   mem_wd,
-    input   wire        mem_wreg,
-    input   wire[31:0]  mem_wdata,
+    input   wire[4:0]   MemWriteNum,
+    input   wire        MemWriteReg,
+    input   wire[31:0]  MemWriteData,
 
-    output  reg [4:0]   wb_wd,
-    output  reg         wb_wreg,
-    output  reg [31:0]  wb_wdata
+    output  reg [4:0]   WriteBackNum,
+    output  reg         WriteBackReg,
+    output  reg [31:0]  WriteBackData
 
 );
 
-//always @ (*) begin
-//    $display("wb: mem[%d] = %h", mem_wd, mem_wdata);
-//end
-
+/*
+ * This always part controls the signal WriteBackNum.
+ */  
 always @ (*) begin
     if (rst)
-        wb_wd <= 5'b0;
+        WriteBackNum <= 5'b0;
     else
-        wb_wd <= mem_wd;
+        WriteBackNum <= MemWriteNum;
 end
 
+/*
+ * This always part controls the signal WriteBackReg.
+ */
 always @ (*) begin
     if (rst)
-        wb_wreg <= 1'b0;
+        WriteBackReg <= 1'b0;
     else
-        wb_wreg <= mem_wreg;
+        WriteBackReg <= MemWriteReg;
 end
 
+/*
+ * This always part controls the signal WriteBackData.
+ */
 always @ (*) begin
     if (rst)
-        wb_wdata <= 32'b0;
+        WriteBackData <= 32'b0;
     else
-        wb_wdata <= mem_wdata;
+        WriteBackData <= MemWriteData;
 end
 
 endmodule
