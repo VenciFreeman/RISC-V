@@ -4,7 +4,7 @@
  * School: Shanghai Jiao Tong University.
 
  * Description:
- * This file is the registers of RISC-v CPU. 
+ * This file is the registers of RISC-V CPU. 
 
  * Details:
  * - When we need to read readReg1, readReg2, read data from register file
