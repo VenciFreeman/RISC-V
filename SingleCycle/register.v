@@ -50,10 +50,7 @@
 * This always part controls the signal reg_file, control write.
 */    
 always @ (posedge clk) begin
-    if(rst)
-        for(n = 0; n < 32; n = n + 1)
-            regFile[n] <= 0;
-    else if(we && WriteAddr != 5'h0) begin
+    if(!rst && we && WriteAddr != 5'h0) begin
         regFile[WriteAddr] <= WriteData;
         $display("x%d = %h", WriteAddr, WriteData);
     end
@@ -65,11 +62,11 @@ end
 always @ (*) begin
     if(rst || ReadAddr1 == 5'h0)
         ReadData1 <= 32'b0;
-    else if (we && ReadReg1 && ReadAddr1 == WriteAddr)
+    else if (we && ReadReg1 && (ReadAddr1 == WriteAddr))
         ReadData1 <= WriteData;
     else if (ReadReg1) begin
         ReadData1 <= regFile[ReadReg1];
-        $display("x%d = %h", ReadAddr1, ReadData1);
+        //$display("x%d = %h", ReadAddr1, ReadData1);
     end else
         ReadData1 <= 32'b0;
 end
@@ -80,11 +77,11 @@ end
 always @ (*) begin
     if(rst || ReadAddr2 == 5'h0)
         ReadData2 <= 32'b0;
-    else if (we && ReadReg2 && ReadAddr2 == WriteAddr)
+    else if (we && ReadReg2 && (ReadAddr2 == WriteAddr))
         ReadData2 <= WriteData;
     else if (ReadReg2) begin
         ReadData2 <= regFile[ReadReg2];
-        $display("x%d = %h", ReadAddr2, ReadData2);
+        //$display("x%d = %h", ReadAddr2, ReadData2);
     end else
         ReadData2 <= 32'b0;
 end

@@ -46,7 +46,6 @@ module riscv(
 );
 
 	wire [4:0] 	id_aluop;
-	wire [2:0] 	id_alusel;
 	wire [31:0] id_reg1;
 	wire [31:0] id_reg2;
 	wire        id_wreg;
@@ -99,7 +98,6 @@ module riscv(
 		.RegAddr1(reg1_addr),
 		.RegAddr2(reg2_addr),
 		.ALUop(id_aluop),
-		.ALUsel(id_alusel),
 		.Reg1(id_reg1),
 		.Reg2(id_reg2),
 		.WriteData(id_wd),
@@ -127,7 +125,6 @@ module riscv(
 	EX ex(
 		.rst(rst),
 		.ALUop_i(id_aluop),
-		.ALUsel_i(id_alusel),
 		.Oprend1(id_reg1),
 		.Oprend2(id_reg2),
 		.WriteDataNum_i(id_wd),

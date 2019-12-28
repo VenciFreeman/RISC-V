@@ -54,7 +54,6 @@ module ID(
     output  reg [4:0]   RegAddr2,
 
     output  reg [4:0]   ALUop,
-    output  reg [2:0]   ALUsel,
     output  reg [31:0]  Reg1,
     output  reg [31:0]  Reg2,
     output  reg [4:0]   WriteData,
@@ -111,7 +110,7 @@ always @ (*) begin
         endcase
     end
 end
-
+/*
 always @ (*) begin
     if (rst)
         ALUsel <= 3'b0;
@@ -134,7 +133,7 @@ always @ (*) begin
         endcase
     end
 end
-
+*/
 always @ (*) begin
     if (rst)
         WriteReg <= 1'b0;
