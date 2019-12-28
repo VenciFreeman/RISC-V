@@ -167,6 +167,6 @@ module riscv(
 		.WriteBackNum(wb_reg_WriteAddr),
 		.WriteBackReg(wb_reg_we),
 		.WriteBackData(wb_reg_WriteData)
-);
+	);
 
 endmodule
