@@ -17,78 +17,78 @@
  * Notes:
  */
 
- module ex_mem(
+ module EX_MEM(
 
 	input   wire        clk,
 	input   wire        rst,
 	input   wire[5:0]	stall,	
-	input   wire[4:0]   ex_wd,
-	input   wire        ex_wreg,
-	input   wire[31:0]	ex_wdata, 
-	input   wire[4:0]   ex_aluop,
-	input   wire[31:0]  ex_mem_addr,
-	input   wire[31:0]  ex_reg2,
-	output  reg [4:0]   mem_aluop,
-	output  reg [31:0]  mem_mem_addr,
-	output  reg [31:0]  mem_reg2,
-	output  reg [4:0]   mem_wd,
-	output  reg         mem_wreg,
-	output  reg [31:0]	mem_wdata
+	input   wire[4:0]   exWriteNum,  
+	input   wire        exwreg,
+	input   wire[31:0]	exWriteData, 
+	input   wire[4:0]   exALUop,
+	input   wire[31:0]  exAddr,
+	input   wire[31:0]  exReg,
+	output  reg [4:0]   memALUop,
+	output  reg [31:0]  memAddr,
+	output  reg [31:0]  memReg,
+	output  reg [4:0]   memWriteNum,
+	output  reg         memWriteReg,
+	output  reg [31:0]	memWriteData
 
 );
 
 always @ (posedge clk) begin
     if (rst)
-        mem_wd <= 5'b0;
+        memWriteNum <= 5'b0;
     else if (stall[4:3] == 2'b01)
-        mem_wd <= 5'b0;
+        memWriteNum <= 5'b0;
     else if (!stall[3])
-        mem_wd <= ex_wd;
+        memWriteNum <= exWriteNum;
 end
 
 always @ (posedge clk) begin
     if (rst)
-        mem_wreg <= 1'b0;
+        memWriteReg <= 1'b0;
     else if (stall[4:3] == 2'b01)
-        mem_wreg <= 1'b0;
+        memWriteReg <= 1'b0;
     else if (!stall[3])
-        mem_wreg <= ex_wreg;
+        memWriteReg <= exwreg;
 end
 
 always @ (posedge clk) begin
     if (rst)
-        mem_wdata <= 32'b0;
+        memWriteData <= 32'b0;
     else if (stall[4:3] == 2'b01)
-        mem_wdata <= 32'b0;
+        memWriteData <= 32'b0;
     else if (!stall[3])
-        mem_wdata <= ex_wdata;
+        memWriteData <= exWriteData;
 end
 
 always @ (posedge clk) begin
     if (rst)
-        mem_aluop <= 5'b0;
+        memALUop <= 5'b0;
     else if (stall[4:3] == 2'b01)
-        mem_aluop <= 5'b0;
+        memALUop <= 5'b0;
     else if (!stall[3])
-        mem_aluop <= ex_aluop;
+        memALUop <= exALUop;
 end
 
 always @ (posedge clk) begin
     if (rst)
-        mem_mem_addr <= 32'b0;
+        memAddr <= 32'b0;
     else if (stall[4:3] == 2'b01)
-        mem_mem_addr <= 32'b0;
+        memAddr <= 32'b0;
     else if (!stall[3])
-        mem_mem_addr <= ex_mem_addr;
+        memAddr <= exAddr;
 end
 
 always @ (posedge clk) begin
     if (rst)
-        mem_reg2 <= 32'b0;
+        memReg <= 32'b0;
     else if (stall[4:3] == 2'b01)
-        mem_reg2 <= 32'b0;
+        memReg <= 32'b0;
     else if (!stall[3])
-        mem_reg2 <= ex_reg2;
+        memReg <= exReg;
 end
 
 endmodule

@@ -23,95 +23,95 @@ module id_ex(
 	input   wire        clk,
 	input   wire        rst,
 	input   wire[5:0]   stall,
-	input   wire[4:0]   id_aluop,
-	input   wire[2:0]   id_alusel,
-	input   wire[31:0]  id_reg1,
-	input   wire[31:0]  id_reg2,
-	input   wire[4:0]   id_wd,
-	input   wire        id_wreg,	
-	input   wire[31:0]  id_link_address,
-	input   wire[31:0]  id_inst,	
-	output  reg[4:0]    ex_aluop,
-	output  reg[2:0]    ex_alusel,
-	output  reg[31:0]   ex_link_address,
-	output  reg[31:0]   ex_inst,
-	output  reg[31:0]   ex_reg1,
-	output  reg[31:0]   ex_reg2,
-	output  reg[4:0]    ex_wd,
-	output  reg         ex_wreg
+	input   wire[4:0]   idALUop,
+	input   wire[2:0]   idALUsel,
+	input   wire[31:0]  idReg1,
+	input   wire[31:0]  idReg2,
+	input   wire[4:0]   idWriteNum,
+	input   wire        idWriteReg,	
+	input   wire[31:0]  idLinkAddr,
+	input   wire[31:0]  idInst,	
+	output  reg [4:0]   exALUop,
+	output  reg [2:0]   exALUsel,
+	output  reg [31:0]  exLinkAddr,
+	output  reg [31:0]  exInst,
+	output  reg [31:0]  exReg1,
+	output  reg [31:0]  exReg2,
+	output  reg [4:0]   exWriteNum,
+	output  reg         exWriteReg
 	
 );
 
 always @ (posedge clk) begin
     if (rst)
-        ex_alusel <= 3'b0;
+        exALUsel <= 3'b0;
     else if (stall[3:2] == 2'b01)
-        ex_alusel <= 3'b0;
+        exALUsel <= 3'b0;
     else if (!stall[2])
-        ex_alusel <= id_aluop;
+        exALUsel <= idALUop;
 end
 
 always @ (posedge clk) begin
     if (rst)
-        ex_aluop <= 5'b0;
+        exALUop <= 5'b0;
     else if (stall[3:2] == 2'b01)
-        ex_aluop <= 5'b0;
+        exALUop <= 5'b0;
     else if (!stall[2])
-        ex_aluop <= id_alusel;
+        exALUop <= idALUsel;
 end
 
 always @ (posedge clk) begin
     if (rst)
-        ex_reg1 <= 32'b0;
+        exReg1 <= 32'b0;
     else if (stall[3:2] == 2'b01)
-        ex_reg1 <= 32'b0;
+        exReg1 <= 32'b0;
     else if (!stall[2])
-        ex_reg1 <= id_reg1;
+        exReg1 <= idReg1;
 end
 
 always @ (posedge clk) begin
     if (rst)
-        ex_reg2 <= 32'b0;
+        exReg2 <= 32'b0;
     else if (stall[3:2] == 2'b01)
-        ex_reg2 <= 32'b0;
+        exReg2 <= 32'b0;
     else if (!stall[2])
-        ex_reg2 <= id_reg2;
+        exReg2 <= idReg2;
 end
 
 always @ (posedge clk) begin
     if (rst)
-        ex_wd <= 5'b0;
+        exWriteNum <= 5'b0;
     else if (stall[3:2] == 2'b01)
-        ex_wd <= 5'b0;
+        exWriteNum <= 5'b0;
     else if (!stall[2])
-        ex_wd <= id_wd;
+        exWriteNum <= idWriteNum;
 end
 
 always @ (posedge clk) begin
     if (rst)
-        ex_wreg <= 1'b0;
+        exWriteReg <= 1'b0;
     else if (stall[3:2] == 2'b01)
-        ex_wreg <= 1'b0;
+        exWriteReg <= 1'b0;
     else if (!stall[2])
-        ex_wreg <= id_wreg;
+        exWriteReg <= idWriteReg;
 end
 
 always @ (posedge clk) begin
     if (rst)
-        ex_link_address <= 32'b0;
+        exLinkAddr <= 32'b0;
     else if (stall[3:2] == 2'b01)
-        ex_link_address <= 32'b0;
+        exLinkAddr <= 32'b0;
     else if (!stall[2])
-        ex_link_address <= id_link_address;
+        exLinkAddr <= idLinkAddr;
 end
 
 always @ (posedge clk) begin
     if (rst)
-        ex_inst <= 32'b0;
+        exInst <= 32'b0;
     else if (stall[3:2] == 2'b01)
-        ex_inst <= 32'b0;
+        exInst <= 32'b0;
     else if (!stall[2])
-        ex_inst <= id_inst;
+        exInst <= idInst;
 end
 
 endmodule
