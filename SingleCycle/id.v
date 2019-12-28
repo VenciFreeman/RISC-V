@@ -71,9 +71,9 @@ module ID(
     wire[31:0] pc_add_4;
     wire[31:0] pc_add_imm_B;
     wire[31:0] pc_add_imm_J;
-    wire[4:0] rs1_addr = inst_i[19:15];
-    wire[4:0] rs2_addr = inst_i[24:20];
-    wire[4:0] rd_addr = inst_i[11:7];
+    wire[4:0]  rs1_addr = inst_i[19:15];
+    wire[4:0]  rs2_addr = inst_i[24:20];
+    wire[4:0]  rd_addr  = inst_i[11:7];
 
 
     wire[31:0] imm_I = {{21{inst_i[31:31]}}, inst_i[30:20]};
@@ -295,7 +295,6 @@ always @ (*) begin
     else
         RegAddr2 <= rs2_addr;
 end
-
 
 /*
  * This always part controls the signal Reg1, it gets the right rs1 data.
