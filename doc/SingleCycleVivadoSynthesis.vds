@@ -1,0 +1,786 @@
+#-----------------------------------------------------------
+# Vivado v2016.4 (64-bit)
+# SW Build 1756540 on Mon Jan 23 19:11:23 MST 2017
+# IP Build 1755317 on Mon Jan 23 20:30:07 MST 2017
+# Start of session at: Sun Dec 29 10:21:00 2019
+# Process ID: 13472
+# Current directory: C:/Users/Venci/Desktop/December/project_5/project_5.runs/synth_1
+# Command line: vivado.exe -log riscv_soc_tb.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source riscv_soc_tb.tcl
+# Log file: C:/Users/Venci/Desktop/December/project_5/project_5.runs/synth_1/riscv_soc_tb.vds
+# Journal file: C:/Users/Venci/Desktop/December/project_5/project_5.runs/synth_1\vivado.jou
+#-----------------------------------------------------------
+source riscv_soc_tb.tcl -notrace
+Command: synth_design -top riscv_soc_tb -part xc7z010iclg225-1L
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7z010i'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7z010i'
+INFO: Launching helper process for spawning children vivado processes
+INFO: Helper process launched with PID 6472 
+---------------------------------------------------------------------------------
+Starting Synthesize : Time (s): cpu = 00:00:07 ; elapsed = 00:00:09 . Memory (MB): peak = 279.797 ; gain = 70.184
+---------------------------------------------------------------------------------
+INFO: [Synth 8-638] synthesizing module 'riscv_soc_tb' [C:/Users/Venci/Desktop/SingleCycle/riscv_soc_tb.v:15]
+INFO: [Synth 8-638] synthesizing module 'riscv' [C:/Users/Venci/Desktop/SingleCycle/riscv.v:31]
+INFO: [Synth 8-638] synthesizing module 'PC' [C:/Users/Venci/Desktop/SingleCycle/if.v:26]
+INFO: [Synth 8-256] done synthesizing module 'PC' (1#1) [C:/Users/Venci/Desktop/SingleCycle/if.v:26]
+INFO: [Synth 8-638] synthesizing module 'ID' [C:/Users/Venci/Desktop/SingleCycle/id.v:42]
+INFO: [Synth 8-256] done synthesizing module 'ID' (2#1) [C:/Users/Venci/Desktop/SingleCycle/id.v:42]
+INFO: [Synth 8-638] synthesizing module 'Registers' [C:/Users/Venci/Desktop/SingleCycle/register.v:32]
+INFO: [Synth 8-256] done synthesizing module 'Registers' (3#1) [C:/Users/Venci/Desktop/SingleCycle/register.v:32]
+INFO: [Synth 8-638] synthesizing module 'EX' [C:/Users/Venci/Desktop/SingleCycle/ex.v:27]
+INFO: [Synth 8-256] done synthesizing module 'EX' (4#1) [C:/Users/Venci/Desktop/SingleCycle/ex.v:27]
+INFO: [Synth 8-638] synthesizing module 'MEM' [C:/Users/Venci/Desktop/SingleCycle/mem.v:24]
+INFO: [Synth 8-256] done synthesizing module 'MEM' (5#1) [C:/Users/Venci/Desktop/SingleCycle/mem.v:24]
+INFO: [Synth 8-638] synthesizing module 'WB' [C:/Users/Venci/Desktop/SingleCycle/wb.v:19]
+INFO: [Synth 8-256] done synthesizing module 'WB' (6#1) [C:/Users/Venci/Desktop/SingleCycle/wb.v:19]
+INFO: [Synth 8-256] done synthesizing module 'riscv' (7#1) [C:/Users/Venci/Desktop/SingleCycle/riscv.v:31]
+INFO: [Synth 8-638] synthesizing module 'inst_mem' [C:/Users/Venci/Desktop/SingleCycle/inst_mem.v:10]
+INFO: [Synth 8-3876] $readmem data file 'machinecode.txt' is read successfully [C:/Users/Venci/Desktop/SingleCycle/inst_mem.v:20]
+INFO: [Synth 8-256] done synthesizing module 'inst_mem' (8#1) [C:/Users/Venci/Desktop/SingleCycle/inst_mem.v:10]
+INFO: [Synth 8-638] synthesizing module 'data_mem' [C:/Users/Venci/Desktop/SingleCycle/data_mem.v:10]
+WARNING: [Synth 8-2898] ignoring malformed $readmem task: invalid memory name [C:/Users/Venci/Desktop/SingleCycle/data_mem.v:23]
+INFO: [Synth 8-256] done synthesizing module 'data_mem' (9#1) [C:/Users/Venci/Desktop/SingleCycle/data_mem.v:10]
+INFO: [Synth 8-256] done synthesizing module 'riscv_soc_tb' (10#1) [C:/Users/Venci/Desktop/SingleCycle/riscv_soc_tb.v:15]
+WARNING: [Synth 8-3331] design inst_mem has unconnected port addr[1]
+WARNING: [Synth 8-3331] design inst_mem has unconnected port addr[0]
+WARNING: [Synth 8-3331] design MEM has unconnected port MemAddr_i[31]
+WARNING: [Synth 8-3331] design MEM has unconnected port MemAddr_i[30]
+WARNING: [Synth 8-3331] design MEM has unconnected port MemAddr_i[29]
+WARNING: [Synth 8-3331] design MEM has unconnected port MemAddr_i[28]
+WARNING: [Synth 8-3331] design MEM has unconnected port MemAddr_i[27]
+WARNING: [Synth 8-3331] design MEM has unconnected port MemAddr_i[26]
+WARNING: [Synth 8-3331] design MEM has unconnected port MemAddr_i[25]
+WARNING: [Synth 8-3331] design MEM has unconnected port MemAddr_i[24]
+WARNING: [Synth 8-3331] design MEM has unconnected port MemAddr_i[23]
+WARNING: [Synth 8-3331] design MEM has unconnected port MemAddr_i[22]
+WARNING: [Synth 8-3331] design MEM has unconnected port MemAddr_i[21]
+WARNING: [Synth 8-3331] design MEM has unconnected port MemAddr_i[20]
+WARNING: [Synth 8-3331] design MEM has unconnected port MemAddr_i[19]
+WARNING: [Synth 8-3331] design MEM has unconnected port MemAddr_i[18]
+WARNING: [Synth 8-3331] design MEM has unconnected port MemAddr_i[17]
+WARNING: [Synth 8-3331] design MEM has unconnected port MemAddr_i[16]
+WARNING: [Synth 8-3331] design MEM has unconnected port MemAddr_i[15]
+WARNING: [Synth 8-3331] design MEM has unconnected port MemAddr_i[14]
+WARNING: [Synth 8-3331] design MEM has unconnected port MemAddr_i[13]
+WARNING: [Synth 8-3331] design MEM has unconnected port MemAddr_i[12]
+WARNING: [Synth 8-3331] design MEM has unconnected port MemAddr_i[11]
+WARNING: [Synth 8-3331] design MEM has unconnected port MemAddr_i[10]
+WARNING: [Synth 8-3331] design MEM has unconnected port MemAddr_i[9]
+WARNING: [Synth 8-3331] design MEM has unconnected port MemAddr_i[8]
+WARNING: [Synth 8-3331] design MEM has unconnected port MemAddr_i[7]
+WARNING: [Synth 8-3331] design MEM has unconnected port MemAddr_i[6]
+WARNING: [Synth 8-3331] design MEM has unconnected port MemAddr_i[5]
+WARNING: [Synth 8-3331] design MEM has unconnected port MemAddr_i[4]
+WARNING: [Synth 8-3331] design MEM has unconnected port MemAddr_i[3]
+WARNING: [Synth 8-3331] design MEM has unconnected port MemAddr_i[2]
+WARNING: [Synth 8-3331] design MEM has unconnected port MemAddr_i[1]
+WARNING: [Synth 8-3331] design MEM has unconnected port MemAddr_i[0]
+WARNING: [Synth 8-3331] design EX has unconnected port inst_i[19]
+WARNING: [Synth 8-3331] design EX has unconnected port inst_i[18]
+WARNING: [Synth 8-3331] design EX has unconnected port inst_i[17]
+WARNING: [Synth 8-3331] design EX has unconnected port inst_i[16]
+WARNING: [Synth 8-3331] design EX has unconnected port inst_i[15]
+WARNING: [Synth 8-3331] design EX has unconnected port inst_i[14]
+WARNING: [Synth 8-3331] design EX has unconnected port inst_i[13]
+WARNING: [Synth 8-3331] design EX has unconnected port inst_i[12]
+---------------------------------------------------------------------------------
+Finished Synthesize : Time (s): cpu = 00:00:37 ; elapsed = 00:00:42 . Memory (MB): peak = 562.391 ; gain = 352.777
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:39 ; elapsed = 00:00:44 . Memory (MB): peak = 562.391 ; gain = 352.777
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7z010iclg225-1L
+INFO: [Device 21-403] Loading part xc7z010iclg225-1L
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:39 ; elapsed = 00:00:44 . Memory (MB): peak = 562.391 ; gain = 352.777
+---------------------------------------------------------------------------------
+INFO: [Synth 8-5546] ROM "regFile_reg[1]" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "regFile_reg[2]" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "regFile_reg[3]" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "regFile_reg[4]" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "regFile_reg[5]" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "regFile_reg[6]" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "regFile_reg[7]" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "regFile_reg[8]" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "regFile_reg[9]" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "regFile_reg[10]" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "regFile_reg[11]" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "regFile_reg[12]" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "regFile_reg[13]" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "regFile_reg[14]" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "regFile_reg[15]" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "regFile_reg[16]" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "regFile_reg[17]" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "regFile_reg[18]" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "regFile_reg[19]" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "regFile_reg[20]" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "regFile_reg[21]" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "regFile_reg[22]" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "regFile_reg[23]" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "regFile_reg[24]" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "regFile_reg[25]" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "regFile_reg[26]" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "regFile_reg[27]" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "regFile_reg[28]" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "regFile_reg[29]" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "regFile_reg[30]" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "regFile_reg[31]" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5818] HDL ADVISOR - The operator resource <adder> is shared. To prevent sharing consider applying a KEEP on the output of the operator [C:/Users/Venci/Desktop/SingleCycle/ex.v:71]
+INFO: [Synth 8-5546] ROM "MemData_o" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5544] ROM "inst_memory" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5545] ROM "data_reg[0]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[0]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[0]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[0]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[1]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[1]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[1]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[1]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[2]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[2]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[2]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[2]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[3]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[3]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[3]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[3]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[4]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[4]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[4]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[4]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[5]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[5]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[5]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[5]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[6]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[6]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[6]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[6]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[7]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[7]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[7]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[7]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[8]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[8]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[8]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[8]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[9]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[9]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[9]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[9]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[10]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[10]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[10]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[10]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[11]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[11]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[11]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[11]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[12]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[12]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[12]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[12]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[13]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[13]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[13]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[13]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[14]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[14]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[14]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[14]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[15]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[15]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[15]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[15]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[16]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[16]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[16]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[16]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[17]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[17]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[17]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[17]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[18]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[18]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[18]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[18]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[19]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[19]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[19]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[19]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[20]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[20]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[20]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[20]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[21]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[21]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[21]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[21]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[22]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[22]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[22]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[22]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[23]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[23]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[23]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[23]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[24]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[24]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[24]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5545] ROM "data_reg[24]" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Common 17-14] Message 'Synth 8-5545' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+WARNING: [Synth 8-327] inferring latch for variable 'MemData_o_reg' [C:/Users/Venci/Desktop/SingleCycle/mem.v:72]
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:01:33 ; elapsed = 00:01:35 . Memory (MB): peak = 646.930 ; gain = 437.316
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++------+------------------+------------+----------+
+|      |RTL Partition     |Replication |Instances |
++------+------------------+------------+----------+
+|1     |data_mem__GB0     |           1|     31779|
+|2     |data_mem__GB1     |           1|      8213|
+|3     |data_mem__GB2     |           1|     11502|
+|4     |data_mem__GB3     |           1|     13546|
+|5     |data_mem__GB4     |           1|     23658|
+|6     |data_mem__GB5     |           1|     34067|
+|7     |data_mem__GB6     |           1|     42644|
+|8     |data_mem__GB7     |           1|     52252|
+|9     |riscv_soc_tb__GC0 |           1|      6761|
++------+------------------+------------+----------+
+No constraint files found.
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input     32 Bit       Adders := 7     
+	   3 Input     32 Bit       Adders := 1     
+	   2 Input     11 Bit       Adders := 3     
++---XORs : 
+	   2 Input     32 Bit         XORs := 1     
++---Registers : 
+	               32 Bit    Registers := 32    
+	                8 Bit    Registers := 1025  
+	                1 Bit    Registers := 1     
++---Muxes : 
+	   2 Input     32 Bit        Muxes := 21    
+	   8 Input     32 Bit        Muxes := 1     
+	  12 Input     32 Bit        Muxes := 1     
+	   2 Input      8 Bit        Muxes := 3075  
+	   2 Input      5 Bit        Muxes := 5     
+	  15 Input      5 Bit        Muxes := 1     
+	  14 Input      3 Bit        Muxes := 1     
+	   5 Input      1 Bit        Muxes := 1025  
+	  14 Input      1 Bit        Muxes := 3     
+	   2 Input      1 Bit        Muxes := 32    
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Hierarchical Component Statistics 
+---------------------------------------------------------------------------------
+Hierarchical RTL Component report 
+Module data_mem 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input     32 Bit       Adders := 3     
+	   2 Input     11 Bit       Adders := 3     
++---Registers : 
+	                8 Bit    Registers := 1025  
++---Muxes : 
+	   2 Input     32 Bit        Muxes := 2     
+	   2 Input      8 Bit        Muxes := 3075  
+	   5 Input      1 Bit        Muxes := 1025  
+Module PC 
+Detailed RTL Component Info : 
++---Registers : 
+	                1 Bit    Registers := 1     
+Module ID 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input     32 Bit       Adders := 3     
++---Muxes : 
+	   2 Input     32 Bit        Muxes := 8     
+	   2 Input      5 Bit        Muxes := 3     
+	  15 Input      5 Bit        Muxes := 1     
+	  14 Input      1 Bit        Muxes := 3     
+Module Registers 
+Detailed RTL Component Info : 
++---Registers : 
+	               32 Bit    Registers := 32    
++---Muxes : 
+	   2 Input     32 Bit        Muxes := 6     
+	   2 Input      1 Bit        Muxes := 31    
+Module EX 
+Detailed RTL Component Info : 
++---Adders : 
+	   3 Input     32 Bit       Adders := 1     
+	   2 Input     32 Bit       Adders := 1     
++---XORs : 
+	   2 Input     32 Bit         XORs := 1     
++---Muxes : 
+	   8 Input     32 Bit        Muxes := 1     
+	   2 Input     32 Bit        Muxes := 2     
+	  14 Input      3 Bit        Muxes := 1     
+Module MEM 
+Detailed RTL Component Info : 
++---Muxes : 
+	   2 Input     32 Bit        Muxes := 1     
+	   2 Input      5 Bit        Muxes := 1     
+	   2 Input      1 Bit        Muxes := 1     
+Module WB 
+Detailed RTL Component Info : 
++---Muxes : 
+	   2 Input     32 Bit        Muxes := 1     
+	   2 Input      5 Bit        Muxes := 1     
+Module inst_mem 
+Detailed RTL Component Info : 
++---Muxes : 
+	  12 Input     32 Bit        Muxes := 1     
+	   2 Input     32 Bit        Muxes := 1     
+---------------------------------------------------------------------------------
+Finished RTL Hierarchical Component Statistics
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 80 (col length:40)
+BRAMs: 120 (col length: RAMB18 40 RAMB36 20)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+INFO: [Synth 8-5580] Multithreading enabled for synth_design using a maximum of 2 processes.
+No constraint files found.
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[31][0]' (FDE) to 'i_8/riscv0/registers/regFile_reg[30][0]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[30][0]' (FDE) to 'i_8/riscv0/registers/regFile_reg[29][0]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[29][0]' (FDE) to 'i_8/riscv0/registers/regFile_reg[28][0]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[28][0]' (FDE) to 'i_8/riscv0/registers/regFile_reg[27][0]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[27][0]' (FDE) to 'i_8/riscv0/registers/regFile_reg[26][0]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[26][0]' (FDE) to 'i_8/riscv0/registers/regFile_reg[25][0]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[25][0]' (FDE) to 'i_8/riscv0/registers/regFile_reg[24][0]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[24][0]' (FDE) to 'i_8/riscv0/registers/regFile_reg[23][0]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[23][0]' (FDE) to 'i_8/riscv0/registers/regFile_reg[22][0]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[22][0]' (FDE) to 'i_8/riscv0/registers/regFile_reg[21][0]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[21][0]' (FDE) to 'i_8/riscv0/registers/regFile_reg[20][0]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[20][0]' (FDE) to 'i_8/riscv0/registers/regFile_reg[19][0]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[19][0]' (FDE) to 'i_8/riscv0/registers/regFile_reg[18][0]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[18][0]' (FDE) to 'i_8/riscv0/registers/regFile_reg[17][0]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[17][0]' (FDE) to 'i_8/riscv0/registers/regFile_reg[16][0]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[16][0] )
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[31][1]' (FDE) to 'i_8/riscv0/registers/regFile_reg[30][1]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[30][1]' (FDE) to 'i_8/riscv0/registers/regFile_reg[29][1]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[29][1]' (FDE) to 'i_8/riscv0/registers/regFile_reg[28][1]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[28][1]' (FDE) to 'i_8/riscv0/registers/regFile_reg[27][1]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[27][1]' (FDE) to 'i_8/riscv0/registers/regFile_reg[26][1]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[26][1]' (FDE) to 'i_8/riscv0/registers/regFile_reg[25][1]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[25][1]' (FDE) to 'i_8/riscv0/registers/regFile_reg[24][1]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[24][1]' (FDE) to 'i_8/riscv0/registers/regFile_reg[23][1]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[23][1]' (FDE) to 'i_8/riscv0/registers/regFile_reg[22][1]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[22][1]' (FDE) to 'i_8/riscv0/registers/regFile_reg[21][1]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[21][1]' (FDE) to 'i_8/riscv0/registers/regFile_reg[20][1]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[20][1]' (FDE) to 'i_8/riscv0/registers/regFile_reg[19][1]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[19][1]' (FDE) to 'i_8/riscv0/registers/regFile_reg[18][1]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[18][1]' (FDE) to 'i_8/riscv0/registers/regFile_reg[17][1]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[17][1]' (FDE) to 'i_8/riscv0/registers/regFile_reg[16][1]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[16][1] )
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[31][2]' (FDE) to 'i_8/riscv0/registers/regFile_reg[30][2]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[30][2]' (FDE) to 'i_8/riscv0/registers/regFile_reg[29][2]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[29][2]' (FDE) to 'i_8/riscv0/registers/regFile_reg[28][2]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[28][2]' (FDE) to 'i_8/riscv0/registers/regFile_reg[27][2]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[27][2]' (FDE) to 'i_8/riscv0/registers/regFile_reg[26][2]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[26][2]' (FDE) to 'i_8/riscv0/registers/regFile_reg[25][2]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[25][2]' (FDE) to 'i_8/riscv0/registers/regFile_reg[24][2]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[24][2]' (FDE) to 'i_8/riscv0/registers/regFile_reg[23][2]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[23][2]' (FDE) to 'i_8/riscv0/registers/regFile_reg[22][2]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[22][2]' (FDE) to 'i_8/riscv0/registers/regFile_reg[21][2]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[21][2]' (FDE) to 'i_8/riscv0/registers/regFile_reg[20][2]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[20][2]' (FDE) to 'i_8/riscv0/registers/regFile_reg[19][2]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[19][2]' (FDE) to 'i_8/riscv0/registers/regFile_reg[18][2]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[18][2]' (FDE) to 'i_8/riscv0/registers/regFile_reg[17][2]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[17][2]' (FDE) to 'i_8/riscv0/registers/regFile_reg[16][2]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[16][2] )
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[31][3]' (FDE) to 'i_8/riscv0/registers/regFile_reg[30][3]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[30][3]' (FDE) to 'i_8/riscv0/registers/regFile_reg[29][3]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[29][3]' (FDE) to 'i_8/riscv0/registers/regFile_reg[28][3]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[28][3]' (FDE) to 'i_8/riscv0/registers/regFile_reg[27][3]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[27][3]' (FDE) to 'i_8/riscv0/registers/regFile_reg[26][3]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[26][3]' (FDE) to 'i_8/riscv0/registers/regFile_reg[25][3]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[25][3]' (FDE) to 'i_8/riscv0/registers/regFile_reg[24][3]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[24][3]' (FDE) to 'i_8/riscv0/registers/regFile_reg[23][3]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[23][3]' (FDE) to 'i_8/riscv0/registers/regFile_reg[22][3]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[22][3]' (FDE) to 'i_8/riscv0/registers/regFile_reg[21][3]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[21][3]' (FDE) to 'i_8/riscv0/registers/regFile_reg[20][3]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[20][3]' (FDE) to 'i_8/riscv0/registers/regFile_reg[19][3]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[19][3]' (FDE) to 'i_8/riscv0/registers/regFile_reg[18][3]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[18][3]' (FDE) to 'i_8/riscv0/registers/regFile_reg[17][3]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[17][3]' (FDE) to 'i_8/riscv0/registers/regFile_reg[16][3]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[16][3] )
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[31][4]' (FDE) to 'i_8/riscv0/registers/regFile_reg[30][4]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[30][4]' (FDE) to 'i_8/riscv0/registers/regFile_reg[29][4]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[29][4]' (FDE) to 'i_8/riscv0/registers/regFile_reg[28][4]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[28][4]' (FDE) to 'i_8/riscv0/registers/regFile_reg[27][4]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[27][4]' (FDE) to 'i_8/riscv0/registers/regFile_reg[26][4]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[26][4]' (FDE) to 'i_8/riscv0/registers/regFile_reg[25][4]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[25][4]' (FDE) to 'i_8/riscv0/registers/regFile_reg[24][4]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[24][4]' (FDE) to 'i_8/riscv0/registers/regFile_reg[23][4]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[23][4]' (FDE) to 'i_8/riscv0/registers/regFile_reg[22][4]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[22][4]' (FDE) to 'i_8/riscv0/registers/regFile_reg[21][4]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[21][4]' (FDE) to 'i_8/riscv0/registers/regFile_reg[20][4]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[20][4]' (FDE) to 'i_8/riscv0/registers/regFile_reg[19][4]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[19][4]' (FDE) to 'i_8/riscv0/registers/regFile_reg[18][4]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[18][4]' (FDE) to 'i_8/riscv0/registers/regFile_reg[17][4]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[17][4]' (FDE) to 'i_8/riscv0/registers/regFile_reg[16][4]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[16][4] )
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[31][5]' (FDE) to 'i_8/riscv0/registers/regFile_reg[30][5]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[30][5]' (FDE) to 'i_8/riscv0/registers/regFile_reg[29][5]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[29][5]' (FDE) to 'i_8/riscv0/registers/regFile_reg[28][5]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[28][5]' (FDE) to 'i_8/riscv0/registers/regFile_reg[27][5]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[27][5]' (FDE) to 'i_8/riscv0/registers/regFile_reg[26][5]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[26][5]' (FDE) to 'i_8/riscv0/registers/regFile_reg[25][5]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[25][5]' (FDE) to 'i_8/riscv0/registers/regFile_reg[24][5]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[24][5]' (FDE) to 'i_8/riscv0/registers/regFile_reg[23][5]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[23][5]' (FDE) to 'i_8/riscv0/registers/regFile_reg[22][5]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[22][5]' (FDE) to 'i_8/riscv0/registers/regFile_reg[21][5]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[21][5]' (FDE) to 'i_8/riscv0/registers/regFile_reg[20][5]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[20][5]' (FDE) to 'i_8/riscv0/registers/regFile_reg[19][5]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[19][5]' (FDE) to 'i_8/riscv0/registers/regFile_reg[18][5]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[18][5]' (FDE) to 'i_8/riscv0/registers/regFile_reg[17][5]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[17][5]' (FDE) to 'i_8/riscv0/registers/regFile_reg[16][5]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[16][5] )
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[31][6]' (FDE) to 'i_8/riscv0/registers/regFile_reg[30][6]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[30][6]' (FDE) to 'i_8/riscv0/registers/regFile_reg[29][6]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[29][6]' (FDE) to 'i_8/riscv0/registers/regFile_reg[28][6]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[28][6]' (FDE) to 'i_8/riscv0/registers/regFile_reg[27][6]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[27][6]' (FDE) to 'i_8/riscv0/registers/regFile_reg[26][6]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[26][6]' (FDE) to 'i_8/riscv0/registers/regFile_reg[25][6]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[25][6]' (FDE) to 'i_8/riscv0/registers/regFile_reg[24][6]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[24][6]' (FDE) to 'i_8/riscv0/registers/regFile_reg[23][6]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[23][6]' (FDE) to 'i_8/riscv0/registers/regFile_reg[22][6]'
+INFO: [Synth 8-3886] merging instance 'i_8/riscv0/registers/regFile_reg[22][6]' (FDE) to 'i_8/riscv0/registers/regFile_reg[21][6]'
+INFO: [Common 17-14] Message 'Synth 8-3886' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[16][6] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[16][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[16][8] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[16][9] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[16][10] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[16][11] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[16][12] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[16][13] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[16][14] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[16][15] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[16][16] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[16][17] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[16][18] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[16][19] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[16][20] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[16][21] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[16][22] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[16][23] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[16][24] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[16][25] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[16][26] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[16][27] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[16][28] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[16][29] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[16][30] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[16][31] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\riscv0/pc/ce_reg )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[0][0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[0][1] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[0][2] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[0][3] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[0][4] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[0][5] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[0][6] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[0][7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[0][8] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[0][9] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[0][10] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[0][11] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[0][12] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[0][13] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[0][14] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[0][15] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[0][16] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[0][17] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[0][18] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[0][19] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[0][20] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[0][21] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[0][22] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[0][23] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[0][24] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[0][25] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[0][26] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[0][27] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[0][28] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[0][29] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[0][30] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\riscv0/registers/regFile_reg[0][31] )
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:03:33 ; elapsed = 00:04:26 . Memory (MB): peak = 982.051 ; gain = 772.438
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++------+------------------+------------+----------+
+|      |RTL Partition     |Replication |Instances |
++------+------------------+------------+----------+
+|1     |data_mem__GB0     |           1|     31352|
+|2     |data_mem__GB1     |           1|      8213|
+|3     |data_mem__GB2     |           1|     13297|
+|4     |data_mem__GB3     |           1|     11791|
+|5     |data_mem__GB4     |           1|     11913|
+|6     |data_mem__GB5     |           1|      6738|
+|7     |data_mem__GB6     |           1|      6766|
+|8     |data_mem__GB7     |           1|      7723|
+|9     |riscv_soc_tb__GC0 |           1|      2853|
++------+------------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+No constraint files found.
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:03:33 ; elapsed = 00:04:27 . Memory (MB): peak = 982.051 ; gain = 772.438
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++------+------------------+------------+----------+
+|      |RTL Partition     |Replication |Instances |
++------+------------------+------------+----------+
+|1     |data_mem__GB0     |           1|     31352|
+|2     |data_mem__GB1     |           1|      8213|
+|3     |data_mem__GB2     |           1|     13297|
+|4     |data_mem__GB3     |           1|     11791|
+|5     |data_mem__GB4     |           1|     11913|
+|6     |data_mem__GB5     |           1|      6738|
+|7     |data_mem__GB6     |           1|      6766|
+|8     |data_mem__GB7     |           1|      7723|
+|9     |riscv_soc_tb__GC0 |           1|      2853|
++------+------------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[202][7]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[202][6]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[202][5]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[202][4]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[202][3]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[202][2]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[202][1]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[202][0]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[198][7]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[198][6]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[198][5]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[198][4]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[198][3]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[198][2]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[198][1]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[198][0]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[194][7]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[194][6]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[194][5]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[194][4]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[194][3]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[194][2]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[194][1]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[194][0]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[193][7]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[193][6]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[193][5]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[193][4]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[193][3]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[193][2]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[193][1]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[193][0]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[189][7]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[189][6]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[189][5]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[189][4]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[189][3]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[189][2]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[189][1]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[189][0]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[183][7]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[183][6]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[183][5]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[183][4]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[183][3]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[183][2]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[183][1]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[183][0]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[161][7]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[161][6]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[161][5]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[161][4]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[161][3]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[161][2]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[161][1]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[161][0]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[149][7]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[149][6]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[149][5]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[149][4]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[149][3]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[149][2]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[149][1]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[149][0]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[147][7]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[147][6]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[147][5]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[147][4]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[147][3]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[147][2]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[147][1]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[147][0]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[145][7]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[145][6]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[145][5]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[145][4]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[145][3]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[145][2]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[145][1]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[145][0]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[143][7]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[143][6]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[143][5]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[143][4]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[143][3]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[143][2]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[143][1]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[143][0]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[56][7]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[56][6]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[56][5]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[56][4]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[56][3]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[56][2]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[56][1]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[56][0]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[52][7]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[52][6]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[52][5]) is unused and will be removed from module riscv_soc_tb.
+WARNING: [Synth 8-3332] Sequential element (data_mem0/data_reg[52][4]) is unused and will be removed from module riscv_soc_tb.
+INFO: [Common 17-14] Message 'Synth 8-3332' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:03:46 ; elapsed = 00:04:41 . Memory (MB): peak = 982.051 ; gain = 772.438
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++------+--------------+------------+----------+
+|      |RTL Partition |Replication |Instances |
++------+--------------+------------+----------+
+|1     |data_mem__GB0 |           1|     19231|
+|2     |data_mem__GB2 |           1|      6273|
+|3     |data_mem__GB3 |           1|      8611|
+|4     |data_mem__GB4 |           1|      5225|
++------+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:03:49 ; elapsed = 00:04:44 . Memory (MB): peak = 982.051 ; gain = 772.438
+---------------------------------------------------------------------------------
+
+Report Check Netlist: 
++------+------------------+-------+---------+-------+------------------+
+|      |Item              |Errors |Warnings |Status |Description       |
++------+------------------+-------+---------+-------+------------------+
+|1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
++------+------------------+-------+---------+-------+------------------+
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:03:49 ; elapsed = 00:04:44 . Memory (MB): peak = 982.051 ; gain = 772.438
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:03:49 ; elapsed = 00:04:44 . Memory (MB): peak = 982.051 ; gain = 772.438
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:03:49 ; elapsed = 00:04:44 . Memory (MB): peak = 982.051 ; gain = 772.438
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:03:50 ; elapsed = 00:04:44 . Memory (MB): peak = 982.051 ; gain = 772.438
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:03:50 ; elapsed = 00:04:44 . Memory (MB): peak = 982.051 ; gain = 772.438
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++-+-----+------+
+| |Cell |Count |
++-+-----+------+
++-+-----+------+
+
+Report Instance Areas: 
++------+---------+-------+------+
+|      |Instance |Module |Cells |
++------+---------+-------+------+
+|1     |top      |       |     0|
++------+---------+-------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:03:50 ; elapsed = 00:04:44 . Memory (MB): peak = 982.051 ; gain = 772.438
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 8246 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:03:48 ; elapsed = 00:04:41 . Memory (MB): peak = 982.051 ; gain = 772.438
+Synthesis Optimization Complete : Time (s): cpu = 00:03:50 ; elapsed = 00:04:45 . Memory (MB): peak = 982.051 ; gain = 772.438
+INFO: [Project 1-571] Translating synthesized netlist
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+INFO: [Common 17-83] Releasing license: Synthesis
+341 Infos, 144 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:03:50 ; elapsed = 00:04:44 . Memory (MB): peak = 982.051 ; gain = 772.438
+INFO: [Common 17-1381] The checkpoint 'C:/Users/Venci/Desktop/December/project_5/project_5.runs/synth_1/riscv_soc_tb.dcp' has been generated.
+report_utilization: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.031 . Memory (MB): peak = 982.051 ; gain = 0.000
+INFO: [Common 17-206] Exiting Vivado at Sun Dec 29 10:25:49 2019...
