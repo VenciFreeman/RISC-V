@@ -171,7 +171,7 @@ module riscv(
 		.BranchAddr(Branch_Addr),
 		.LinkAddr(id_LinkAddr_o),
 		.inst_o(id_inst_o),
-		.PC_o(id_pc),
+		.pc_o(id_pc),
 		.BranchFlag(is_Branch),
 		.Accept(id_Accept),
 		.PredictFlag(pre_Flag),

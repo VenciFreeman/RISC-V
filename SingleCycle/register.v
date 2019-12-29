@@ -45,6 +45,7 @@
 
     );
 
+    integer i;
     reg [31:0] regFile [0:32];
 
 /*
@@ -52,6 +53,9 @@
  */    
 always @ (posedge clk) begin
     regFile[5'h0] <= 32'b0;  // Register x0 always equals 0. 
+    if (rst)
+        for (i = 0; i < 32; i = i + 1)
+            regFile[i] <= 32'b0;
     if (!rst && we && WriteAddr != 5'h0) begin
         regFile[WriteAddr] <= WriteData;  // Write data to register.
         $display("x%d = %h", WriteAddr, WriteData);  // Display the change of register.
