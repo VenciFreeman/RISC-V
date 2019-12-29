@@ -278,6 +278,15 @@ module riscv(
 		.wbWriteData(wb_WriteData_i)						       	
 	);
 
+	WB wb(
+		.rst(rst),
+		.MemWriteNum(mem_WriteDataNum_o),
+		.MemWriteReg(mem_WriteReg_o),
+		.MemWriteData(mem_WriteData_o),
+		.WriteBackNum(wb_WriteDataNum_i),
+		.WriteBackReg(wb_WriteReg_i),
+		.WriteBackData(wb_WriteData_i)
+	);
 	
 	STALL stall(
 		.rst(rst),
