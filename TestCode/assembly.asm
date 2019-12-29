@@ -1,15 +1,17 @@
-addi x1,x0,1  ; 00000001 
-addi x2,x0,2  ; 00000002
-addi x3,x0,16 ; 00000010
-addi x4,x0,21 ; 00000015
-addi x5,x0,31 ; 0000001f
-sub  x6,x2,x1 ; 00000001
-sub  x7,x1,x2 ; ffffffff
-add  x8,x3,x2 ; 00000012 
-add  x9,x1,x1 ; 00000002
-and  x10,x1,x2; 00000000
-and  x11,x4,x5; 00000015
-or   x12,x1,x2; 00000003
-or   x13,x4,x5; 0000001f
-xor  x14,x1,x2; 00000003
-xor  x15,x4,x5; 0000000a
+addi x1,  x0,  1  ; x1  = 00000001
+addi x2,  x0,  3  ; x2  = 00000003
+addi x3,  x0,  6  ; x3  = 00000006
+loop1:
+sll  x4,  x2,  x1 ; x4  = 00000006
+srl  x5,  x3,  x1 ; x5  = 00000003
+lw  x6,  0    (x2); x6  = 00000000
+and  x7,  x2,  x4 ; x7  = 00000002
+or   x8,  x2,  x4 ; x8  = 00000007
+xor  x9,  x2,  x4 ; x9  = 00000005
+add  x10, x1,  x1 ; x10 = 00000002
+sub  x11, x10, x1 ; x11 = 00000001
+blt  x4,  x5,  loop2
+jal  x0, loop1
+loop2:
+sw   x2,  0   (x12)
+
