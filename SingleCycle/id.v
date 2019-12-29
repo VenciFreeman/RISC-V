@@ -77,7 +77,6 @@ module ID(
 
 
     wire[31:0] imm_I = {{21{inst_i[31:31]}}, inst_i[30:20]};
-    wire[31:0] imm_S = {{21{inst_i[31:31]}}, inst_i[30:25], inst_i[11:7]};
     wire[31:0] imm_B = {{20{inst_i[31:31]}}, inst_i[ 7: 7], inst_i[30:25], inst_i[11:8], 1'b0};
     wire[31:0] imm_J = {{12{inst_i[31:31]}}, inst_i[19:12], inst_i[20:20], inst_i[30:25], inst_i[24:21], 1'b0};
 
@@ -304,10 +303,8 @@ always @ (*) begin
         Reg1 <= 32'b0;
     else if (RegRead1)
         Reg1 <= RegData1;
-    else if (!RegRead1)
-        Reg1 <= imm;
     else
-        Reg1 <= 32'b0;
+        Reg1 <= imm;
 end
 
 /*
@@ -318,10 +315,8 @@ always @ (*) begin
         Reg2 <=  32'b0;
     else if (RegRead2)
         Reg2 <= RegData2;
-    else if (!RegRead2)
-        Reg2 <= imm;
     else
-        Reg2 <= 32'b0;
+        Reg2 <= imm;
 end
 
 endmodule

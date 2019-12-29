@@ -62,7 +62,7 @@ end
  * This always part controls the signal ReadData1 as rs1. 
  */ 
 always @ (*) begin
-    if(rst || ReadAddr1 == 5'h0)
+    if (rst || ReadAddr1 == 5'h0)
         ReadData1 <= 32'b0;
     else if (ReadReg1) begin
         ReadData1 <= regFile[ReadAddr1];
@@ -74,7 +74,7 @@ end
  * This always part controls the signal ReadData2 as rs2.
  */ 
 always @ (*) begin
-    if(rst || ReadAddr2 == 5'h0)
+    if (rst || ReadAddr2 == 5'h0)
         ReadData2 <= 32'b0;
     else if (ReadReg2) begin
         ReadData2 <= regFile[ReadAddr2];
