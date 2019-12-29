@@ -25,7 +25,6 @@
 `include "ex_mem.v"
 `include "mem.v"
 `include "mem_wb.v"
-`include "wb.v"
 `include "register.v"
 `include "bp.v"
 `include "stall.v"
@@ -276,16 +275,6 @@ module riscv(
 		.wbWriteNum(wb_WriteDataNum_i),
 		.wbWriteReg(wb_WriteReg_i),
 		.wbWriteData(wb_WriteData_i)						       	
-	);
-
-	WB wb(
-		.rst(rst),
-		.MemWriteNum(mem_WriteDataNum_o),
-		.MemWriteReg(mem_WriteReg_o),
-		.MemWriteData(mem_WriteData_o),
-		.WriteBackNum(wb_WriteDataNum_i),
-		.WriteBackReg(wb_WriteReg_i),
-		.WriteBackData(wb_WriteData_i)
 	);
 	
 	STALL stall(
