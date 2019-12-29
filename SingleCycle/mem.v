@@ -81,9 +81,10 @@ always @ (*) begin
     if (rst)
         WriteData_o <= 32'b0;
     else begin
-        WriteData_o <= WriteData_i;
         if (ALUop_i == 5'b10100)  // lw
             WriteData_o <= MemData_i;
+        else
+            WriteData_o <= WriteData_i;
     end
 end
 

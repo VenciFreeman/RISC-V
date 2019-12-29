@@ -51,14 +51,20 @@ module EX(
  * This always part controls the WriteDatamNum_o.
  */    
 always @ (*) begin
-    WriteDataNum_o <= WriteDataNum_i;
+	if (rst)
+		WriteDataNum_o <= 5'b0;
+	else
+    	WriteDataNum_o <= WriteDataNum_i;
 end
 
 /*
  * This always part controls the WriteReg_i.
  */    
 always @ (*) begin
-    WriteReg_o <= WriteReg_i;
+	if (rst)
+		WriteReg_o <= 1'b0;
+	else
+    	WriteReg_o <= WriteReg_i;
 end
 
 /*
