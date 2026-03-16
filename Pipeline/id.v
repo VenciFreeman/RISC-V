@@ -93,6 +93,11 @@ module ID(
     wire[31:0] imm_S = {{21{inst_i[31:31]}}, inst_i[30:25], inst_i[11:7]};
     wire[31:0] imm_B = {{20{inst_i[31:31]}}, inst_i[ 7: 7], inst_i[30:25], inst_i[11:8], 1'b0};
     wire[31:0] imm_J = {{12{inst_i[31:31]}}, inst_i[19:12], inst_i[20:20], inst_i[30:25], inst_i[24:21], 1'b0};
+    wire       is_jal = (inst_i[6:0] == 7'b1101111);
+    wire       is_beq = (inst_i[6:0] == 7'b1100011) && (inst_i[14:12] == 3'b000);
+    wire       is_blt = (inst_i[6:0] == 7'b1100011) && (inst_i[14:12] == 3'b100);
+    wire       beq_taken = (Reg1 == Reg2);
+    wire       blt_taken = ($signed(Reg1) < $signed(Reg2));
 
     assign inst_o = inst_i;
     assign pc_o = pc_i;
@@ -268,9 +273,9 @@ end
 always @ (*) begin
     if (rst)
         BranchAddr <= 32'b0;
-    else if (inst_i[6:0] == 7'b1101111)  // jal
+    else if (is_jal)  // jal
         BranchAddr <= pc_add_imm_J;
-    else if (inst_i[6:0] == 7'b1100011 && inst_i[13:12] == 2'b0)  // beq, blt
+    else if (is_beq || is_blt)  // beq, blt
         BranchAddr <= pc_add_imm_B;
     else
         BranchAddr <= 32'b0;
@@ -282,8 +287,12 @@ end
 always @ (*) begin
     if (rst)
         Branch <= 1'b0;
-    else if (inst_i[6:0] == 7'b1101111 || (inst_i[6:0] == 7'b1100011 && inst_i[13:12] == 2'b0))  // jal, beq, blt
+    else if (is_jal)
         Branch <= 1'b1;
+    else if (is_beq)
+        Branch <= beq_taken;
+    else if (is_blt)
+        Branch <= blt_taken;
     else
         Branch <= 1'b0;
 end
@@ -324,8 +333,14 @@ end
 always @ (*) begin
     if (rst)
         Reg1 <= 32'b0;
-    else if (RegRead1)
-        Reg1 <= RegData1;
+    else if (RegRead1) begin
+        if (exWriteReg && (exWriteNum == RegAddr1) && (RegAddr1 != 5'b0))
+            Reg1 <= exWriteData;
+        else if (memWriteReg && (memWriteNum == RegAddr1) && (RegAddr1 != 5'b0))
+            Reg1 <= memWriteData;
+        else
+            Reg1 <= RegData1;
+    end
     else if (!RegRead1)
         Reg1 <= imm;
     else
@@ -338,8 +353,14 @@ end
 always @ (*) begin
     if (rst)
         Reg2 <=  32'b0;
-    else if (RegRead2)
-        Reg2 <= RegData2;
+    else if (RegRead2) begin
+        if (exWriteReg && (exWriteNum == RegAddr2) && (RegAddr2 != 5'b0))
+            Reg2 <= exWriteData;
+        else if (memWriteReg && (memWriteNum == RegAddr2) && (RegAddr2 != 5'b0))
+            Reg2 <= memWriteData;
+        else
+            Reg2 <= RegData2;
+    end
     else if (!RegRead2)
         Reg2 <= imm;
     else
@@ -352,7 +373,7 @@ end
 always @ (*) begin
     if (rst)
         BranchFlag <= 1'b0;
-    else if (inst_i[6:0] == 7'b1101111 || (inst_i[6:0] == 7'b1100011 && inst_i[13:12] == 2'b00))  // jal, beq, blt
+    else if (is_beq || is_blt)
         BranchFlag <= 1'b1;
     else
         BranchFlag <= 1'b0;
@@ -364,8 +385,10 @@ end
 always @ (*) begin
     if (rst)
         Accept <= 1'b0;
-    else if ((inst_i[6:0] == 7'b1100011 && inst_i[13:12] == 2'b00))  // beq, blt
-        Accept <= 1'b1;
+    else if (is_beq)
+        Accept <= beq_taken;
+    else if (is_blt)
+        Accept <= blt_taken;
     else
         Accept <= 1'b0;
 end
@@ -376,10 +399,10 @@ end
 always @ (*) begin
     if (rst)
         PredictFlag <= 1'b0;
-    else if (inst_i[6:0] == 7'b1101111)  // jal
-        PredictFlag <= 1'b1;
-    else if ((inst_i[6:0] == 7'b1100011 && inst_i[13:12] == 2'b00))  // beq, blt
-        PredictFlag <= Predict ? 1'b1 : 1'b0;
+    else if (is_beq)
+        PredictFlag <= beq_taken;
+    else if (is_blt)
+        PredictFlag <= blt_taken;
     else
         PredictFlag <= 1'b0;
 end
@@ -390,9 +413,9 @@ end
 always @ (*) begin
     if (rst)
         StallBranch <= 1'b0;
-    else if (inst_i[6:0] == 7'b1101111)  // jal
+    else if (is_jal)  // jal
         StallBranch = 1'b1;
-    else if ((inst_i[6:0] == 7'b1100011 && inst_i[13:12] == 2'b00))  // beq, blt
+    else if (is_beq || is_blt)  // beq, blt
         StallBranch <= 1'b1;
     else
         StallBranch <= 1'b0;

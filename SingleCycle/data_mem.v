@@ -19,8 +19,38 @@ module data_mem(
 	
 );
 
-	reg[7:0]  data[0:32'h400];
-	initial $readmemh ( "data_mem.txt", data );
+	localparam DATA_MEM_DEPTH = 1024;
+	reg[7:0] data[0:DATA_MEM_DEPTH - 1];
+	reg[7:0] data_byte;
+	integer fd;
+	integer code;
+	integer idx;
+
+	/*
+	 * Load data memory line by line to avoid readmemh range warnings.
+	 * Expected format: one byte (hex) per line.
+	 */
+	initial begin
+		for (idx = 0; idx < DATA_MEM_DEPTH; idx = idx + 1)
+			data[idx] = 8'b0;
+
+		fd = $fopen("data_mem.txt", "r");
+		if (fd == 0)
+			fd = $fopen("./SingleCycle/data_mem.txt", "r");
+		if (fd != 0) begin
+			idx = 0;
+			while (!$feof(fd) && idx < DATA_MEM_DEPTH) begin
+				code = $fscanf(fd, "%h\n", data_byte);
+				if (code == 1) begin
+					data[idx] = data_byte;
+					idx = idx + 1;
+				end else
+					code = $fgetc(fd);
+			end
+			$fclose(fd);
+		end else
+			$display("ERROR: cannot open data_mem.txt or ./SingleCycle/data_mem.txt");
+	end
 
 	assign verify = {data[15], data[14], data[13], data[12]};
 

@@ -41,8 +41,8 @@ This is an undergraduate Digital Logic Design course assignment. The task is to 
 |    `and`    | 0110011 |  111   | 0000000  |
 |    `or`     | 0110011 |  110   | 0000000  |
 |    `xor`    | 0110011 |  100   | 0000000  |
-|    `blt`    | 1100111 |  100   |   N/A    |
-|    `beq`    | 1100111 |  000   |   N/A    |
+|    `blt`    | 1100011 |  100   |   N/A    |
+|    `beq`    | 1100011 |  000   |   N/A    |
 |    `jal`    | 1101111 |  N/A   |   N/A    |
 |    `sll`    | 0110011 |  001   | 0000000  |
 |    `srl`    | 0110011 |  101   | 0000000  |
@@ -51,7 +51,7 @@ This is an undergraduate Digital Logic Design course assignment. The task is to 
 
 ## Explain
 
-> Only if.v and register.v is sequential circuit.
+> In the single-cycle design, only if.v and register.v contain sequential logic.
 
 ![](https://github.com/VenciFreeman/RISC-V/blob/master/img/SingleCycle.jpg)
 

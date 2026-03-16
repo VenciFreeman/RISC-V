@@ -67,6 +67,9 @@ always @ (*) begin
     if(rst || ReadAddr1 == 5'h0)
         ReadData1 <= 32'b0;
     else if (ReadReg1) begin
+        if (we && (WriteAddr == ReadAddr1) && (WriteAddr != 5'h0))
+            ReadData1 <= WriteData;
+        else
         ReadData1 <= regFile[ReadAddr1];
     end else
         ReadData1 <= 32'b0;
@@ -79,6 +82,9 @@ always @ (*) begin
     if(rst || ReadAddr2 == 5'h0)
         ReadData2 <= 32'b0;
     else if (ReadReg2) begin
+        if (we && (WriteAddr == ReadAddr2) && (WriteAddr != 5'h0))
+            ReadData2 <= WriteData;
+        else
         ReadData2 <= regFile[ReadAddr2];
     end else
         ReadData2 <= 32'b0;

@@ -36,37 +36,37 @@
 /*
  * This always part controls the signal idPC.
  */
-always @ (*) begin
+always @ (posedge clk) begin
     if (rst)
-        idPC <= 32'b0; 
+        idPC <= 32'b0;
+    else if (stall[2:1] == 2'b01)
+        idPC <= 32'b0;
     else if (!stall[1])
         idPC <= ifPC;
-    else if (stall[2:1] ==2'b01)
-        idPC <= 32'b0;
 end
 
 /*
  * This always part controls the signal idInst.
  */
-always @ (*) begin
+always @ (posedge clk) begin
     if (rst)
-        idInst <= 32'b0; 
+        idInst <= 32'b0;
+    else if (stall[2:1] == 2'b01)
+        idInst <= 32'b0;
     else if (!stall[1])
         idInst <= ifInst;
-    else if (stall[2:1] ==2'b01)
-        idInst <= 32'b0;
 end
 
 /*
  * This always part controls the signal Predict_o.
  */
-always @ (*) begin
+always @ (posedge clk) begin
     if (rst)
-        Predict_o <= 1'b0; 
+        Predict_o <= 1'b0;
+    else if (stall[2:1] == 2'b01)
+        Predict_o <= 1'b0;
     else if (!stall[1])
         Predict_o <= Predict_i;
-    else if (stall[2:1] ==2'b01)
-        Predict_o <= 1'b0;
 end
 	
  endmodule

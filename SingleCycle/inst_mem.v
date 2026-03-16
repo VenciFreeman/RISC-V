@@ -15,9 +15,36 @@ module inst_mem(
 	
 );
 
-	reg[31:0]  inst_memory[0:1000];
+	localparam INST_MEM_DEPTH = 1024;
+	reg[31:0] inst_memory[0:INST_MEM_DEPTH - 1];
+	reg[31:0] inst_word;
+	integer fd;
+	integer code;
+	integer idx;
 
-	initial $readmemb ("./TestCode/machinecode.txt", inst_memory);	// read test assembly code file
+	/*
+	 * Load instruction memory line by line to avoid readmemb range warnings.
+	 * Expected format: one 32-bit binary instruction per line.
+	 */
+	initial begin
+		for (idx = 0; idx < INST_MEM_DEPTH; idx = idx + 1)
+			inst_memory[idx] = 32'b0;
+
+		fd = $fopen("./TestCode/machinecode.txt", "r");
+		if (fd != 0) begin
+			idx = 0;
+			while (!$feof(fd) && idx < INST_MEM_DEPTH) begin
+				code = $fscanf(fd, "%b\n", inst_word);
+				if (code == 1) begin
+					inst_memory[idx] = inst_word;
+					idx = idx + 1;
+				end else
+					code = $fgetc(fd);
+			end
+			$fclose(fd);
+		end else
+			$display("ERROR: cannot open ./TestCode/machinecode.txt");
+	end
 
 always @ (*) begin
 	if (!ce)
